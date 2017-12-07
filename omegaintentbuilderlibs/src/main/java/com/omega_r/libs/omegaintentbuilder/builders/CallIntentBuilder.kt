@@ -5,7 +5,7 @@ import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.IntentBuilder
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 
-class CallIntentBuilder(private val intentBuilder: OmegaIntentBuilder) : IntentBuilder {
+class CallIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder): IntentBuilder {
 
   companion object {
     private const val PHONE_SCHEME = "tel:";

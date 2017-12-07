@@ -4,7 +4,7 @@ import com.omega_r.libs.omegaintentbuilder.builders.CallIntentBuilder
 
 class OmegaIntentBuilder {
 
-  fun createCallIntentBuilder(): CallIntentBuilder {
+  fun call(): CallIntentBuilder {
     return CallIntentBuilder(this);
   }
 
