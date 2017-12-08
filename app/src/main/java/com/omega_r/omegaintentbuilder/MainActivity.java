@@ -1,5 +1,6 @@
 package com.omega_r.omegaintentbuilder;
 
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 

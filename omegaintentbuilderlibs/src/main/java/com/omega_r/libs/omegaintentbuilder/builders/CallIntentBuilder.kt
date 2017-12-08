@@ -10,10 +10,14 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.IntentBuilder
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
@@ -26,7 +30,7 @@ class CallIntentBuilder internal constructor(private val intentBuilder: OmegaInt
   }
 
   private var intent: Intent? = null
-  private var phoneNumber: String? = null;
+  private var phoneNumber: String? = null
 
   /**
    * Set a phone number.
@@ -52,6 +56,14 @@ class CallIntentBuilder internal constructor(private val intentBuilder: OmegaInt
 
     intent = Intent(Intent.ACTION_DIAL, Uri.parse(PHONE_SCHEME + phoneNumber))
     return intent as Intent
+  }
+
+  override fun handler(context: Context): ContextIntentHandler {
+    return ContextIntentHandler(context, createIntent())
+  }
+
+  override fun handler(activity: Activity): ActivityIntentHandler {
+    return ActivityIntentHandler(activity, createIntent())
   }
 
 }
