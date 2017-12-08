@@ -28,12 +28,6 @@ import java.util.TreeSet
  */
 class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder): IntentBuilder {
 
-  companion object {
-    private const val EXTRA_CALLING_PACKAGE = "com.omega_r.libs.omegaintentbuilder.EXTRA_CALLING_PACKAGE"
-    private const val EXTRA_CALLING_ACTIVITY = "com.omega_r.libs.omegaintentbuilder.EXTRA_CALLING_ACTIVITY"
-  }
-
-  private var activity: Activity? = null
   private lateinit var intent: Intent
   private var toAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var ccAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
@@ -43,17 +37,6 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
   private var mimeType: String? = null
   private var text: CharSequence? = null
   private var htmlText: String? = null
-
-  /**
-   * set Launching Activity.
-   *
-   * @param launchingActivity Activity that the share will be launched from
-   * @return This ShareIntentBuilder for method chaining
-   */
-  fun from(activity: Activity): ShareIntentBuilder {
-    this.activity = activity
-    return this
-  }
 
   /**
    * Set an array of email addresses as recipients of this share.
@@ -67,8 +50,9 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
     return this
   }
 
-  fun setEmailTo(addresses: Array<String>) {
+  fun setEmailTo(addresses: Array<String>): ShareIntentBuilder {
     toAddressesSet = addresses.toMutableSet()
+    return this
   }
 
   /**
@@ -268,15 +252,6 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
   override fun createIntent(): Intent {
     intent = Intent().setAction(Intent.ACTION_SEND)
 
-    activity?.let {
-      intent.putExtra(EXTRA_CALLING_PACKAGE, activity!!.packageName)
-      intent.putExtra(EXTRA_CALLING_ACTIVITY, activity!!.componentName)
-      if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT)
-      } else {
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
-      }
-    }
     if (toAddressesSet.isNotEmpty()) {
       intent.putExtra(Intent.EXTRA_EMAIL, toAddressesSet.toTypedArray())
     }
