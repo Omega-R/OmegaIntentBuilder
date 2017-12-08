@@ -10,10 +10,14 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.IntentBuilder
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 import java.util.TreeSet
 
 @Suppress("UNCHECKED_CAST")
@@ -134,6 +138,14 @@ open class BaseShareBuilder<T>: IntentBuilder {
     }
 
     return intent
+  }
+
+  override fun handler(context: Context): ContextIntentHandler {
+    return ContextIntentHandler(context, createIntent())
+  }
+
+  override fun handler(activity: Activity): ActivityIntentHandler {
+    return ActivityIntentHandler(activity, createIntent())
   }
 
 }
