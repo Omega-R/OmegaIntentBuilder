@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2017 Omega-r
+ *
+ * OmegaIntentBuilder
+ * ContextIntentHandler.kt
+ *
+ * Author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
+ * Github: R12rus
+ * Date:   December 8, 2017
+ */
+
 package com.omega_r.libs.omegaintentbuilder.handlers
 
 import android.content.ClipData
@@ -9,7 +20,9 @@ import android.content.Intent.EXTRA_TITLE
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 
-
+/**
+ * ContextIntentHandler is a helper for start intents
+ */
 open class ContextIntentHandler(private val context: Context, private val intent: Intent) {
 
   companion object {
