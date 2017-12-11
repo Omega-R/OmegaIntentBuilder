@@ -4,7 +4,7 @@
  * OmegaIntentBuilder
  * ShareIntentBuilder.kt
  *
- * Author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
+ * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
  * Github: R12rus
  * Date:   December 8, 2017
  */
@@ -12,18 +12,16 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Intent
 import android.net.Uri
-import com.omega_r.libs.omegaintentbuilder.IntentBuilder
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 import java.util.ArrayList
 import java.util.TreeSet
 
 /**
- * ShareIntentBuilder is a helper for constructing {@link Intent#ACTION_SEND} and
- * {@link Intent#ACTION_SEND_MULTIPLE} sharing intents and starting activities
- * to share content. The ComponentName and package name of the calling activity
- * will be included.
+ * ShareIntentBuilder is a helper for constructing {Intent#ACTION_SEND} and
+ * {Intent#ACTION_SEND_MULTIPLE} sharing intents and starting activities
+ * to share content.
  */
-class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder) : BaseShareBuilder<ShareIntentBuilder>(), IntentBuilder {
+class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder) : BaseShareBuilder<ShareIntentBuilder>() {
 
   private lateinit var intent: Intent
   private var ccAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
@@ -32,7 +30,7 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
   private var mimeType: String? = null
 
   /**
-   * Set an array of email addresses to CC on this share.
+   * Set a collection of email addresses to CC on this share.
    * This replaces all current "CC" recipients that have been set so far.
    *
    * @param addresses Email addresses to CC on the share
@@ -43,13 +41,20 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
     return this
   }
 
+  /**
+   * Set an array of email addresses to CC on this share.
+   * This replaces all current "CC" recipients that have been set so far.
+   *
+   * @param addresses Email addresses to CC on the share
+   * @return This ShareIntentBuilder for method chaining
+   */
   fun setEmailCc(addresses: Array<String>): ShareIntentBuilder {
     ccAddressesSet = addresses.toMutableSet()
     return this
   }
 
   /**
-   * Add an array (or single value)  of email addresses to be used in the "cc" field of the final Intent.
+   * Add a collection of email addresses to be used in the "cc" field of the final Intent.
    *
    * @param addresses Email addresses to CC
    * @return This ShareIntentBuilder for method chaining
@@ -59,18 +64,30 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
     return this
   }
 
+  /**
+   * Add an array of email addresses to be used in the "cc" field of the final Intent.
+   *
+   * @param addresses Email addresses to CC
+   * @return This ShareIntentBuilder for method chaining
+   */
   fun addEmailCc(addresses: Array<String>): ShareIntentBuilder {
     ccAddressesSet.addAll(addresses)
     return this
   }
 
-  fun addEmailCc(addresses: String): ShareIntentBuilder {
-    ccAddressesSet.add(addresses)
+  /**
+   * Add single value of email address to be used in the "cc" field of the final Intent.
+   *
+   * @param address Email address to CC
+   * @return This ShareIntentBuilder for method chaining
+   */
+  fun addEmailCc(address: String): ShareIntentBuilder {
+    ccAddressesSet.add(address)
     return this
   }
 
   /**
-   * Set an array of email addresses to BCC on this share.
+   * Set a Collection of email addresses to BCC on this share.
    * This replaces all current "BCC" recipients that have been set so far.
    *
    * @param addresses Email addresses to BCC on the share
@@ -81,13 +98,20 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
     return this
   }
 
+  /**
+   * Set an Array of email addresses to BCC on this share.
+   * This replaces all current "BCC" recipients that have been set so far.
+   *
+   * @param addresses Email addresses to BCC on the share
+   * @return This ShareIntentBuilder for method chaining
+   */
   fun setEmailBcc(addresses: Array<String>): ShareIntentBuilder {
     bccAddressesSet = addresses.toMutableSet()
     return this
   }
 
   /**
-   * Add an email address to be used in the "bcc" field of the final Intent.
+   * Add a Collection of email address to be used in the "bcc" field of the final Intent.
    *
    * @param address Email address to BCC
    * @return This ShareIntentBuilder for method chaining
@@ -98,13 +122,25 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
     return this
   }
 
+  /**
+   * Add an Array of email addresses to BCC on this share.
+   *
+   * @param addresses Email addresses to BCC on the share
+   * @return This ShareIntentBuilder for method chaining
+   */
   fun addEmailBcc(addresses: Array<String>): ShareIntentBuilder {
     bccAddressesSet.addAll(addresses)
     return this
   }
 
-  fun addEmailBcc(addresses: String): ShareIntentBuilder {
-    bccAddressesSet.add(addresses)
+  /**
+   * Add single value of email address to BCC on this share.
+   *
+   * @param address Email address to BCC on the share
+   * @return This ShareIntentBuilder for method chaining
+   */
+  fun addEmailBcc(address: String): ShareIntentBuilder {
+    bccAddressesSet.add(address)
     return this
   }
 
