@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OmegaIntentBuilder.iml" filepath="$PROJECT_DIR$/OmegaIntentBuilder.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omegaintentbuilderlibs/omegaintentbuilderlibs.iml" filepath="$PROJECT_DIR$/omegaintentbuilderlibs/omegaintentbuilderlibs.iml" />
     </modules>
   </component>
 </project>
