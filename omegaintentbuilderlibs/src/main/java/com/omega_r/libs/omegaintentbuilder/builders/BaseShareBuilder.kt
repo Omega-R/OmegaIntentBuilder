@@ -4,7 +4,7 @@
  * OmegaIntentBuilder
  * BaseShareBuilder.kt
  *
- * Author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
+ * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
  * Github: R12rus
  * Date:   December 8, 2017
  */
@@ -13,21 +13,20 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Intent
 import android.os.Build
 import android.text.Html
-import com.omega_r.libs.omegaintentbuilder.IntentBuilder
 import java.util.TreeSet
 
 @Suppress("UNCHECKED_CAST")
-open class BaseShareBuilder<T>: IntentBuilder {
+open class BaseShareBuilder<T>: BaseBuilder() {
 
   private var toAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var subject: String? = null
   private var text: CharSequence? = null
 
   /**
-   * Set an array of email addresses as recipients of this share.
+   * Set single value of email address as recipients of this share.
    * This replaces all current "to" recipients that have been set so far.
    *
-   * @param addresses Email addresses to send to
+   * @param address Email address to send to
    * @return This BaseShareBuilder for method chaining
    */
   fun setEmailTo(address: String): T {
@@ -36,35 +35,60 @@ open class BaseShareBuilder<T>: IntentBuilder {
     return this as T
   }
 
+  /**
+   * Set collection of email addresses as recipients of this share.
+   * This replaces all current "to" recipients that have been set so far.
+   *
+   * @param addresses Email addresses to send to
+   * @return This BaseShareBuilder for method chaining
+   */
   fun setEmailTo(addresses: Collection<String>): T {
     toAddressesSet = addresses.toMutableSet()
     return this as T
   }
 
+  /**
+   * Set an array of email addresses as recipients of this share.
+   * This replaces all current "to" recipients that have been set so far.
+   *
+   * @param addresses Email addresses to send to
+   * @return This BaseShareBuilder for method chaining
+   */
   fun setEmailTo(addresses: Array<String>): T {
     toAddressesSet = addresses.toMutableSet()
     return this as T
   }
 
-  //  /**
-  //   * Add an array (or single value) of email addresses as recipients of this share.
-  //   * This replaces all current "to" recipients that have been set so far.
-  //   *
-  //   * @param addresses Email addresses to send to
-  //   * @return This BaseShareBuilder for method chaining
-  //   */
+  /**
+   * Add Collection of email addresses as recipients of this share.
+   *
+   * @param addresses Email addresses to send to
+   * @return This BaseShareBuilder for method chaining
+   */
   fun addEmailTo(addresses: Collection<String>): T {
     toAddressesSet.addAll(addresses)
     return this as T
   }
 
+  /**
+   * Add an array of email addresses as recipients of this share.
+   *
+   * @param addresses Email addresses to send to
+   * @return This BaseShareBuilder for method chaining
+   */
   fun addEmailTo(addresses: Array<String>): T {
     toAddressesSet.addAll(addresses)
     return this as T
   }
 
-  fun addEmailTo(addresses: String): T {
-    toAddressesSet.add(addresses)
+  /**
+   * Add or single value of email address as recipients of this share.
+   *
+   * @param address Email addresses to send to
+   * @return This BaseShareBuilder for method chaining
+   */
+  fun addEmailTo(address: String): T {
+    toAddressesSet.add(address)
     return this as T
   }
 
@@ -81,6 +105,11 @@ open class BaseShareBuilder<T>: IntentBuilder {
     return this as T
   }
 
+  /**
+   * Get a subject heading for this share; useful for sharing via email.
+   *
+   * @return This Subject as String
+   */
   fun getSubject(): String? = subject
 
   /**
@@ -119,8 +148,18 @@ open class BaseShareBuilder<T>: IntentBuilder {
     return this as T
   }
 
+  /**
+   * Get the literal text data to be sent as part of the share.
+   *
+   * @return This text to Share
+   */
   fun getText(): String? = text.toString()
 
+  /**
+   * This method could call ActivityNotFoundException
+   *
+   * @return Intent for sharing
+   */
   override fun createIntent(): Intent {
     val intent = Intent()
     if (toAddressesSet.isNotEmpty()) {

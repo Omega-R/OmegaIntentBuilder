@@ -12,13 +12,12 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Intent
 import android.net.Uri
-import com.omega_r.libs.omegaintentbuilder.IntentBuilder
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
-class CallIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder): IntentBuilder {
+class CallIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder): BaseBuilder() {
 
   companion object {
     private const val PHONE_SCHEME = "tel:";
@@ -26,7 +25,7 @@ class CallIntentBuilder internal constructor(private val intentBuilder: OmegaInt
   }
 
   private var intent: Intent? = null
-  private var phoneNumber: String? = null;
+  private var phoneNumber: String? = null
 
   /**
    * Set a phone number.

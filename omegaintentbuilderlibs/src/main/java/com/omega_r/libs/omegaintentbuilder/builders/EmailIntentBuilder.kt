@@ -4,7 +4,7 @@
  * OmegaIntentBuilder
  * EmailIntentBuilder.kt
  *
- * Author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
+ * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
  * Github: R12rus
  * Date:   December 8, 2017
  */
@@ -15,7 +15,10 @@ import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.IntentBuilder
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 
-class EmailIntentBuilder internal constructor(private val omegaIntentBuilder: OmegaIntentBuilder): BaseShareBuilder<EmailIntentBuilder>(), IntentBuilder {
+/**
+ * EmailIntentBuilder is a helper for constructing {Intent#ACTION_SENDTO}
+ */
+class EmailIntentBuilder internal constructor(private val omegaIntentBuilder: OmegaIntentBuilder): BaseShareBuilder<EmailIntentBuilder>() {
 
   /**
    * This method could call ActivityNotFoundException

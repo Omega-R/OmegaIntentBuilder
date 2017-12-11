@@ -4,7 +4,7 @@
  * OmegaIntentBuilder
  * MimeTypes.java
  *
- * Author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
+ * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
  * Github: R12rus
  * Date:   December 8, 2017
  */
