@@ -1,3 +1,6 @@
+[![](https://jitpack.io/v/Omega-R/OmegaIntentBuilder.svg)](https://jitpack.io/#Omega-R/OmegaIntentBuilder)
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
+
 # OmegaIntentBuilder
 OmegaIntentBuilder it's simple way to create and start your owner intent. 
 
