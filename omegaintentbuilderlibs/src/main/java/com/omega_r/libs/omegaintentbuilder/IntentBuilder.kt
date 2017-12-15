@@ -18,7 +18,7 @@ import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 
 /**
- * A generic Intent; ContextIntentHandler,  ActivityIntentHandler that supports control created intent.
+ * A generic Intent; ContextIntentHandler,  ActivityIntentHandler that supports control created createdIntent.
  */
 interface IntentBuilder {
 
@@ -31,7 +31,7 @@ interface IntentBuilder {
    * Returns ContextIntentHandler for control Intent.
    * Support startActivity, start Chooser.
    */
-  fun handler(context: Context): ContextIntentHandler
+  fun handler(): ContextIntentHandler
 
   /**
    * Returns ActivityIntentHandler (extends ContextIntentHandler) for control Intent.

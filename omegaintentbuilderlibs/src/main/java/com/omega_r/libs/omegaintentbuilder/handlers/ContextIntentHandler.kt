@@ -24,7 +24,7 @@ import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 /**
  * ContextIntentHandler is a helper for start intents
  */
-open class ContextIntentHandler(private val context: Context, private val intent: Intent) {
+open class ContextIntentHandler(private val context: Context, private val createdIntent: Intent) {
 
   companion object {
     private const val FLAG_GRANT_PERSISTABLE_URI_PERMISSION = 0x00000040
@@ -81,21 +81,21 @@ open class ContextIntentHandler(private val context: Context, private val intent
    */
   protected fun createChooserIntent(): Intent {
     val chooserIntent = Intent(ACTION_CHOOSER)
-    chooserIntent.putExtra(EXTRA_INTENT, intent)
+    chooserIntent.putExtra(EXTRA_INTENT, createdIntent)
     chooserTitle?.let {
       chooserIntent.putExtra(EXTRA_TITLE, chooserTitle)
     }
-    var permFlags = intent.flags
+    var permFlags = createdIntent.flags
     permFlags = permFlags and (FLAG_GRANT_READ_URI_PERMISSION
         or FLAG_GRANT_WRITE_URI_PERMISSION or FLAG_GRANT_PERSISTABLE_URI_PERMISSION
         or FLAG_GRANT_PREFIX_URI_PERMISSION)
     if (permFlags != 0) {
-      var clipData: ClipData? = intent.clipData
-      if (clipData == null && intent.data != null) {
-        val item: ClipData.Item = ClipData.Item(intent.data)
+      var clipData: ClipData? = createdIntent.clipData
+      if (clipData == null && createdIntent.data != null) {
+        val item: ClipData.Item = ClipData.Item(createdIntent.data)
         var mimeTypes: Array<String> = arrayOf()
-        intent.type?.let {
-          mimeTypes = arrayOf(intent.type)
+        createdIntent.type?.let {
+          mimeTypes = arrayOf(createdIntent.type)
         }
         clipData = ClipData(null, mimeTypes, item)
       }
@@ -114,10 +114,14 @@ open class ContextIntentHandler(private val context: Context, private val intent
    * @throws ActivityNotFoundException
    */
   fun startActivity() {
+    context.startActivity(getIntent())
+  }
+
+  fun getIntent(): Intent {
     if (chooserTitle.isNullOrEmpty()) {
-      context.startActivity(intent)
+      return createdIntent
     } else {
-      context.startActivity(createChooserIntent())
+      return createChooserIntent()
     }
   }
 

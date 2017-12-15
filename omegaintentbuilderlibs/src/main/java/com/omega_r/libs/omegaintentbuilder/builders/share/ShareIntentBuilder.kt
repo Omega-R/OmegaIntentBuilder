@@ -8,12 +8,12 @@
  * Github: R12rus
  * Date:   December 8, 2017
  */
-package com.omega_r.libs.omegaintentbuilder.builders
+package com.omega_r.libs.omegaintentbuilder.builders.share
 
+import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
-import java.util.ArrayList
+import com.omega_r.libs.omegaintentbuilder.builders.MimeTypes
 import java.util.TreeSet
 
 /**
@@ -21,12 +21,12 @@ import java.util.TreeSet
  * {Intent#ACTION_SEND_MULTIPLE} sharing intents and starting activities
  * to share content.
  */
-class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder) : BaseShareBuilder<ShareIntentBuilder>() {
+class ShareIntentBuilder internal constructor(private val context: Context,
+                                              private val intentBuilder: OmegaIntentBuilder) : BaseShareBuilder<ShareIntentBuilder>(context) {
 
   private lateinit var intent: Intent
   private var ccAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var bccAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
-  private var streamsSet: MutableSet<Uri> = mutableSetOf()
   private var mimeType: String? = null
 
   /**
@@ -37,7 +37,8 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
    * @return This ShareIntentBuilder for method chaining
    */
   fun setEmailCc(addresses: Collection<String>): ShareIntentBuilder {
-    ccAddressesSet = addresses.toMutableSet()
+    ccAddressesSet.clear()
+    ccAddressesSet.addAll(addresses.toMutableSet())
     return this
   }
 
@@ -49,7 +50,8 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
    * @return This ShareIntentBuilder for method chaining
    */
   fun setEmailCc(addresses: Array<String>): ShareIntentBuilder {
-    ccAddressesSet = addresses.toMutableSet()
+    ccAddressesSet.clear()
+    ccAddressesSet.addAll(addresses.toMutableSet())
     return this
   }
 
@@ -94,7 +96,8 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
    * @return This ShareIntentBuilder for method chaining
    */
   fun setEmailBcc(addresses: Collection<String>): ShareIntentBuilder {
-    bccAddressesSet = addresses.toMutableSet()
+    bccAddressesSet.clear()
+    bccAddressesSet.addAll(addresses.toMutableSet())
     return this
   }
 
@@ -106,7 +109,8 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
    * @return This ShareIntentBuilder for method chaining
    */
   fun setEmailBcc(addresses: Array<String>): ShareIntentBuilder {
-    bccAddressesSet = addresses.toMutableSet()
+    bccAddressesSet.clear()
+    bccAddressesSet.addAll(addresses.toMutableSet())
     return this
   }
 
@@ -156,44 +160,12 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
   }
 
   /**
-   * Set a stream URI to the data that should be shared.
-   *
-   * <p>This replaces all currently set stream URIs and will produce a single-stream
-   * ACTION_SEND intent.</p>
-   *
-   * @param streamUri URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   */
-  fun setStream(streamUri: Uri): ShareIntentBuilder {
-    streamsSet = mutableSetOf();
-    streamsSet.add(streamUri)
-    return this
-  }
-
-  /**
-   * Add a stream URI to the data that should be shared. If this is not the first
-   * stream URI added the final intent constructed will become an ACTION_SEND_MULTIPLE
-   * intent. Not all apps will handle both ACTION_SEND and ACTION_SEND_MULTIPLE.
-   *
-   * @param streamUri URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   * @see Intent#EXTRA_STREAM
-   * @see Intent#ACTION_SEND
-   * @see Intent#ACTION_SEND_MULTIPLE
-   */
-  fun addStream(streamUri: Uri): ShareIntentBuilder {
-    streamsSet.add(streamUri)
-    return this
-  }
-
-  /**
    * This method could call ActivityNotFoundException
    *
    * @return Intent for sharing
    */
   override fun createIntent(): Intent {
     intent = super.createIntent()
-    intent.action = Intent.ACTION_SEND
     if (ccAddressesSet.isNotEmpty()) {
       intent.putExtra(Intent.EXTRA_CC, ccAddressesSet.toTypedArray())
     }
@@ -205,20 +177,8 @@ class ShareIntentBuilder internal constructor(private val intentBuilder: OmegaIn
     } else {
       intent.setType(MimeTypes.TEXT_PLAIN)
     }
-    if (streamsSet.size == 1) {
-      intent.putExtra(Intent.EXTRA_STREAM, streamsSet.elementAt(0))
-    } else if (streamsSet.size > 1) {
-      intent.setAction(Intent.ACTION_SEND_MULTIPLE)
-      intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, convertSetToArrayList(streamsSet))
-    }
 
     return intent
-  }
-
-  private fun <T> convertSetToArrayList(sets: MutableSet<T>): ArrayList<T> {
-    val list: ArrayList<T> = arrayListOf()
-    sets.forEach { it -> list.add(it) }
-    return list
   }
 
 }

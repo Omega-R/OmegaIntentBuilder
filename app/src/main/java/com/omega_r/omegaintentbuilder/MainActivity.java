@@ -3,16 +3,22 @@ package com.omega_r.omegaintentbuilder;
 import android.content.ActivityNotFoundException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final OmegaIntentBuilder intentBuilder = new OmegaIntentBuilder();
+
+    private OmegaIntentBuilder intentBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_call).setOnClickListener(this);
         findViewById(R.id.button_send_email).setOnClickListener(this);
         findViewById(R.id.button_share).setOnClickListener(this);
+        findViewById(R.id.button_share_files).setOnClickListener(this);
+        intentBuilder = new OmegaIntentBuilder(this);
     }
 
     @Override
@@ -35,7 +43,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_share:
                 startShareIntent();
                 break;
+            case R.id.button_share_files:
+                startShareFilesActivity();
+                break;
         }
+    }
+
+    private void startShareFilesActivity() {
+        String url = "https://developer.android.com/studio/images/hero_image_studio.png";
+        startActivity(ShareFilesActivity.createIntent(this, url));
     }
 
     private void startCallIntent() {
