@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startCallIntent() {
         try {
-            intentBuilder.call().phoneNumber("88000000008").handler(this).startActivity();
+            intentBuilder.call().phoneNumber("88000000008").createHandler(this).startActivity();
         } catch (ActivityNotFoundException exc) {
             Toast.makeText(this, "Sorry, you don't have app for making call phone", Toast.LENGTH_SHORT).show();
         }
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .text("Hello world")
                     .emailTo("develop@omega-r.com")
                     .subject("Great library")
-                    .handler(this)
+                    .createHandler(this)
                     .startActivity();
         } catch (ActivityNotFoundException exc) {
             Toast.makeText(this, "Sorry, you don't have app for sending email", Toast.LENGTH_SHORT).show();
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .emailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com"))
                 .emailCc(Arrays.asList("cc1@test.com","cc2@test.com"))
                 .subject("Great library")
-                .handler(this)
+                .createHandler(this)
                 .chooserTitle("Choose")
                 .startActivity();
     }

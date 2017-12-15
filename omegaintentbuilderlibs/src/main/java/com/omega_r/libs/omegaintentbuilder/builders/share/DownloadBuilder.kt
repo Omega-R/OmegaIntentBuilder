@@ -80,7 +80,7 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
    */
   fun download(callback: DownloadCallback) {
     if (urlsMap.isEmpty()) {
-      callback.onDownloaded(true, intentBuilder.handler())
+      callback.onDownloaded(true, intentBuilder.createHandler())
       return
     }
     val downloader = DownloadAsyncTask<T>(context, callback, intentBuilder)
