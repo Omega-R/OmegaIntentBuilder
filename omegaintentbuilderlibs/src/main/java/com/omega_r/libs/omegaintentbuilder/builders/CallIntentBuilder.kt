@@ -10,6 +10,7 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
@@ -17,7 +18,8 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
-class CallIntentBuilder internal constructor(private val intentBuilder: OmegaIntentBuilder): BaseBuilder() {
+class CallIntentBuilder internal constructor(private val context: Context,
+                                             private val intentBuilder: OmegaIntentBuilder): BaseBuilder(context) {
 
   companion object {
     private const val PHONE_SCHEME = "tel:";
@@ -47,7 +49,7 @@ class CallIntentBuilder internal constructor(private val intentBuilder: OmegaInt
    * @return Intent for calling
    */
   override fun createIntent(): Intent {
-    if (phoneNumber == null) throw IllegalStateException("You can't call createIntent before phoneNumber method")
+    if (phoneNumber == null) throw IllegalStateException("You can't call activity before phoneNumber method")
 
     intent = Intent(Intent.ACTION_DIAL, Uri.parse(PHONE_SCHEME + phoneNumber))
     return intent as Intent

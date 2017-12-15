@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OmegaIntentBuilder</string>
-    <string name="call">Позвонить</string>
-    <string name="send_emal">Отправить email</string>
-    <string name="share">Поделиться</string>
+    <string name="call">Call</string>
+    <string name="send_emal">Send email</string>
+    <string name="share">Share</string>
+    <string name="share_files">Share files from internet</string>
 </resources>
