@@ -8,6 +8,15 @@
     tools:context="com.omega_r.omegaintentbuilder.MainActivity">
 
     <Button
+        android:id="@+id/button_share_files"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="40dp"
+        android:theme="@style/ButtonStyle"
+        android:text="@string/share_files"/>
+
+    <Button
         android:id="@+id/button_call"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

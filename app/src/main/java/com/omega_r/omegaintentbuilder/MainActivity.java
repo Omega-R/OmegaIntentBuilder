@@ -12,7 +12,8 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final OmegaIntentBuilder intentBuilder = new OmegaIntentBuilder();
+
+    private OmegaIntentBuilder intentBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_call).setOnClickListener(this);
         findViewById(R.id.button_send_email).setOnClickListener(this);
         findViewById(R.id.button_share).setOnClickListener(this);
+        findViewById(R.id.button_share_files).setOnClickListener(this);
+        intentBuilder = new OmegaIntentBuilder(this);
     }
 
     @Override
@@ -35,12 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_share:
                 startShareIntent();
                 break;
+            case R.id.button_share_files:
+                startShareFilesActivity();
+                break;
         }
+    }
+
+    private void startShareFilesActivity() {
+        String url = "https://developer.android.com/studio/images/hero_image_studio.png";
+        startActivity(ShareFilesActivity.createIntent(this, url));
     }
 
     private void startCallIntent() {
         try {
-            intentBuilder.call().phoneNumber("88000000008").handler(this).startActivity();
+            intentBuilder.call().phoneNumber("88000000008").createHandler(this).startActivity();
         } catch (ActivityNotFoundException exc) {
             Toast.makeText(this, "Sorry, you don't have app for making call phone", Toast.LENGTH_SHORT).show();
         }
@@ -49,10 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startEmailIntent() {
         try {
             intentBuilder.email()
-                    .setText("Hello world")
-                    .setEmailTo("develop@omega-r.com")
-                    .setSubject("Great library")
-                    .handler(this)
+                    .text("Hello world")
+                    .emailTo("develop@omega-r.com")
+                    .subject("Great library")
+                    .createHandler(this)
                     .startActivity();
         } catch (ActivityNotFoundException exc) {
             Toast.makeText(this, "Sorry, you don't have app for sending email", Toast.LENGTH_SHORT).show();
@@ -61,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startShareIntent() {
         intentBuilder.share()
-                .setEmailTo("develop@omega-r.com")
-                .setEmailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com"))
-                .setEmailCc(Arrays.asList("cc1@test.com","cc2@test.com"))
-                .setSubject("Great library")
-                .handler(this)
-                .setChooserTitle("Choose")
+                .emailTo("develop@omega-r.com")
+                .emailBcc("bcc1@test.com","bcc2@test.com")
+                .emailCc("cc1@test.com","cc2@test.com")
+                .subject("Great library")
+                .createHandler(this)
+                .chooserTitle("Choose")
                 .startActivity();
     }
 }

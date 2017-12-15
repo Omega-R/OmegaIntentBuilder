@@ -19,7 +19,7 @@ import android.os.Bundle
  * ActivityIntentHandler is a helper for start intents
  * Support startActivityForResult
  */
-class ActivityIntentHandler(private val activity: Activity,private val intent: Intent): ContextIntentHandler(activity.applicationContext, intent) {
+class ActivityIntentHandler(private val activity: Activity, private val createdIntent: Intent): ContextIntentHandler(activity.applicationContext, createdIntent) {
 
   /**
    * Launch an activity for which you would like a result when it finished.
@@ -44,7 +44,7 @@ class ActivityIntentHandler(private val activity: Activity,private val intent: I
    * <p>This method throws {@throws android.content.ActivityNotFoundException}
    * if there was no Activity found to run the given Intent.
    *
-   * @param intent The intent to start.
+   * @param createdIntent The createdIntent to start.
    * @param requestCode If >= 0, this code will be returned in
    *                    onActivityResult() when the activity exits.
    * @param options Additional options for how the Activity should be started.
@@ -58,7 +58,7 @@ class ActivityIntentHandler(private val activity: Activity,private val intent: I
   @JvmOverloads
   fun startActivityForResult(requestCode: Int, options: Bundle? = null) {
     if (getChooserTitle().isNullOrEmpty()) {
-      activity.startActivityForResult(intent, requestCode)
+      activity.startActivityForResult(createdIntent, requestCode)
     } else {
       if (options != null) {
         activity.startActivityForResult(createChooserIntent(), requestCode, options)

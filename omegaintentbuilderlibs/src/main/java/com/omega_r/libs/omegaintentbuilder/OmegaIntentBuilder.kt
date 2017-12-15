@@ -11,34 +11,41 @@
 
 package com.omega_r.libs.omegaintentbuilder
 
+import android.app.Activity
+import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.builders.CallIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.EmailIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.ShareIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.ActivityIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 
 /**
- * OmegaIntentBuilder class for creating supports intent builders.
+ * OmegaIntentBuilder class for creating supports createdIntent builders.
  */
-class OmegaIntentBuilder {
+class OmegaIntentBuilder(private val context: Context) {
 
   /**
-   * Return CallIntentBuilder for creating call intent
+   * Return CallIntentBuilder for creating call createdIntent
    */
   fun call(): CallIntentBuilder {
-    return CallIntentBuilder(this);
+    return CallIntentBuilder(context,this)
   }
 
   /**
-   * Return ShareIntentBuilder for creating share intent
+   * Return ShareIntentBuilder for creating share createdIntent
    */
   fun share(): ShareIntentBuilder {
-    return ShareIntentBuilder(this)
+    return ShareIntentBuilder(context, this)
   }
 
   /**
-   * Return ShareIntentBuilder for creating email intent
+   * Return ShareIntentBuilder for creating email createdIntent
    */
   fun email(): EmailIntentBuilder {
-    return EmailIntentBuilder(this)
+    return EmailIntentBuilder(context, this)
+  }
+
+  fun <T: Activity> activity(activity: Class<T>): ActivityIntentBuilder<T> {
+    return ActivityIntentBuilder(context, activity)
   }
 
 }
