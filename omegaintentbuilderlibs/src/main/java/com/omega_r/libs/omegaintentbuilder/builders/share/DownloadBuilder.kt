@@ -41,7 +41,7 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
    * @return This DownloadBuilder for method chaining
    */
   @JvmOverloads
-  fun filesUrls(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
+  fun filesUrlWithMimeType(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
     urlsMap.put(urlAddress, mimeType)
     return this
   }

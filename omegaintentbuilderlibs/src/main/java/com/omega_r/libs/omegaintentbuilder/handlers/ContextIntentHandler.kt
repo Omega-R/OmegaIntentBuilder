@@ -39,7 +39,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @param title Title CharSequence
    * @return This ContextIntentHandler for method chaining
    */
-  fun setChooserTitle(chooserTitle: CharSequence): ContextIntentHandler {
+  fun chooserTitle(chooserTitle: CharSequence): ContextIntentHandler {
     this.chooserTitle = chooserTitle.toString()
     return this
   }
@@ -50,7 +50,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @param title Title String
    * @return This ContextIntentHandler for method chaining
    */
-  fun setChooserTitle(chooserTitle: String): ContextIntentHandler {
+  fun chooserTitle(chooserTitle: String): ContextIntentHandler {
     this.chooserTitle = chooserTitle
     return this
   }
@@ -61,7 +61,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @param title Title @StringRes Int
    * @return This ContextIntentHandler for method chaining
    */
-  fun setChooserTitle(chooserTitle: Int): ContextIntentHandler {
+  fun chooserTitle(chooserTitle: Int): ContextIntentHandler {
     this.chooserTitle = context.getText(chooserTitle).toString()
     return this
   }
@@ -70,7 +70,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    *
    * @return This Chooser title
    */
-  fun getChooserTitle(): String? = chooserTitle
+  protected fun getChooserTitle(): String? = chooserTitle
 
   /**
    * Create an Intent that will launch the standard Android activity chooser,

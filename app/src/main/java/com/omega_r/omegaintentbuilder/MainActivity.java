@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             intentBuilder.email()
                     .text("Hello world")
-                    .setEmailTo("develop@omega-r.com")
-                    .setSubject("Great library")
+                    .emailTo("develop@omega-r.com")
+                    .subject("Great library")
                     .handler(this)
                     .startActivity();
         } catch (ActivityNotFoundException exc) {
@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startShareIntent() {
         intentBuilder.share()
-                .setEmailTo("develop@omega-r.com")
-                .setEmailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com"))
-                .setEmailCc(Arrays.asList("cc1@test.com","cc2@test.com"))
-                .setSubject("Great library")
+                .emailTo("develop@omega-r.com")
+                .emailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com"))
+                .emailCc(Arrays.asList("cc1@test.com","cc2@test.com"))
+                .subject("Great library")
                 .handler(this)
-                .setChooserTitle("Choose")
+                .chooserTitle("Choose")
                 .startActivity();
     }
 }

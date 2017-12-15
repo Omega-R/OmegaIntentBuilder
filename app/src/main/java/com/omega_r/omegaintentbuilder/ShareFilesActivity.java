@@ -53,10 +53,10 @@ public class ShareFilesActivity extends AppCompatActivity implements View.OnClic
         String url2 = "https://avatars1.githubusercontent.com/u/28600571?s=200&v=4";
 
         intentBuilder.share()
-                .setEmailTo("your_email_here@gmail.com")
-                .setSubject("Great library")
-                .addFilesUrls(url1)
-                .addFilesUrls(url2, MimeTypes.IMAGE_PNG)
+                .emailTo("your_email_here@gmail.com")
+                .subject("Great library")
+                .filesUrls(url1)
+                .filesUrlWithMimeType(url2, MimeTypes.IMAGE_PNG)
                 .download(new DownloadCallback() {
                     @Override
                     public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
