@@ -26,34 +26,48 @@ dependencies {
 
 **Call Intent**
 ```
-new OmegaIntentBuilder().call()
-                        .phoneNumber("Your phone number")
-                        .handler(context)
-                        .startActivity();
+new OmegaIntentBuilder(context).call()
+                    .phoneNumber("Your phone number")
+                    .createHandler()
+                    .startActivity();
 ```
 
 **Email Intent**
 ```
-new OmegaIntentBuilder().email()
-                        .text("Hello world")
-                        .emailTo("develop@omega-r.com")
-                        .subject("Great library")
-                        .handler(this)
-                        .startActivity();
+new OmegaIntentBuilder(context).email()
+                    .text("Hello world")
+                    .emailTo("develop@omega-r.com")
+                    .subject("Great library")
+                    .createHandler()
+                    .startActivity();
 ```
 
 **Share Intent**
 ```
-new OmegaIntentBuilder().share()
-                        .emailTo("develop@omega-r.com")
-                        .emailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com")) // Concealed addresses
-                        .emailCc(Arrays.asList("cc1@test.com","cc2@test.com"))  // Copy addresses
-                        .subject("Great library")
-                        .handler(this)
-                        .chooserTitle("Choose")
-                        .startActivity();
- ```
-                    
+new OmegaIntentBuilder(context).share()
+                    .emailTo("develop@omega-r.com")
+                    .emailBcc("bcc1@test.com","bcc2@test.com") // Concealed addresses
+                    .emailCc("cc1@test.com","cc2@test.com")  // Copy addresses
+                    .subject("Great library")
+                    .createHandler()
+                    .chooserTitle("Choose")
+                    .startActivity();
+```
+
+You can download file from internet and put it to intent. 
+```
+new OmegaIntentBuilder(context).share()
+                    .emailTo("your_email_here@gmail.com")
+                    .subject("Great library")
+                    .filesUrls("https://developer.android.com/studio/images/hero_image_studio.png")
+                    .filesUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
+                    .download(new DownloadCallback() {
+                        @Override
+                        public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
+                            contextIntentHandler.startActivity();
+                        }
+                    });
+```                    
 
 # License
 ```
