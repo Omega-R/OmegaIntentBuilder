@@ -13,7 +13,7 @@ package com.omega_r.libs.omegaintentbuilder.builders;
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder;
 
 /**
- * MimeTypes is a helper for constructing {@link ShareIntentBuilder#setType(String)}
+ * MimeTypes is a helper for constructing {@link ShareIntentBuilder#mimeType(String)}
  * It's most common mime types.
  */
 public interface MimeTypes {

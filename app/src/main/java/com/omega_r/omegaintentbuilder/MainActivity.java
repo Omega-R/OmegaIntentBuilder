@@ -3,15 +3,10 @@ package com.omega_r.omegaintentbuilder;
 import android.content.ActivityNotFoundException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
-import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
-import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -65,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startEmailIntent() {
         try {
             intentBuilder.email()
-                    .setText("Hello world")
+                    .text("Hello world")
                     .setEmailTo("develop@omega-r.com")
                     .setSubject("Great library")
                     .handler(this)

@@ -58,7 +58,7 @@ internal class DownloadAsyncTask<T>(private val context: Context,
       if (result.isEmpty()) {
         callback.onDownloaded(false, intentBuilder.handler())
       } else {
-        intentBuilder.setStream(result)
+        intentBuilder.stream(result)
         callback.onDownloaded(true, intentBuilder.handler())
       }
   }

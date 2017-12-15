@@ -35,9 +35,9 @@ new OmegaIntentBuilder().call()
 **Email Intent**
 ```
 new OmegaIntentBuilder().email()
-                        .setText("Hello world")
+                        .text("Hello world")
                         .setEmailTo("develop@omega-r.com")
-                        .setSubject("Great library")
+                        .subject("Great library")
                         .handler(this)
                         .startActivity();
 ```
@@ -48,7 +48,7 @@ new OmegaIntentBuilder().share()
                         .setEmailTo("develop@omega-r.com")
                         .setEmailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com")) // Concealed addresses
                         .setEmailCc(Arrays.asList("cc1@test.com","cc2@test.com"))  // Copy addresses 
-                        .setSubject("Great library")
+                        .subject("Great library")
                         .handler(this)
                         .setChooserTitle("Choose")
                         .startActivity();

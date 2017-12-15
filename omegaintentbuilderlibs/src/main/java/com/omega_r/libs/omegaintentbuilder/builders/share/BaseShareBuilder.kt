@@ -14,7 +14,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.NonNull
 import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
 import java.util.ArrayList
@@ -28,44 +27,6 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
   private var text: CharSequence? = null
   private var streamsSet: MutableSet<Uri> = mutableSetOf()
   private val downloadBuilder: DownloadBuilder<T> = DownloadBuilder(context, this)
-  /**
-   * Set single value of email address as recipients of this share.
-   * This replaces all current "to" recipients that have been set so far.
-   *
-   * @param address Email address to send to
-   * @return This BaseShareBuilder for method chaining
-   */
-  fun setEmailTo(address: String): T {
-    toAddressesSet.clear()
-    toAddressesSet.add(address)
-    return this as T
-  }
-
-  /**
-   * Set collection of email addresses as recipients of this share.
-   * This replaces all current "to" recipients that have been set so far.
-   *
-   * @param addresses Email addresses to send to
-   * @return This BaseShareBuilder for method chaining
-   */
-  fun setEmailTo(addresses: Collection<String>): T {
-    toAddressesSet.clear()
-    toAddressesSet.addAll(addresses.toMutableSet())
-    return this as T
-  }
-
-  /**
-   * Set an array of email addresses as recipients of this share.
-   * This replaces all current "to" recipients that have been set so far.
-   *
-   * @param addresses Email addresses to send to
-   * @return This BaseShareBuilder for method chaining
-   */
-  fun setEmailTo(addresses: Array<String>): T {
-    toAddressesSet.clear()
-    toAddressesSet.addAll(addresses.toMutableSet())
-    return this as T
-  }
 
   /**
    * Add Collection of email addresses as recipients of this share.
@@ -73,7 +34,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param addresses Email addresses to send to
    * @return This BaseShareBuilder for method chaining
    */
-  fun addEmailTo(addresses: Collection<String>): T {
+  fun emailTo(addresses: Collection<String>): T {
     toAddressesSet.addAll(addresses)
     return this as T
   }
@@ -84,7 +45,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param addresses Email addresses to send to
    * @return This BaseShareBuilder for method chaining
    */
-  fun addEmailTo(addresses: Array<String>): T {
+  fun emailTo(addresses: Array<String>): T {
     toAddressesSet.addAll(addresses)
     return this as T
   }
@@ -95,7 +56,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param address Email addresses to send to
    * @return This BaseShareBuilder for method chaining
    */
-  fun addEmailTo(address: String): T {
+  fun emailTo(address: String): T {
     toAddressesSet.add(address)
     return this as T
   }
@@ -106,7 +67,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param subject Subject heading for this share
    * @return This BaseShareBuilder for method chaining
    */
-  fun setSubject(subject: String): T {
+  fun subject(subject: String): T {
     this.subject = subject
     return this as T
   }
@@ -119,7 +80,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @return This BaseShareBuilder for method chaining
    * @see Intent#EXTRA_TEXT
    */
-  fun setText(text: CharSequence): T {
+  fun text(text: CharSequence): T {
     this.text = text.toString()
     return this as T
   }
@@ -133,9 +94,9 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param htmlText A string containing HTML markup as a richer version of the text
    *                 provided by EXTRA_TEXT.
    * @return This BaseShareBuilder for method chaining
-   * @see #setText(CharSequence)
+   * @see #text(CharSequence)
    */
-  fun setHtmlText(htmlText: String): T {
+  fun htmlText(htmlText: String): T {
     text?.let {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         text = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY)
@@ -144,51 +105,6 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
       }
     }
 
-    return this as T
-  }
-
-  /**
-   * Set a stream URI to the data that should be shared.
-   *
-   * <p>This replaces all currently set stream URIs and will produce a single-stream
-   * ACTION_SEND createdIntent.</p>
-   *
-   * @param streamUri URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   */
-  fun setStream(vararg streamUri: Uri): T {
-    streamsSet.clear()
-    streamsSet.addAll(streamUri.toMutableSet())
-    return this as T
-  }
-
-  /**
-   * Set a stream URI to the data that should be shared.
-   *
-   * <p>This replaces all currently set stream URIs and will produce a single-stream
-   * ACTION_SEND createdIntent.</p>
-   *
-   * @param streamUriSet URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   */
-  fun setStream(streamUriSet: MutableSet<Uri>): T {
-    streamsSet.clear()
-    streamsSet.addAll(streamUriSet)
-    return this as T
-  }
-
-  /**
-   * Set a stream URI to the data that should be shared.
-   *
-   * <p>This replaces all currently set stream URIs and will produce a single-stream
-   * ACTION_SEND createdIntent.</p>
-   *
-   * @param streamUriList URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   */
-  fun setStream(streamUriList: List<Uri>): T {
-    streamsSet.clear()
-    streamsSet.addAll(streamUriList.toMutableSet())
     return this as T
   }
 
@@ -203,7 +119,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @see Intent#ACTION_SEND
    * @see Intent#ACTION_SEND_MULTIPLE
    */
-  fun addStream(vararg streamUri: Uri): T {
+  fun stream(vararg streamUri: Uri): T {
     streamsSet.addAll(streamUri)
     return this as T
   }
@@ -219,7 +135,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @see Intent#ACTION_SEND
    * @see Intent#ACTION_SEND_MULTIPLE
    */
-  fun addStream(streamUriSet: MutableSet<Uri>): T {
+  fun stream(streamUriSet: MutableSet<Uri>): T {
     streamsSet.addAll(streamUriSet)
     return this as T
   }
@@ -235,7 +151,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @see Intent#ACTION_SEND
    * @see Intent#ACTION_SEND_MULTIPLE
    */
-  fun addStream(streamUriList: List<Uri>): T {
+  fun stream(streamUriList: List<Uri>): T {
     streamsSet.addAll(streamUriList)
     return this as T
   }
@@ -246,8 +162,8 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param urlAddresses String of the url links to share
    * @return This DownloadBuilder for download call
    */
-  fun addFilesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
-    return downloadBuilder.addFilesUrls(*urlAddresses)
+  fun filesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
+    return downloadBuilder.filesUrls(*urlAddresses)
   }
 
   /**
@@ -256,8 +172,8 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param urlAddresses Collection of the url links to share
    * @return This DownloadBuilder for download call
    */
-  fun addFilesUrls(collection: Collection<String>): DownloadBuilder<T> {
-    return downloadBuilder.addFilesUrls(collection)
+  fun filesUrls(collection: Collection<String>): DownloadBuilder<T> {
+    return downloadBuilder.filesUrls(collection)
   }
 
   /**
@@ -266,47 +182,8 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param fileSet Set of the url links to share
    * @return This DownloadBuilder for download call
    */
-  fun addFilesUrls(fileSet: Set<String>): DownloadBuilder<T> {
-    return downloadBuilder.addFilesUrls(fileSet)
-  }
-
-  /**
-   * Set a files Url address to the data that should be shared.
-   *
-   * <p>This replaces all currently set stream URIs and will produce a new stream
-   * ACTION_SEND createdIntent.</p>
-   *
-   * @param urlAddresses Array of the url links to share
-   * @return This DownloadBuilder for download call
-   */
-  fun setFilesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
-    return downloadBuilder.setFilesUrls(*urlAddresses)
-  }
-
-  /**
-   * Set a files Url address to the data that should be shared.
-   *
-   * <p>This replaces all currently set stream URIs and will produce a new stream
-   * ACTION_SEND createdIntent.</p>
-   *
-   * @param collection Collection of the url links to share
-   * @return This DownloadBuilder for download call
-   */
-  fun setFilesUrls(collection: Collection<String>): DownloadBuilder<T> {
-    return downloadBuilder.setFilesUrls(collection)
-  }
-
-  /**
-   * Set a files Url address to the data that should be shared.
-   *
-   * <p>This replaces all currently set stream URIs and will produce a new stream
-   * ACTION_SEND createdIntent.</p>
-   *
-   * @param fileSet Set of the url links to share
-   * @return This DownloadBuilder for download call
-   */
-  fun setFilesUrls(fileSet: Set<String>): DownloadBuilder<T> {
-    return downloadBuilder.setFilesUrls(fileSet)
+  fun filesUrls(fileSet: Set<String>): DownloadBuilder<T> {
+    return downloadBuilder.filesUrls(fileSet)
   }
 
   /**

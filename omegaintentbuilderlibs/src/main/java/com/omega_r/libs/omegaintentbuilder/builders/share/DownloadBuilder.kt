@@ -29,7 +29,7 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
    * @param urlAddresses Array of String addresses to download and share
    * @return This DownloadBuilder for method chaining
    */
-  fun addFilesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
+  fun filesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
     urlAddresses.forEach { it -> urlsMap.put(it) }
     return this
   }
@@ -41,7 +41,7 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
    * @return This DownloadBuilder for method chaining
    */
   @JvmOverloads
-  fun addFilesUrls(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
+  fun filesUrls(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
     urlsMap.put(urlAddress, mimeType)
     return this
   }
@@ -52,7 +52,7 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
    * @param collection Collection of String addresses to download and share
    * @return This DownloadBuilder for method chaining
    */
-  fun addFilesUrls(collection: Collection<String>): DownloadBuilder<T> {
+  fun filesUrls(collection: Collection<String>): DownloadBuilder<T> {
     collection.forEach { it -> urlsMap.put(it) }
     return this
   }
@@ -63,45 +63,9 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
    * @param set Set of String addresses to download and share
    * @return This DownloadBuilder for method chaining
    */
-  fun addFilesUrls(set: Set<String>): DownloadBuilder<T> {
+  fun filesUrls(set: Set<String>): DownloadBuilder<T> {
     set.forEach { it -> urlsMap.put(it) }
     return this
-  }
-
-  /**
-   * Set a array of url addresses to download.
-   * This replaces all current file urls.
-   *
-   * @param collection Collection of String addresses to download and share
-   * @return This DownloadBuilder for method chaining
-   */
-  fun setFilesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
-    urlsMap.clear()
-    return addFilesUrls(*urlAddresses)
-  }
-
-  /**
-   * Set a collection of url addresses to download.
-   * This replaces all current file urls.
-   *
-   * @param collection Collection of String addresses to download and share
-   * @return This DownloadBuilder for method chaining
-   */
-  fun setFilesUrls(collection: Collection<String>): DownloadBuilder<T> {
-    urlsMap.clear()
-    return addFilesUrls(collection)
-  }
-
-  /**
-   * Set url addresses to download.
-   * This replaces all current file urls.
-   *
-   * @param set Set of String addresses to download and share
-   * @return This DownloadBuilder for method chaining
-   */
-  fun setFilesUrls(set: Set<String>): DownloadBuilder<T> {
-    urlsMap.clear()
-    return addFilesUrls(set)
   }
 
   private fun MutableMap<String, String?>.put(key: String, value: String? = null) {

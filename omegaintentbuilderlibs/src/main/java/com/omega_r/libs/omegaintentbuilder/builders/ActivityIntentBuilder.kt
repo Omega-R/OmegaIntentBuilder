@@ -516,7 +516,7 @@ class ActivityIntentBuilder<T: Activity> (private val context: Context,
 
   /**
    * Set special flags controlling how this createdIntent is handled.  Most values
-   * here depend on the type of component being executed by the Intent,
+   * here depend on the mimeType of component being executed by the Intent,
    * specifically the FLAG_ACTIVITY_* flags are all for use with
    * {@link Context#startActivity Context.startActivity()} and the
    * FLAG_RECEIVER_* flags are all for use with
