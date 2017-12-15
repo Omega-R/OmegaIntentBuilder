@@ -46,7 +46,7 @@ class ShareIntentBuilder internal constructor(private val context: Context,
    * @param addresses Email addresses to CC
    * @return This ShareIntentBuilder for method chaining
    */
-  fun emailCc(addresses: Array<String>): ShareIntentBuilder {
+  fun emailCc(vararg addresses: String): ShareIntentBuilder {
     ccAddressesSet.addAll(addresses)
     return this
   }
@@ -80,7 +80,7 @@ class ShareIntentBuilder internal constructor(private val context: Context,
    * @param addresses Email addresses to BCC on the share
    * @return This ShareIntentBuilder for method chaining
    */
-  fun emailBcc(addresses: Array<String>): ShareIntentBuilder {
+  fun emailBcc(vararg addresses: String): ShareIntentBuilder {
     bccAddressesSet.addAll(addresses)
     return this
   }

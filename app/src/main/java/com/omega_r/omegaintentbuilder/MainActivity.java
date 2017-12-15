@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void startShareIntent() {
         intentBuilder.share()
                 .emailTo("develop@omega-r.com")
-                .emailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com"))
-                .emailCc(Arrays.asList("cc1@test.com","cc2@test.com"))
+                .emailBcc("bcc1@test.com","bcc2@test.com")
+                .emailCc("cc1@test.com","cc2@test.com")
                 .subject("Great library")
                 .createHandler(this)
                 .chooserTitle("Choose")
