@@ -26,37 +26,37 @@ dependencies {
 
 **Call Intent**
 ```
-new OmegaIntentBuilder().call()
+new OmegaIntentBuilder(context).call()
                     .phoneNumber("Your phone number")
-                    .createHandler(context)
+                    .createHandler()
                     .startActivity();
 ```
 
 **Email Intent**
 ```
-new OmegaIntentBuilder().email()
+new OmegaIntentBuilder(context).email()
                     .text("Hello world")
                     .emailTo("develop@omega-r.com")
                     .subject("Great library")
-                    .createHandler(this)
+                    .createHandler()
                     .startActivity();
 ```
 
 **Share Intent**
 ```
-new OmegaIntentBuilder().share()
+new OmegaIntentBuilder(context).share()
                     .emailTo("develop@omega-r.com")
                     .emailBcc(Arrays.asList("bcc1@test.com","bcc2@test.com")) // Concealed addresses
                     .emailCc(Arrays.asList("cc1@test.com","cc2@test.com"))  // Copy addresses
                     .subject("Great library")
-                    .createHandler(this)
+                    .createHandler()
                     .chooserTitle("Choose")
                     .startActivity();
 ```
 
 You can download file from internet and put it to intent. 
 ```
-new OmegaIntentBuilder().share()
+new OmegaIntentBuilder(context).share()
                     .emailTo("your_email_here@gmail.com")
                     .subject("Great library")
                     .filesUrls("https://developer.android.com/studio/images/hero_image_studio.png")
