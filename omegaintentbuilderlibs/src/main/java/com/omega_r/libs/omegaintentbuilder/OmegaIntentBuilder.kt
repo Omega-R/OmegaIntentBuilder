@@ -16,6 +16,7 @@ import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.builders.CallIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.ActivityIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.BrowserBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.SettingsIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 
@@ -50,6 +51,13 @@ class OmegaIntentBuilder(private val context: Context) {
    */
   fun web(): BrowserBuilder {
     return BrowserBuilder(context)
+  }
+
+  /**
+   * Return SettingsIntentBuilder for creating intent to start settings
+   */
+  fun settings(): SettingsIntentBuilder {
+    return SettingsIntentBuilder(context)
   }
 
   /**

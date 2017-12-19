@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_share).setOnClickListener(this);
         findViewById(R.id.button_share_files).setOnClickListener(this);
         findViewById(R.id.button_web).setOnClickListener(this);
+        findViewById(R.id.button_settings).setOnClickListener(this);
         intentBuilder = new OmegaIntentBuilder(this);
     }
 
@@ -41,7 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_web:
                 openUrl();
                 break;
-
+            case R.id.button_settings:
+                openSettings();
+                break;
         }
     }
 
@@ -83,5 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .createHandler()
                 .chooserTitle("Omega-R")
                 .tryStartActivity("You don't have app for open urls");
+    }
+
+    private void openSettings() {
+        intentBuilder.settings().createHandler().startActivity();
     }
 }

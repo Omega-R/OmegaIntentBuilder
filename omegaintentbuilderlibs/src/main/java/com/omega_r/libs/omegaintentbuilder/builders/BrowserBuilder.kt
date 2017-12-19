@@ -6,7 +6,7 @@
  *
  * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
  * Github: R12rus
- * Date:   December 8, 2017
+ * Date:   December 19, 2017
  */
 package com.omega_r.libs.omegaintentbuilder.builders
 
