@@ -20,6 +20,8 @@ import android.content.Intent.EXTRA_INTENT
 import android.content.Intent.EXTRA_TITLE
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+import android.support.annotation.StringRes
+import android.widget.Toast
 
 /**
  * ContextIntentHandler is a helper for start intents
@@ -115,6 +117,27 @@ open class ContextIntentHandler(private val context: Context, private val create
    */
   fun startActivity() {
     context.startActivity(getIntent())
+  }
+
+  fun tryStartActivity(): Boolean {
+    try {
+      startActivity()
+      return true
+    } catch (exc: ActivityNotFoundException) {
+      return false
+    }
+  }
+
+  fun tryStartActivity(errorToastMessage: String): Boolean {
+    val attempt = tryStartActivity()
+    if (!attempt) {
+      Toast.makeText(context, errorToastMessage, Toast.LENGTH_SHORT).show()
+    }
+    return attempt
+  }
+
+  fun tryStartActivity(@StringRes errorToastRes: Int): Boolean {
+    return tryStartActivity(context.getString(errorToastRes))
   }
 
   fun getIntent(): Intent {

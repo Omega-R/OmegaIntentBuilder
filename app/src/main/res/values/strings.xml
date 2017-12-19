@@ -4,4 +4,6 @@
     <string name="send_emal">Send email</string>
     <string name="share">Share</string>
     <string name="share_files">Share files from internet</string>
+    <string name="web">Web Browser</string>
+    <string name="settings">Settings</string>
 </resources>

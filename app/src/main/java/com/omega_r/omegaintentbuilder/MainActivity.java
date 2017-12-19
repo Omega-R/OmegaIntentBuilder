@@ -1,14 +1,10 @@
 package com.omega_r.omegaintentbuilder;
 
-import android.content.ActivityNotFoundException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
-
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_send_email).setOnClickListener(this);
         findViewById(R.id.button_share).setOnClickListener(this);
         findViewById(R.id.button_share_files).setOnClickListener(this);
+        findViewById(R.id.button_web).setOnClickListener(this);
+        findViewById(R.id.button_settings).setOnClickListener(this);
         intentBuilder = new OmegaIntentBuilder(this);
     }
 
@@ -41,6 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_share_files:
                 startShareFilesActivity();
                 break;
+            case R.id.button_web:
+                openUrl();
+                break;
+            case R.id.button_settings:
+                openSettings();
+                break;
         }
     }
 
@@ -50,24 +54,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startCallIntent() {
-        try {
-            intentBuilder.call().phoneNumber("88000000008").createHandler(this).startActivity();
-        } catch (ActivityNotFoundException exc) {
-            Toast.makeText(this, "Sorry, you don't have app for making call phone", Toast.LENGTH_SHORT).show();
-        }
+        intentBuilder.call()
+                    .phoneNumber("88000000008")
+                    .createHandler(this)
+                    .tryStartActivity("Sorry, you don't have app for making call phone");
     }
 
     private void startEmailIntent() {
-        try {
-            intentBuilder.email()
-                    .text("Hello world")
-                    .emailTo("develop@omega-r.com")
-                    .subject("Great library")
-                    .createHandler(this)
-                    .startActivity();
-        } catch (ActivityNotFoundException exc) {
-            Toast.makeText(this, "Sorry, you don't have app for sending email", Toast.LENGTH_SHORT).show();
-        }
+        intentBuilder.email()
+                .text("Hello world")
+                .emailTo("develop@omega-r.com")
+                .subject("Great library")
+                .createHandler(this)
+                .tryStartActivity("Sorry, you don't have app for sending email");
     }
 
     private void startShareIntent() {
@@ -79,5 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .createHandler(this)
                 .chooserTitle("Choose")
                 .startActivity();
+    }
+
+    private void openUrl() {
+        intentBuilder.web()
+                .url("https://omega-r.com/")
+                .createHandler()
+                .chooserTitle("Omega-R")
+                .tryStartActivity("You don't have app for open urls");
+    }
+
+    private void openSettings() {
+        intentBuilder.settings().createHandler().startActivity();
     }
 }

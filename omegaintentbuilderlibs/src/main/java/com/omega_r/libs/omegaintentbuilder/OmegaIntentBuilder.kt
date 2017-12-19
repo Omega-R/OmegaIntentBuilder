@@ -2,7 +2,7 @@
  * Copyright (c) 2017 Omega-r
  *
  * OmegaIntentBuilder
- * OmegaIntentBuilder.java
+ * OmegaIntentBuilder.kt
  *
  * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
  * Github: R12rus
@@ -15,6 +15,8 @@ import android.app.Activity
 import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.builders.CallIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.ActivityIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.BrowserBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.SettingsIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 
@@ -24,26 +26,43 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 class OmegaIntentBuilder(private val context: Context) {
 
   /**
-   * Return CallIntentBuilder for creating call createdIntent
+   * Return CallIntentBuilder for creating call Intent
    */
   fun call(): CallIntentBuilder {
     return CallIntentBuilder(context,this)
   }
 
   /**
-   * Return ShareIntentBuilder for creating share createdIntent
+   * Return ShareIntentBuilder for creating share Intent
    */
   fun share(): ShareIntentBuilder {
     return ShareIntentBuilder(context, this)
   }
 
   /**
-   * Return ShareIntentBuilder for creating email createdIntent
+   * Return ShareIntentBuilder for creating email Intent
    */
   fun email(): EmailIntentBuilder {
     return EmailIntentBuilder(context, this)
   }
 
+  /**
+   * Return BrowserBuilder for creating intent to start web browser
+   */
+  fun web(): BrowserBuilder {
+    return BrowserBuilder(context)
+  }
+
+  /**
+   * Return SettingsIntentBuilder for creating intent to start settings
+   */
+  fun settings(): SettingsIntentBuilder {
+    return SettingsIntentBuilder(context)
+  }
+
+  /**
+   * Return ActivityIntentBuilder for creating activity intent
+   */
   fun <T: Activity> activity(activity: Class<T>): ActivityIntentBuilder<T> {
     return ActivityIntentBuilder(context, activity)
   }

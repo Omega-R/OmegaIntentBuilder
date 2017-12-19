@@ -1,42 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.omega_r.omegaintentbuilder.MainActivity">
 
-    <Button
-        android:id="@+id/button_share_files"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="40dp"
-        android:theme="@style/ButtonStyle"
-        android:text="@string/share_files"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_call"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ButtonStyle"
-        android:text="@string/call"/>
+        <Button
+            android:id="@+id/button_share_files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="40dp"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/share_files"/>
 
-    <Button
-        android:id="@+id/button_send_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:theme="@style/ButtonStyle"
-        android:text="@string/send_emal"/>
+        <Button
+            android:id="@+id/button_call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/call"/>
 
-    <Button
-        android:id="@+id/button_share"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ButtonStyle"
-        android:text="@string/share"/>
+        <Button
+            android:id="@+id/button_send_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/send_emal"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/share"/>
+
+        <Button
+            android:id="@+id/button_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/web"/>
+
+        <Button
+            android:id="@+id/button_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/settings"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
