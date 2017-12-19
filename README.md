@@ -67,7 +67,25 @@ new OmegaIntentBuilder(context).share()
                             contextIntentHandler.startActivity();
                         }
                     });
-```                    
+```
+
+**Web Intent**
+```
+new OmegaIntentBuilder(context).web()
+                .url("https://omega-r.com/")
+                .createHandler()
+                .chooserTitle("Omega-R")
+                .tryStartActivity("You don't have app for open urls");
+```
+
+**Settings Intent**
+```
+new OmegaIntentBuilder(context).settings()
+                .wifi()
+                .createHandler()
+                .startActivity();
+```
+
 
 # License
 ```
