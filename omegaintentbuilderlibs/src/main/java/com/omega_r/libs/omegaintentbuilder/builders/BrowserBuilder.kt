@@ -21,11 +21,23 @@ class BrowserBuilder(private val context: Context): BaseBuilder(context) {
 
   private var uri: Uri? = null
 
+  /**
+   * Set a url address.
+   *
+   * @param urlAddress String
+   * @return This BrowserBuilder for method chaining
+   */
   fun url(urlAddress: String): BrowserBuilder {
     uri = Uri.parse(urlAddress)
     return this
   }
 
+  /**
+   * Set a url address.
+   *
+   * @param uri Uri
+   * @return This BrowserBuilder for method chaining
+   */
   fun url(uri: Uri): BrowserBuilder {
     this.uri = uri
     return this
