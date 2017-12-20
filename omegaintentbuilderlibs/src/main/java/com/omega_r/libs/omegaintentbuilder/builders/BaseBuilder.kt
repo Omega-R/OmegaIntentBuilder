@@ -19,11 +19,11 @@ import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 
 abstract class BaseBuilder(private val context: Context): IntentBuilder {
 
-  override fun createHandler(): ContextIntentHandler {
+  override fun createIntentHandler(): ContextIntentHandler {
     return ContextIntentHandler(context, createIntent())
   }
 
-  override fun createHandler(activity: Activity): ActivityIntentHandler {
+  override fun createIntentHandler(activity: Activity): ActivityIntentHandler {
     return ActivityIntentHandler(activity, createIntent())
   }
 

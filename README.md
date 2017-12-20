@@ -28,7 +28,7 @@ dependencies {
 ```
 new OmegaIntentBuilder(context).call()
                     .phoneNumber("Your phone number")
-                    .createHandler()
+                    .createIntentHandler()
                     .startActivity();
 ```
 
@@ -38,7 +38,7 @@ new OmegaIntentBuilder(context).email()
                     .text("Hello world")
                     .emailTo("develop@omega-r.com")
                     .subject("Great library")
-                    .createHandler()
+                    .createIntentHandler()
                     .startActivity();
 ```
 
@@ -49,7 +49,7 @@ new OmegaIntentBuilder(context).share()
                     .emailBcc("bcc1@test.com","bcc2@test.com") // Concealed addresses
                     .emailCc("cc1@test.com","cc2@test.com")  // Copy addresses
                     .subject("Great library")
-                    .createHandler()
+                    .createIntentHandler()
                     .chooserTitle("Choose")
                     .startActivity();
 ```
@@ -73,7 +73,7 @@ new OmegaIntentBuilder(context).share()
 ```
 new OmegaIntentBuilder(context).web()
                 .url("https://omega-r.com/")
-                .createHandler()
+                .createIntentHandler()
                 .chooserTitle("Omega-R")
                 .tryStartActivity("You don't have app for open urls");
 ```
@@ -82,7 +82,7 @@ new OmegaIntentBuilder(context).web()
 ```
 new OmegaIntentBuilder(context).settings()
                 .wifi()
-                .createHandler()
+                .createIntentHandler()
                 .startActivity();
 ```
 

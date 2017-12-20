@@ -8,9 +8,6 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-    private OmegaIntentBuilder intentBuilder;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_share_files).setOnClickListener(this);
         findViewById(R.id.button_web).setOnClickListener(this);
         findViewById(R.id.button_settings).setOnClickListener(this);
-        intentBuilder = new OmegaIntentBuilder(this);
+        findViewById(R.id.button_playstore).setOnClickListener(this);
     }
 
     @Override
@@ -45,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_settings:
                 openSettings();
                 break;
+            case R.id.button_playstore:
+                openPlayStore();
+                break;
         }
     }
 
@@ -54,41 +54,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startCallIntent() {
-        intentBuilder.call()
+        OmegaIntentBuilder.from(this)
+                    .call()
                     .phoneNumber("88000000008")
-                    .createHandler(this)
+                    .createIntentHandler(this)
                     .tryStartActivity("Sorry, you don't have app for making call phone");
     }
 
     private void startEmailIntent() {
-        intentBuilder.email()
+        OmegaIntentBuilder.from(this)
+                .email()
                 .text("Hello world")
                 .emailTo("develop@omega-r.com")
                 .subject("Great library")
-                .createHandler(this)
+                .createIntentHandler(this)
                 .tryStartActivity("Sorry, you don't have app for sending email");
     }
 
     private void startShareIntent() {
-        intentBuilder.share()
+        OmegaIntentBuilder.from(this)
+                .share()
                 .emailTo("develop@omega-r.com")
                 .emailBcc("bcc1@test.com","bcc2@test.com")
                 .emailCc("cc1@test.com","cc2@test.com")
                 .subject("Great library")
-                .createHandler(this)
+                .createIntentHandler(this)
                 .chooserTitle("Choose")
                 .startActivity();
     }
 
     private void openUrl() {
-        intentBuilder.web()
+        OmegaIntentBuilder.from(this)
+                .web()
                 .url("https://omega-r.com/")
-                .createHandler()
+                .createIntentHandler()
                 .chooserTitle("Omega-R")
                 .tryStartActivity("You don't have app for open urls");
     }
 
     private void openSettings() {
-        intentBuilder.settings().createHandler().startActivity();
+        OmegaIntentBuilder.from(this)
+                .settings()
+                .createIntentHandler()
+                .startActivity();
     }
+
+    private void openPlayStore() {
+        OmegaIntentBuilder.from(this)
+                .playStore()
+                .packageName("com.omegar.coloring")
+                .createIntentHandler().startActivity();
+    }
+
 }
