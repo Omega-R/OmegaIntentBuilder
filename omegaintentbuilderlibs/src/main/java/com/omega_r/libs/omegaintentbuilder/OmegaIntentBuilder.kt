@@ -18,12 +18,18 @@ import com.omega_r.libs.omegaintentbuilder.builders.ActivityIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.BrowserBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.SettingsIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
  */
 class OmegaIntentBuilder(private val context: Context) {
+
+  companion object {
+    @JvmStatic
+    fun from(context: Context): OmegaIntentBuilder = OmegaIntentBuilder(context)
+  }
 
   /**
    * Return CallIntentBuilder for creating call Intent
@@ -58,6 +64,10 @@ class OmegaIntentBuilder(private val context: Context) {
    */
   fun settings(): SettingsIntentBuilder {
     return SettingsIntentBuilder(context)
+  }
+
+  fun playStore(): PlayStoreBuilder {
+    return PlayStoreBuilder(context)
   }
 
   /**

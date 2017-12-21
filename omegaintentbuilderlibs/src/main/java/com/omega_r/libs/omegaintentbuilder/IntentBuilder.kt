@@ -31,12 +31,12 @@ interface IntentBuilder {
    * Returns ContextIntentHandler for control Intent.
    * Support startActivity, start Chooser.
    */
-  fun createHandler(): ContextIntentHandler
+  fun createIntentHandler(): ContextIntentHandler
 
   /**
    * Returns ActivityIntentHandler (extends ContextIntentHandler) for control Intent.
    * Support startActivity, startActivityForResult, start Chooser.
    */
-  fun createHandler(activity: Activity): ActivityIntentHandler
+  fun createIntentHandler(activity: Activity): ActivityIntentHandler
 
 }

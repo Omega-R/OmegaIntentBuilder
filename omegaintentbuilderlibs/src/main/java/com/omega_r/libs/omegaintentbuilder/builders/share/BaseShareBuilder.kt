@@ -14,6 +14,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.support.annotation.StringRes
 import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
 import java.util.ArrayList
@@ -62,6 +63,17 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
   }
 
   /**
+   * Add or single value of email address as recipients of this share.
+   *
+   * @param address @StringRes Email addresses to send to
+   * @return This BaseShareBuilder for method chaining
+   */
+  fun emailTo(@StringRes addressRes: Int): T {
+    toAddressesSet.add(context.getString(addressRes))
+    return this as T
+  }
+
+  /**
    * Set a subject heading for this share; useful for sharing via email.
    *
    * @param subject Subject heading for this share
@@ -69,6 +81,29 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    */
   fun subject(subject: String): T {
     this.subject = subject
+    return this as T
+  }
+
+  /**
+   * Set a subject heading for this share; useful for sharing via email.
+   *
+   * @param subject Resource id for Subject heading for this share
+   * @return This BaseShareBuilder for method chaining
+   */
+  fun subject(@StringRes subjectRes: Int): T {
+    this.subject = context.getString(subjectRes)
+    return this as T
+  }
+
+  /**
+   * Set a subject heading for this share; useful for sharing via email.
+   *
+   * @param subjectRes Resource id for the format string
+   * @param formatArgs The format arguments that will be used for substitution.
+   * @return This BaseShareBuilder for method chaining
+   */
+  fun subject(@StringRes subjectRes: Int, vararg formatArgs: Any): T {
+    this.subject = context.getString(subjectRes, *formatArgs)
     return this as T
   }
 
@@ -82,6 +117,33 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    */
   fun text(text: CharSequence): T {
     this.text = text.toString()
+    return this as T
+  }
+
+  /**
+   * Set the literal text data to be sent as part of the share.
+   * This may be a styled CharSequence.
+   *
+   * @param @StringRes textRes Text to share
+   * @return This BaseShareBuilder for method chaining
+   * @see Intent#EXTRA_TEXT
+   */
+  fun text(@StringRes textRes: Int): T {
+    this.text = context.getString(textRes)
+    return this as T
+  }
+
+  /**
+   * Set the literal text data to be sent as part of the share.
+   * This may be a styled CharSequence.
+   *
+   * @param subjectRes Resource id for the format string
+   * @param formatArgs The format arguments that will be used for substitution.
+   * @return This BaseShareBuilder for method chaining
+   * @see Intent#EXTRA_TEXT
+   */
+  fun text(@StringRes textRes: Int, vararg formatArgs: Any): T {
+    this.text = context.getString(textRes, *formatArgs)
     return this as T
   }
 
