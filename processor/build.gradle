@@ -1,0 +1,12 @@
+import org.gradle.internal.jvm.Jvm
+
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile files(Jvm.current().getToolsJar())
+
+    implementation "com.squareup:javapoet:$javapoet"
+    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    implementation project(':annotations')
+}

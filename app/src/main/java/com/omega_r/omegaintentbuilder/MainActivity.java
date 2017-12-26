@@ -6,6 +6,9 @@ import android.view.View;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 
+import omega.com.annotations.Activity;
+
+@Activity
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override

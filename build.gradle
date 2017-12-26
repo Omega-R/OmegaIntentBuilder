@@ -3,6 +3,9 @@
 buildscript {
     ext.kotlin_version = '1.2.10'
     ext.supportVersion = '27.0.2'
+    ext.compileSdkVersion = 27
+    ext.targetSdkVersion = 27
+    ext.javapoet = '1.9.0'
 
     repositories {
         google()
