@@ -14,7 +14,9 @@ import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import omega.com.annotations.OmegaActivity;
 
+@OmegaActivity
 public class ShareFilesActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String KEY_FILE = "file";

@@ -6,10 +6,14 @@ import android.view.View;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 
-import omega.com.annotations.Activity;
+import omega.com.annotations.OmegaActivity;
+import omega.com.annotations.OmegaExtra;
 
-@Activity
+@OmegaActivity
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    @OmegaExtra("lesson")
+    String param;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
