@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 
 import omega.com.annotations.OmegaActivity;
@@ -12,8 +13,11 @@ import omega.com.annotations.OmegaExtra;
 @OmegaActivity
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @OmegaExtra("lesson")
+    @OmegaExtra()
     String param;
+
+    @OmegaExtra("vip piv")
+    Integer parameter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_web).setOnClickListener(this);
         findViewById(R.id.button_settings).setOnClickListener(this);
         findViewById(R.id.button_playstore).setOnClickListener(this);
+
+        AppOmegaIntentBuilder.from(this)
+                .appActivity()
+                .byShareFilesActivity()
+                .createIntentHandler()
+                .startActivity();
     }
 
     @Override
