@@ -1,6 +1,6 @@
 package com.omega_r.libs.omegaintentbuilder.types
 
-enum class NavigationTypes(val packageName: String) {
+enum class MapTypes(val packageName: String) {
 
   GOOGLE_MAP("com.google.android.apps.maps"),
   YANDEX_MAP("ru.yandex.yandexmaps"),

@@ -10,7 +10,7 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 
 import org.jetbrains.annotations.NotNull;
-import com.omega_r.libs.omegaintentbuilder.types.NavigationTypes;
+import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void openGoogleMap() {
         OmegaIntentBuilder.from(this)
                 .map()
-                .type(NavigationTypes.GOOGLE_MAP)
+                .type(MapTypes.GOOGLE_MAP)
                 .latitude(56.6327622)
                 .longitude(47.910693)
                 .address("Omega-R")

@@ -13,18 +13,20 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.omega_r.libs.omegaintentbuilder.types.NavigationTypes
-import com.omega_r.libs.omegaintentbuilder.types.NavigationTypes.*
+import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
+import com.omega_r.libs.omegaintentbuilder.types.MapTypes
+import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
 
 /**
  * MapIntentBuilder is a helper for open Maps applications
  */
-class MapIntentBuilder(context: Context) : BaseBuilder(context) {
+class MapIntentBuilder(val context: Context) : BaseBuilder(context) {
 
   private var latitude: Double? = null
   private var longitude: Double? = null
   private var address: String? = null
-  private var type: NavigationTypes? = null
+  private var type: MapTypes? = null
 
   /**
    * Set a latitude.
@@ -75,10 +77,10 @@ class MapIntentBuilder(context: Context) : BaseBuilder(context) {
   /**
    * Set a map application type.
    *
-   * @param type NavigationTypes
+   * @param type MapTypes
    * @return This MapIntentBuilder for method chaining
    */
-  fun type(type: NavigationTypes): MapIntentBuilder {
+  fun type(type: MapTypes): MapIntentBuilder {
     this.type = type
     return this
   }
@@ -95,7 +97,7 @@ class MapIntentBuilder(context: Context) : BaseBuilder(context) {
     val uri: Uri = getFormattedUri()
     val intent = Intent(Intent.ACTION_VIEW, uri)
 
-    when(type) {
+    when (type) {
       GOOGLE_MAP -> intent.setPackage(GOOGLE_MAP.packageName)
       YANDEX_MAP -> intent.setPackage(YANDEX_MAP.packageName)
       KAKAO_MAP -> intent.setPackage(KAKAO_MAP.packageName)
@@ -107,7 +109,7 @@ class MapIntentBuilder(context: Context) : BaseBuilder(context) {
 
   private fun getFormattedUri(): Uri {
     val sb = StringBuilder()
-    when(type) {
+    when (type) {
       GOOGLE_MAP -> {
         sb.append("geo:")
             .append(latitude, ",", longitude)
@@ -133,6 +135,16 @@ class MapIntentBuilder(context: Context) : BaseBuilder(context) {
       }
     }
     return Uri.parse(sb.toString())
+  }
+
+  override fun createIntentHandler(): ContextIntentHandler {
+    return super.createIntentHandler()
+        .failIntentHandler(
+            OmegaIntentBuilder.from(context)
+                .playStore()
+                .packageName(type!!.packageName)
+                .createIntentHandler()
+        )
   }
 
 }

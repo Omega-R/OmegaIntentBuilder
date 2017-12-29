@@ -172,7 +172,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @return Returns the same ContextIntentHandler object, for chaining multiple calls
    * into a single statement.
    */
-  fun failIntentHandler(failIntentHandler: ContextIntentHandler): ContextIntentHandler {
+  fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ContextIntentHandler {
     failContextIntentHandler = failIntentHandler
     return this
   }
