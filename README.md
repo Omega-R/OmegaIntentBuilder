@@ -26,22 +26,29 @@ dependencies {
 
 **Call Intent**
 ```
-OmegaIntentBuilder.from(context)
+OmegaIntentBuilder.from(this)
                     .call()
                     .phoneNumber("Your phone number")
-                    .createIntentHandler()
+                    .createIntentHandler(this)
+                    .failToast("Sorry, you don't have app for making call phone")
                     .startActivity();
 ```
 
 **Email Intent**
 ```
-OmegaIntentBuilder.from(context)
-                    .email()
-                    .text("Hello world")
-                    .emailTo("develop@omega-r.com")
-                    .subject("Great library")
-                    .createIntentHandler()
-                    .startActivity();
+OmegaIntentBuilder.from(this)
+                .email()
+                .text("Hello world")
+                .emailTo("develop@omega-r.com")
+                .subject("Great library")
+                .createIntentHandler(this)
+                .failCallback(new FailCallback() {
+                    @Override
+                    public void onActivityStartError(@NotNull Exception exc) {
+                        Toast.makeText(getApplicationContext(), "Sorry, you don't have app for sending email", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .startActivity();
 ```
 
 **Share Intent**
@@ -80,7 +87,7 @@ OmegaIntentBuilder.from(context)
                 .url("https://omega-r.com/")
                 .createIntentHandler()
                 .chooserTitle("Omega-R")
-                .tryStartActivity("You don't have app for open urls");
+                .startActivity("You don't have app for open urls");
 ```
 
 **Settings Intent**
