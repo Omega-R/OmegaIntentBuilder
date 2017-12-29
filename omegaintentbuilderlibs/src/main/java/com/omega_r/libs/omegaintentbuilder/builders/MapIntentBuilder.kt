@@ -57,7 +57,7 @@ class MapIntentBuilder(val context: Context) : BaseBuilder(context) {
    * @param longitude Double
    * @return This MapIntentBuilder for method chaining
    */
-  fun latitude_longitude(latitude: Double, longitude: Double): MapIntentBuilder {
+  fun latitudeLongitude(latitude: Double, longitude: Double): MapIntentBuilder {
     this.latitude = latitude
     this.longitude = longitude
     return this
