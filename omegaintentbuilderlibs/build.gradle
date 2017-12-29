@@ -1,5 +1,8 @@
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+
+group = 'com.github.Omega-R.OmegaIntentBuilder'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
