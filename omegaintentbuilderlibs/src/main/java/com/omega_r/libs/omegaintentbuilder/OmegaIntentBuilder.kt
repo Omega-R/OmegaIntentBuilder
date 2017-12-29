@@ -21,11 +21,12 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
  */
-class OmegaIntentBuilder(private val context: Context) {
+open class OmegaIntentBuilder(private val context: Context) {
 
   companion object {
     @JvmStatic
-    fun from(context: Context): OmegaIntentBuilder = OmegaIntentBuilder(context)
+    @Suppress("NON_FINAL_MEMBER_IN_OBJECT")
+    open fun from(context: Context): OmegaIntentBuilder = OmegaIntentBuilder(context)
   }
 
   /**
