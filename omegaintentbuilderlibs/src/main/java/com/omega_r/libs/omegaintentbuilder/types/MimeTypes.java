@@ -8,7 +8,7 @@
  * Github: R12rus
  * Date:   December 8, 2017
  */
-package com.omega_r.libs.omegaintentbuilder.builders;
+package com.omega_r.libs.omegaintentbuilder.types;
 
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder;
 

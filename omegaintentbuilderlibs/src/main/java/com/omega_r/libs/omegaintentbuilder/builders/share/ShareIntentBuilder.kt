@@ -13,7 +13,7 @@ package com.omega_r.libs.omegaintentbuilder.builders.share
 import android.content.Context
 import android.content.Intent
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.MimeTypes
+import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 import java.util.TreeSet
 
 /**

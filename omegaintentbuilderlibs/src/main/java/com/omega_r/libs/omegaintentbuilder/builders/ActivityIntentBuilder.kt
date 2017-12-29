@@ -1,3 +1,13 @@
+/*
+ * Copyright (c) 2017 Omega-r
+ *
+ * ActivityIntentBuilder
+ * ActivityIntentBuilder.kt
+ *
+ * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
+ * Github: R12rus
+ * Date:   December 29, 2017
+ */
 package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.app.Activity
@@ -533,13 +543,6 @@ class ActivityIntentBuilder<T: Activity> (private val context: Context,
   }
 
   override fun createIntent(): Intent {
-    return createIntent(false)
-  }
-
-  fun createIntent(clearBackStack: Boolean): Intent {
-    if (clearBackStack) {
-      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
     return intent
   }
 
