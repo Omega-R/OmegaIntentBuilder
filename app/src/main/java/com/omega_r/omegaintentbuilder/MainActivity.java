@@ -3,9 +3,13 @@ package com.omega_r.omegaintentbuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -64,7 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .call()
                     .phoneNumber("88000000008")
                     .createIntentHandler(this)
-                    .tryStartActivity("Sorry, you don't have app for making call phone");
+                    .failToast("Sorry, you don't have app for making call phone")
+                    .startActivity();
     }
 
     private void startEmailIntent() {
@@ -74,7 +79,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .emailTo("develop@omega-r.com")
                 .subject("Great library")
                 .createIntentHandler(this)
-                .tryStartActivity("Sorry, you don't have app for sending email");
+                .failCallback(new FailCallback() {
+                    @Override
+                    public void onActivityStartError(@NotNull Exception exc) {
+                        Toast.makeText(getApplicationContext(), "Sorry, you don't have app for sending email", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .startActivity();
     }
 
     private void startShareIntent() {
@@ -95,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .url("https://omega-r.com/")
                 .createIntentHandler()
                 .chooserTitle("Omega-R")
-                .tryStartActivity("You don't have app for open urls");
+                .failToast("You don't have app for open urls")
+                .startActivity();
     }
 
     private void openSettings() {
@@ -109,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         OmegaIntentBuilder.from(this)
                 .playStore()
                 .packageName("com.omegar.coloring")
-                .createIntentHandler().startActivity();
+                .createIntentHandler()
+                .startActivity();
     }
 
 }

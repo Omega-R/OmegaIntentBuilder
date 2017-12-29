@@ -15,8 +15,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.StringRes
-import android.widget.Toast
 
 /**
  * ActivityIntentHandler is a helper for start intents
@@ -60,43 +58,23 @@ class ActivityIntentHandler(private val activity: Activity, private val createdI
    */
   @JvmOverloads
   fun startActivityForResult(requestCode: Int, options: Bundle? = null) {
-    if (getChooserTitle().isNullOrEmpty()) {
-      if (options == null) {
-        activity.startActivityForResult(createdIntent, requestCode)
-      } else {
-        activity.startActivityForResult(createdIntent, requestCode, options)
-      }
-    } else {
-      if (options == null) {
-        activity.startActivityForResult(createChooserIntent(), requestCode)
-      } else {
-        activity.startActivityForResult(createChooserIntent(), requestCode, options)
-      }
-    }
-  }
-
-  @JvmOverloads
-  fun tryStartActivityForResult(requestCode: Int, options: Bundle? = null): Boolean {
     try {
-      startActivityForResult(requestCode, options)
-      return true
+      if (getChooserTitle().isNullOrEmpty()) {
+        if (options == null) {
+          activity.startActivityForResult(createdIntent, requestCode)
+        } else {
+          activity.startActivityForResult(createdIntent, requestCode, options)
+        }
+      } else {
+        if (options == null) {
+          activity.startActivityForResult(createChooserIntent(), requestCode)
+        } else {
+          activity.startActivityForResult(createChooserIntent(), requestCode, options)
+        }
+      }
     } catch (exc: ActivityNotFoundException) {
-      return false
+      handleError(exc)
     }
-  }
-
-  @JvmOverloads
-  fun tryStartActivityForResult(requestCode: Int, options: Bundle? = null, errorToastMessage: String): Boolean {
-    val attempt = tryStartActivityForResult(requestCode, options)
-    if (!attempt) {
-      Toast.makeText(activity, errorToastMessage, Toast.LENGTH_SHORT).show()
-    }
-    return attempt
-  }
-
-  @JvmOverloads
-  fun tryStartActivityForResult(requestCode: Int, options: Bundle? = null, @StringRes errorToastRes: Int): Boolean {
-    return tryStartActivityForResult(requestCode, options, activity.getString(errorToastRes))
   }
 
 }
