@@ -13,10 +13,7 @@ package com.omega_r.libs.omegaintentbuilder
 
 import android.app.Activity
 import android.content.Context
-import com.omega_r.libs.omegaintentbuilder.builders.CallIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.ActivityIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.BrowserBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.SettingsIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
@@ -75,6 +72,10 @@ class OmegaIntentBuilder(private val context: Context) {
    */
   fun <T: Activity> activity(activity: Class<T>): ActivityIntentBuilder<T> {
     return ActivityIntentBuilder(context, activity)
+  }
+
+  fun navigation(): NavigationIntentBuilder {
+    return NavigationIntentBuilder(context)
   }
 
 }

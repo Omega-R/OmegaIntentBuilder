@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
-import com.omega_r.libs.omegaintentbuilder.builders.MimeTypes;
+import com.omega_r.libs.omegaintentbuilder.types.MimeTypes;
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
 
