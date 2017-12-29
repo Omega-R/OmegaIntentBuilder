@@ -1,12 +1,11 @@
 package com.omega_r.omegaintentbuilder;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.builders.MimeTypes;
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
@@ -15,26 +14,26 @@ import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import omega.com.annotations.OmegaActivity;
+import omega.com.annotations.OmegaExtra;
+
+@OmegaActivity
 public class ShareFilesActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String KEY_FILE = "file";
+    @OmegaExtra
+    protected String url1;
 
-    private OmegaIntentBuilder intentBuilder;
+    @OmegaExtra("var2")
+    protected String url2;
+
     @Nullable
     private ProgressDialog progressDialog;
-
-    public static Intent createIntent(Context context, String file) {
-        return new OmegaIntentBuilder(context)
-                .activity(ShareFilesActivity.class)
-                .putExtra(KEY_FILE, file)
-                .createIntent();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_files);
-        intentBuilder = new OmegaIntentBuilder(this);
+        AppOmegaIntentBuilder.inject(this);
         findViewById(R.id.button_share).setOnClickListener(this);
     }
 
@@ -49,10 +48,7 @@ public class ShareFilesActivity extends AppCompatActivity implements View.OnClic
 
     private void downlodFiles() {
         showProgress();
-        String url1 = getIntent().getStringExtra(KEY_FILE);
-        String url2 = "https://avatars1.githubusercontent.com/u/28600571?s=200&v=4";
-
-        intentBuilder.share()
+        OmegaIntentBuilder.from(this).share()
                 .emailTo("your_email_here@gmail.com")
                 .subject("Great library")
                 .filesUrls(url1)
