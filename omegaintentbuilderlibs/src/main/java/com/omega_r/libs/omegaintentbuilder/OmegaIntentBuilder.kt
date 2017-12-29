@@ -17,6 +17,7 @@ import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.types.MapTypes
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
@@ -81,8 +82,8 @@ open class OmegaIntentBuilder(private val context: Context) {
   /**
    * Return MapIntentBuilder for creating intent to open Map application
    */
-  fun map(): MapIntentBuilder {
-    return MapIntentBuilder(context)
+  fun map(type: MapTypes): MapIntentBuilder {
+    return MapIntentBuilder(context, type)
   }
 
 }

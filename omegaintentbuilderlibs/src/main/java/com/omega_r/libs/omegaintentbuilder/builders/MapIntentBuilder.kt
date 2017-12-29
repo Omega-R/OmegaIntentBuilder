@@ -21,12 +21,11 @@ import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
 /**
  * MapIntentBuilder is a helper for open Maps applications
  */
-class MapIntentBuilder(val context: Context) : BaseBuilder(context) {
+class MapIntentBuilder(val context: Context, val type: MapTypes) : BaseBuilder(context) {
 
   private var latitude: Double? = null
   private var longitude: Double? = null
   private var address: String? = null
-  private var type: MapTypes? = null
 
   /**
    * Set a latitude.
@@ -74,26 +73,7 @@ class MapIntentBuilder(val context: Context) : BaseBuilder(context) {
     return this
   }
 
-  /**
-   * Set a map application type.
-   *
-   * @param type MapTypes
-   * @return This MapIntentBuilder for method chaining
-   */
-  fun type(type: MapTypes): MapIntentBuilder {
-    this.type = type
-    return this
-  }
-
   override fun createIntent(): Intent {
-    if (latitude == null || longitude == null) {
-      throw RuntimeException("You can't call createIntent with empty latitude, longitude")
-    }
-    if (type == null) {
-      throw RuntimeException("You can't call createIntent before you call type")
-    }
-    if (address == null) address = ""
-
     val uri: Uri = getFormattedUri()
     val intent = Intent(Intent.ACTION_VIEW, uri)
 
@@ -112,26 +92,36 @@ class MapIntentBuilder(val context: Context) : BaseBuilder(context) {
     when (type) {
       GOOGLE_MAP -> {
         sb.append("geo:")
-            .append(latitude, ",", longitude)
-            .append("?q=")
-            .append(Uri.encode(address))
+        if (latitude != null && longitude != null) {
+          sb.append(latitude, ",", longitude)
+        }
+        if (address != null) {
+          sb.append("?q=", Uri.encode(address))
+        }
       }
       YANDEX_MAP -> {
-        sb.append("yandexmaps://")
-            .append(YANDEX_MAP.packageName, "/?pt=")
-            .append(longitude, ",", latitude)
-            .append("&text=", address)
+        sb.append("yandexmaps://", YANDEX_MAP.packageName, "/?pt=")
+        if (latitude != null && longitude != null) {
+          sb.append(longitude, ",", latitude)
+        }
+        if (address != null) {
+          sb.append("&text=", address)
+        }
       }
       KAKAO_MAP -> {
-        sb.append("daummaps://look")
-            .append("?p=")
-            .append(latitude, ",", longitude)
+        sb.append("daummaps://look?p=")
+        if (latitude != null && longitude != null) {
+          sb.append(latitude, ",", longitude)
+        }
       }
       NAVER_MAP -> {
         sb.append("geo:")
-            .append(latitude, ",", longitude)
-            .append("?q=")
-            .append(Uri.encode(address))
+        if (latitude != null && longitude != null) {
+          sb.append(latitude, ",", longitude)
+        }
+        if (address != null) {
+          sb.append("?q=", Uri.encode(address))
+        }
       }
     }
     return Uri.parse(sb.toString())
@@ -142,7 +132,7 @@ class MapIntentBuilder(val context: Context) : BaseBuilder(context) {
         .failIntentHandler(
             OmegaIntentBuilder.from(context)
                 .playStore()
-                .packageName(type!!.packageName)
+                .packageName(type.packageName)
                 .createIntentHandler()
         )
   }
