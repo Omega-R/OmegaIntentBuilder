@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openGoogleMap() {
         OmegaIntentBuilder.from(this)
-                .navigation()
+                .map()
                 .type(NavigationTypes.GOOGLE_MAP)
                 .latitude(56.6327622)
                 .longitude(47.910693)

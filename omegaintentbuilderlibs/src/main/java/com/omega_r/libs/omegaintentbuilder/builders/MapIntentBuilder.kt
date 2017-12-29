@@ -17,9 +17,9 @@ import com.omega_r.libs.omegaintentbuilder.types.NavigationTypes
 import com.omega_r.libs.omegaintentbuilder.types.NavigationTypes.*
 
 /**
- * NavigationIntentBuilder is a helper for open Maps applications
+ * MapIntentBuilder is a helper for open Maps applications
  */
-class NavigationIntentBuilder(context: Context) : BaseBuilder(context) {
+class MapIntentBuilder(context: Context) : BaseBuilder(context) {
 
   private var latitude: Double? = null
   private var longitude: Double? = null
@@ -30,9 +30,9 @@ class NavigationIntentBuilder(context: Context) : BaseBuilder(context) {
    * Set a latitude.
    *
    * @param latitude Double
-   * @return This NavigationIntentBuilder for method chaining
+   * @return This MapIntentBuilder for method chaining
    */
-  fun latitude(latitude: Double): NavigationIntentBuilder {
+  fun latitude(latitude: Double): MapIntentBuilder {
     this.latitude = latitude
     return this
   }
@@ -41,9 +41,9 @@ class NavigationIntentBuilder(context: Context) : BaseBuilder(context) {
    * Set a longitude.
    *
    * @param longitude Double
-   * @return This NavigationIntentBuilder for method chaining
+   * @return This MapIntentBuilder for method chaining
    */
-  fun longitude(longitude: Double): NavigationIntentBuilder {
+  fun longitude(longitude: Double): MapIntentBuilder {
     this.longitude = longitude
     return this
   }
@@ -53,9 +53,9 @@ class NavigationIntentBuilder(context: Context) : BaseBuilder(context) {
    *
    * @param latitude Double
    * @param longitude Double
-   * @return This NavigationIntentBuilder for method chaining
+   * @return This MapIntentBuilder for method chaining
    */
-  fun latitude_longitude(latitude: Double, longitude: Double): NavigationIntentBuilder {
+  fun latitude_longitude(latitude: Double, longitude: Double): MapIntentBuilder {
     this.latitude = latitude
     this.longitude = longitude
     return this
@@ -65,9 +65,9 @@ class NavigationIntentBuilder(context: Context) : BaseBuilder(context) {
    * Set a searching address.
    *
    * @param address String
-   * @return This NavigationIntentBuilder for method chaining
+   * @return This MapIntentBuilder for method chaining
    */
-  fun address(address: String): NavigationIntentBuilder {
+  fun address(address: String): MapIntentBuilder {
     this.address = address
     return this
   }
@@ -76,9 +76,9 @@ class NavigationIntentBuilder(context: Context) : BaseBuilder(context) {
    * Set a map application type.
    *
    * @param type NavigationTypes
-   * @return This NavigationIntentBuilder for method chaining
+   * @return This MapIntentBuilder for method chaining
    */
-  fun type(type: NavigationTypes): NavigationIntentBuilder {
+  fun type(type: NavigationTypes): MapIntentBuilder {
     this.type = type
     return this
   }

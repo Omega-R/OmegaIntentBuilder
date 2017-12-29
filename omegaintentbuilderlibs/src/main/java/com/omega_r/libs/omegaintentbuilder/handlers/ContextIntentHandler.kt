@@ -187,11 +187,11 @@ open class ContextIntentHandler(private val context: Context, private val create
     try {
       context.startActivity(getIntent())
     } catch (exc: ActivityNotFoundException) {
-      handleError(exc)
+      handleStartActivityException(exc)
     }
   }
 
-  protected fun handleError(exc: ActivityNotFoundException) {
+  protected fun handleStartActivityException(exc: ActivityNotFoundException) {
     if (!toastMessage.isNullOrBlank()) {
       Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
     }

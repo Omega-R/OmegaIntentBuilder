@@ -64,6 +64,9 @@ open class OmegaIntentBuilder(private val context: Context) {
     return SettingsIntentBuilder(context)
   }
 
+  /**
+   * Return PlayStoreBuilder for creating intent to open PlayStore
+   */
   fun playStore(): PlayStoreBuilder {
     return PlayStoreBuilder(context)
   }
@@ -75,8 +78,11 @@ open class OmegaIntentBuilder(private val context: Context) {
     return ActivityIntentBuilder(context, activity)
   }
 
-  fun navigation(): NavigationIntentBuilder {
-    return NavigationIntentBuilder(context)
+  /**
+   * Return MapIntentBuilder for creating intent to open Map application
+   */
+  fun map(): MapIntentBuilder {
+    return MapIntentBuilder(context)
   }
 
 }
