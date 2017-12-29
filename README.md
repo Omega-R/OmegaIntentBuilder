@@ -26,7 +26,8 @@ dependencies {
 
 **Call Intent**
 ```
-new OmegaIntentBuilder(context).call()
+OmegaIntentBuilder.from(context)
+                    .call()
                     .phoneNumber("Your phone number")
                     .createIntentHandler()
                     .startActivity();
@@ -34,7 +35,8 @@ new OmegaIntentBuilder(context).call()
 
 **Email Intent**
 ```
-new OmegaIntentBuilder(context).email()
+OmegaIntentBuilder.from(context)
+                    .email()
                     .text("Hello world")
                     .emailTo("develop@omega-r.com")
                     .subject("Great library")
@@ -44,7 +46,8 @@ new OmegaIntentBuilder(context).email()
 
 **Share Intent**
 ```
-new OmegaIntentBuilder(context).share()
+OmegaIntentBuilder.from(context)
+                    .share()
                     .emailTo("develop@omega-r.com")
                     .emailBcc("bcc1@test.com","bcc2@test.com") // Concealed addresses
                     .emailCc("cc1@test.com","cc2@test.com")  // Copy addresses
@@ -56,7 +59,8 @@ new OmegaIntentBuilder(context).share()
 
 You can download file from internet and put it to intent. 
 ```
-new OmegaIntentBuilder(context).share()
+OmegaIntentBuilder.from(context)
+                    .share()
                     .emailTo("your_email_here@gmail.com")
                     .subject("Great library")
                     .filesUrls("https://developer.android.com/studio/images/hero_image_studio.png")
@@ -71,7 +75,8 @@ new OmegaIntentBuilder(context).share()
 
 **Web Intent**
 ```
-new OmegaIntentBuilder(context).web()
+OmegaIntentBuilder.from(context)
+                .web()
                 .url("https://omega-r.com/")
                 .createIntentHandler()
                 .chooserTitle("Omega-R")
@@ -80,9 +85,24 @@ new OmegaIntentBuilder(context).web()
 
 **Settings Intent**
 ```
-new OmegaIntentBuilder(context).settings()
+OmegaIntentBuilder.from(context)
+                .settings()
                 .wifi()
                 .createIntentHandler()
+                .startActivity();
+```
+
+**Map Intent**
+
+Supported map application : Google, Yandex, Kakao, Naver;
+```
+OmegaIntentBuilder.from(context)
+                .map(MapTypes.GOOGLE_MAP)
+                .latitude(56.6327622)
+                .longitude(47.910693)
+                .address("Omega-R")
+                .createIntentHandler()
+                .failToast("You don't have Google Map application")
                 .startActivity();
 ```
 
