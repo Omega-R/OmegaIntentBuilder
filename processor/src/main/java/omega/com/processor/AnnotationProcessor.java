@@ -6,7 +6,6 @@ import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -50,8 +49,8 @@ public class AnnotationProcessor extends AbstractProcessor {
     private static final String PACKAGE_NAME = "com.omega_r.libs.omegaintentbuilder";
     private static final String APP_ACTIVITY_INTENT_BUILDER = "AppActivityIntentBuilder";
     private static final String APP_OMEGA_INTENT_BUILDER = "AppOmegaIntentBuilder";
-    private static final ClassName sAppOmegaIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_OMEGA_INTENT_BUILDER);
-    private static final ClassName sAppActivityIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_ACTIVITY_INTENT_BUILDER);
+    private static final ClassName sClassAppOmegaIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_OMEGA_INTENT_BUILDER);
+    private static final ClassName sClassAppActivityIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_ACTIVITY_INTENT_BUILDER);
 
     private Filer mFiler;
     private Messager mMessager;
@@ -77,19 +76,19 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     private boolean process() {
         try {
-            List<MethodSpec> list = generateActivityBuilderMethods(mRoundEnvironment.getElementsAnnotatedWith(OmegaActivity.class));
+            List<MethodSpec> activityBuildersList = generateActivityBuilderMethods(mRoundEnvironment.getElementsAnnotatedWith(OmegaActivity.class));
 
             TypeSpec activityIntentBuilder = TypeSpec.classBuilder(APP_ACTIVITY_INTENT_BUILDER)
                     .addModifiers(Modifier.PUBLIC)
                     .superclass(sClassBaseBuilder)
                     .addField(sClassContext, "context", Modifier.PRIVATE, Modifier.FINAL)
-                    .addMethod(generateClassConstructor(true).build())
+                    .addMethod(generateClassConstructorMethod(true).build())
                     .addMethod(MethodSpec.methodBuilder("createIntent")
                             .returns(sClassIntent)
                             .addStatement("return new $T()", sClassIntent)
                             .addModifiers(Modifier.PUBLIC)
                             .build())
-                    .addMethods(list)
+                    .addMethods(activityBuildersList)
                     .build();
 
             JavaFile.builder(PACKAGE_NAME, activityIntentBuilder)
@@ -106,23 +105,23 @@ public class AnnotationProcessor extends AbstractProcessor {
         TypeSpec omegaIntentBuilder = TypeSpec.classBuilder(APP_OMEGA_INTENT_BUILDER)
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(sClassOmegaIntentBuilder)
-                .addMethod(generateClassConstructor(true).build())
+                .addMethod(generateClassConstructorMethod(true).build())
                 .addField(sClassContext, "context", Modifier.PRIVATE, Modifier.FINAL)
                 .addMethod(MethodSpec.methodBuilder("from")
-                        .returns(sAppOmegaIntentBuilderClass)
+                        .returns(sClassAppOmegaIntentBuilderClass)
                         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                         .addParameter(sClassContext, "context")
-                        .addStatement("return new $T(context)", sAppOmegaIntentBuilderClass)
+                        .addStatement("return new $T(context)", sClassAppOmegaIntentBuilderClass)
                         .build())
                 .addMethod(MethodSpec.methodBuilder("appActivity")
-                        .returns(sAppActivityIntentBuilderClass)
+                        .returns(sClassAppActivityIntentBuilderClass)
                         .addModifiers(Modifier.PUBLIC)
-                        .addStatement("return new $T(context)", sAppActivityIntentBuilderClass)
+                        .addStatement("return new $T(context)", sClassAppActivityIntentBuilderClass)
                         .build())
                 .addMethod(MethodSpec.methodBuilder("inject")
                         .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                         .addParameter(ParameterSpec.builder(sClassActivity, "activity").build())
-                        .addStatement("AppActivityIntentBuilder.inject(activity)", sAppActivityIntentBuilderClass)
+                        .addStatement("AppActivityIntentBuilder.inject(activity)", sClassAppActivityIntentBuilderClass)
                         .build())
                 .build();
 
@@ -161,14 +160,14 @@ public class AnnotationProcessor extends AbstractProcessor {
 
         String className = element.getSimpleName().toString() + "Builder";
         ClassName activityClassName = ClassName.get(mElements.getPackageOf(element).getQualifiedName().toString(),
-                element.getSimpleName().toString());
+                                                    element.getSimpleName().toString());
         String packageName = mElements.getPackageOf(element).toString();
 
         TypeSpec intentBuilder = TypeSpec.classBuilder(className)
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(sClassBaseBuilder)
                 .addField(sClassIntent, "intent", Modifier.PRIVATE, Modifier.FINAL)
-                .addMethod(generateClassConstructor(false)
+                .addMethod(generateClassConstructorMethod(false)
                         .addStatement("intent = new Intent(context, $T.class)", activityClassName)
                         .build())
                 .addMethod(generateCreateIntentMethod(activityClassName))
@@ -199,13 +198,12 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     private MethodSpec generateInjectMethod(List<ClassName> list) {
         MethodSpec.Builder builder = MethodSpec.methodBuilder("inject")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(sClassActivity, "activity").build());
+                                                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                                                .addParameter(ParameterSpec.builder(sClassActivity, "activity").build());
         CodeBlock.Builder codeBuilder = CodeBlock.builder();
         for (ClassName clsName : list) {
             String activityName = clsName.simpleName();
             ClassName fullClassName = ClassName.get(clsName.packageName(), activityName);
-
             codeBuilder.beginControlFlow("if(activity instanceof $T)", fullClassName)
                     .addStatement(activityName + "Builder.inject((" + activityName + ") activity)", activityName)
                     .endControlFlow();
@@ -214,7 +212,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         return builder.build();
     }
 
-    private MethodSpec.Builder generateClassConstructor(boolean withContextField) {
+    private MethodSpec.Builder generateClassConstructorMethod(boolean withContextField) {
         MethodSpec.Builder builder = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(sClassContext, "context")
