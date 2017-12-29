@@ -543,13 +543,6 @@ class ActivityIntentBuilder<T: Activity> (private val context: Context,
   }
 
   override fun createIntent(): Intent {
-    return createIntent(false)
-  }
-
-  fun createIntent(clearBackStack: Boolean): Intent {
-    if (clearBackStack) {
-      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-    }
     return intent
   }
 
