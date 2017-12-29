@@ -1,6 +1,9 @@
 import org.gradle.internal.jvm.Jvm
 
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'java-library'
+
+group = 'com.github.Omega-R.OmegaIntentBuilder'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
