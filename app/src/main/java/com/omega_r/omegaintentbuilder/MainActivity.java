@@ -10,6 +10,7 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 
 import org.jetbrains.annotations.NotNull;
+import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_web).setOnClickListener(this);
         findViewById(R.id.button_settings).setOnClickListener(this);
         findViewById(R.id.button_playstore).setOnClickListener(this);
+        findViewById(R.id.button_navigation).setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_playstore:
                 openPlayStore();
+                break;
+            case R.id.button_navigation:
+                openGoogleMap();
                 break;
         }
     }
@@ -122,6 +127,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .playStore()
                 .packageName("com.omegar.coloring")
                 .createIntentHandler()
+                .startActivity();
+    }
+
+    private void openGoogleMap() {
+        OmegaIntentBuilder.from(this)
+                .map(MapTypes.GOOGLE_MAP)
+                .latitude(56.6327622)
+                .longitude(47.910693)
+                .address("Omega-R")
+                .createIntentHandler()
+                .failToast("You don't have Google Map application")
                 .startActivity();
     }
 

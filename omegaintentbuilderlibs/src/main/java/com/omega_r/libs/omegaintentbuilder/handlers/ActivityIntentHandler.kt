@@ -73,7 +73,7 @@ class ActivityIntentHandler(private val activity: Activity, private val createdI
         }
       }
     } catch (exc: ActivityNotFoundException) {
-      handleError(exc)
+      handleStartActivityException(exc)
     }
   }
 

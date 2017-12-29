@@ -13,13 +13,11 @@ package com.omega_r.libs.omegaintentbuilder
 
 import android.app.Activity
 import android.content.Context
-import com.omega_r.libs.omegaintentbuilder.builders.CallIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.ActivityIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.BrowserBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.SettingsIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.types.MapTypes
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
@@ -67,6 +65,9 @@ open class OmegaIntentBuilder(private val context: Context) {
     return SettingsIntentBuilder(context)
   }
 
+  /**
+   * Return PlayStoreBuilder for creating intent to open PlayStore
+   */
   fun playStore(): PlayStoreBuilder {
     return PlayStoreBuilder(context)
   }
@@ -76,6 +77,13 @@ open class OmegaIntentBuilder(private val context: Context) {
    */
   fun <T: Activity> activity(activity: Class<T>): ActivityIntentBuilder<T> {
     return ActivityIntentBuilder(context, activity)
+  }
+
+  /**
+   * Return MapIntentBuilder for creating intent to open Map application
+   */
+  fun map(type: MapTypes): MapIntentBuilder {
+    return MapIntentBuilder(context, type)
   }
 
 }

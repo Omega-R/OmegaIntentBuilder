@@ -7,4 +7,5 @@
     <string name="web">Web Browser</string>
     <string name="settings">Settings</string>
     <string name="playstore">PlayStore</string>
+    <string name="navigation">Navigation</string>
 </resources>
