@@ -87,7 +87,8 @@ OmegaIntentBuilder.from(context)
                 .url("https://omega-r.com/")
                 .createIntentHandler()
                 .chooserTitle("Omega-R")
-                .startActivity("You don't have app for open urls");
+                .failToast("You don't have app for open urls")
+                .startActivity();
 ```
 
 **Settings Intent**
