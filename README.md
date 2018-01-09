@@ -19,7 +19,7 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-    compile 'com.github.Omega-R:OmegaIntentBuilder:0.0.5'
+    compile 'com.github.Omega-R:OmegaIntentBuilder:0.0.7'
 }
 ```
 # Usage
