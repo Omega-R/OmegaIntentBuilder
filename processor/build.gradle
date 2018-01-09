@@ -1,10 +1,13 @@
 import org.gradle.internal.jvm.Jvm
 
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.Omega-R.OmegaIntentBuilder'
+
 apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile files(Jvm.current().getToolsJar())
+    api files(Jvm.current().getToolsJar())
 
     implementation "com.squareup:javapoet:$javapoet"
     implementation 'com.google.auto.service:auto-service:1.0-rc3'
