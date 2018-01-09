@@ -29,11 +29,11 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$supportVersion"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    compile project(':omegaintentbuilderlibs')
+    api project(':omegaintentbuilderlibs')
 
-    compile project(':annotations')
+    api project(':annotations')
     annotationProcessor project(':processor')
 
     testImplementation 'junit:junit:4.12'
