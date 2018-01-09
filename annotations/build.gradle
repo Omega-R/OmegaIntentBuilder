@@ -1,7 +1,7 @@
-apply plugin: 'java-library'
 apply plugin: 'com.github.dcendents.android-maven'
-
 group = 'com.github.Omega-R.OmegaIntentBuilder'
+
+apply plugin: 'java-library'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
