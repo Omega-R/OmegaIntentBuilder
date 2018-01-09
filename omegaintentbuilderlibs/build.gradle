@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+def suffixAuthority = 'omegashare'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -10,7 +12,11 @@ android {
         versionCode 1
         versionName "1.0"
 
+        manifestPlaceholders = [omegaSuffixAuthority: suffixAuthority]
+        buildConfigField "String", "SUFFIX_AUTHORITY", "\""+suffixAuthority+"\""
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
 
     }
 

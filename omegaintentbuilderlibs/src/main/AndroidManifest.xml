@@ -9,7 +9,7 @@
     <application>
         <provider
             android:name="com.omega_r.libs.omegaintentbuilder.providers.FileProvider"
-            android:authorities="com.omega_r.libs.omegaintentbuilder"
+            android:authorities="${applicationId}.${omegaSuffixAuthority}"
             android:grantUriPermissions="true"
             android:exported="false">
 

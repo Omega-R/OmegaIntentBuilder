@@ -4,11 +4,11 @@ import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import android.support.annotation.NonNull
-import android.support.v4.content.FileProvider
 import android.util.Log
 import android.webkit.URLUtil
 import com.omega_r.libs.omegaintentbuilder.BuildConfig
 import com.omega_r.libs.omegaintentbuilder.builders.share.BaseShareBuilder
+import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -100,7 +100,7 @@ internal class DownloadAsyncTask<T>(private val context: Context,
   }
 
   private fun getLocalFileUri(context: Context, file: File): Uri {
-    return FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, file)
+    return FileProvider.getUriForFile(context, context.packageName + "." + BuildConfig.SUFFIX_AUTHORITY, file)
   }
 
   private fun getFileName(@NonNull urlAddress: String, mimeType: String? = null): String {
