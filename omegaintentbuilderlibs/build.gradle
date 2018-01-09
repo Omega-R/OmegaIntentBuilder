@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'com.github.dcendents.android-maven'
-group = 'com.github.Omega-R.OmegaIntentBuilder'
+group = 'com.github.Omega-R'
 
 def suffixAuthority = 'omegashare'
 
