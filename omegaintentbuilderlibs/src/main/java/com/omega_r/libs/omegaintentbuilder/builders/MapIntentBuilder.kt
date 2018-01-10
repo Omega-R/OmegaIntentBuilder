@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2017 Omega-r
  *
- * NavigationIntentBuilder
- * NavigationIntentBuilder.kt
+ * OmegaIntentBuilder
+ * MapIntentBuilder.kt
  *
  * @author: Roman Tcaregorodtcev  <roman.tc@omega-r.com>
  * Github: R12rus

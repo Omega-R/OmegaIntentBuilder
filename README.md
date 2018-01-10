@@ -169,6 +169,15 @@ OmegaIntentBuilder.from(this)
                 .startActivity();
 ```
 
+**Photo capture Intent**
+```
+OmegaIntentBuilder.from(this)
+                .photoCapture()
+                // .file("Path to file") Also you can use your full path to captured file
+                .createIntentHandler(this)
+                .startActivityForResult("Your request code here");
+```
+
 # License
 ```
 The MIT License

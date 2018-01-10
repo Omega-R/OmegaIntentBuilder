@@ -110,6 +110,13 @@ open class OmegaIntentBuilder(private val context: Context) {
   }
 
   /**
+   * @return This SmsIntentBuilder for method chaining
+   */
+  fun photoCapture(): PhotoCaptureBuilder {
+    return PhotoCaptureBuilder(context)
+  }
+
+  /**
    * @return ActivityIntentBuilder for creating activity intent
    */
   fun <T: Activity> activity(activity: Class<T>): ActivityIntentBuilder<T> {
