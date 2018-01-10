@@ -23,7 +23,7 @@ class CallIntentBuilder (context: Context,
 
   companion object {
     private const val PHONE_SCHEME = "tel:";
-    private val regex = Regex("[^0-9]")
+    val regex = Regex("[^0-9]")
   }
 
   /**

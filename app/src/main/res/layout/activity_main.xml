@@ -84,6 +84,13 @@
             android:theme="@style/ButtonStyle"
             android:text="@string/calendar"/>
 
+        <Button
+            android:id="@+id/button_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/sms"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

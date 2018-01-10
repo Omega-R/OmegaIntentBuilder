@@ -94,6 +94,13 @@ open class OmegaIntentBuilder(private val context: Context) {
   }
 
   /**
+   * @return SmsIntentBuilder for creating intent to send sms
+   */
+  fun sms(): SmsIntentBuilder {
+    return SmsIntentBuilder(context)
+  }
+
+  /**
    * @return ActivityIntentBuilder for creating activity intent
    */
   fun <T: Activity> activity(activity: Class<T>): ActivityIntentBuilder<T> {

@@ -162,6 +162,16 @@ OmegaIntentBuilder.from(this)
                 .startActivity();
 ```
 
+**Sms Intent**
+```
+OmegaIntentBuilder.from(this)
+                .sms()
+                .phoneNumbers("Your phone number here", "88888888888")
+                .message("Your message here")
+                .createIntentHandler()
+                .startActivity();
+```
+
 # License
 ```
 The MIT License
