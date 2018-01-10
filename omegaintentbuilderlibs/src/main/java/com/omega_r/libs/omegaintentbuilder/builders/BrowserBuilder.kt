@@ -17,42 +17,21 @@ import android.net.Uri
 /**
  * BrowserBuilder class for starting web browser
  */
-class BrowserBuilder(private val context: Context): BaseBuilder(context) {
+class BrowserBuilder: BaseBuilder {
 
-  private var uri: Uri? = null
+  private val uri: Uri
 
-  /**
-   * Set a url address.
-   *
-   * @param urlAddress String
-   * @return This BrowserBuilder for method chaining
-   */
-  fun url(urlAddress: String): BrowserBuilder {
-    uri = Uri.parse(urlAddress)
-    return this
-  }
+  constructor(context: Context, urlAddress: String) : this(context, Uri.parse(urlAddress))
 
-  /**
-   * Set a url address.
-   *
-   * @param uri Uri
-   * @return This BrowserBuilder for method chaining
-   */
-  fun url(uri: Uri): BrowserBuilder {
+  constructor(context: Context, uri: Uri) : super(context) {
     this.uri = uri
-    return this
   }
 
   override fun createIntent(): Intent {
-    if (uri == null) {
-      throw RuntimeException("You can't call createIntent with empty url address")
-    }
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = uri
 
     return intent
   }
-
-
 
 }

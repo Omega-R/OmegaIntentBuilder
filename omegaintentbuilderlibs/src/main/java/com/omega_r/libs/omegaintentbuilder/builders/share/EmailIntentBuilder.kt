@@ -18,8 +18,7 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 /**
  * EmailIntentBuilder is a helper for constructing {Intent#ACTION_SENDTO}
  */
-class EmailIntentBuilder internal constructor(private val context: Context,
-                                              private val omegaIntentBuilder: OmegaIntentBuilder): BaseShareBuilder<EmailIntentBuilder>(context) {
+class EmailIntentBuilder internal constructor(context: Context): BaseShareBuilder<EmailIntentBuilder>(context) {
 
   /**
    * This method could call ActivityNotFoundException
