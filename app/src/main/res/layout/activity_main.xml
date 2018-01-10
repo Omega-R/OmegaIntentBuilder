@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="20dp"
             android:theme="@style/ButtonStyle"
             android:text="@string/share_files"/>
 
@@ -90,6 +90,15 @@
             android:layout_height="wrap_content"
             android:theme="@style/ButtonStyle"
             android:text="@string/sms"/>
+
+        <Button
+            android:id="@+id/button_photo_capture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/photo_capture"/>
 
     </LinearLayout>
 

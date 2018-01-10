@@ -10,4 +10,6 @@
     <string name="navigation">Navigation</string>
     <string name="calendar">Calendar</string>
     <string name="sms">SMS</string>
+    <string name="photo_capture">Photo Capture</string>
+    <string name="open_camera">Open Camera</string>
 </resources>
