@@ -19,10 +19,10 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-    compile 'com.github.Omega-R:OmegaIntentBuilder:0.0.7'
+    compile 'com.github.Omega-R:OmegaIntentBuilder:0.0.8'
     // For extras
-    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:0.0.7'
-    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:0.0.7'
+    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:0.0.8'
+    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:0.0.8'
 }
 ```
 # Usage
@@ -146,6 +146,21 @@ OmegaIntentBuilder.from(context)
                 .startActivity();
 ```
 
+**Calendar Intent**
+```
+OmegaIntentBuilder.from(this)
+                .calendar(CalendarActionTypes.INSERT_EVENT)
+                .startDate(startDate)
+                .endDate(endDate)
+                .title("Omega-R")
+                .description("Great library")
+                .location("New York")
+                .allDay(false)
+                .organizer("develop@omega-r.com")
+                .hasAlarm(false)
+                .createIntentHandler()
+                .startActivity();
+```
 
 # License
 ```
