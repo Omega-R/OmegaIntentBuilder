@@ -42,14 +42,14 @@ open class OmegaIntentBuilder(private val context: Context) {
    * Return ShareIntentBuilder for creating share Intent
    */
   fun share(): ShareIntentBuilder {
-    return ShareIntentBuilder(context, this)
+    return ShareIntentBuilder(context)
   }
 
   /**
    * Return ShareIntentBuilder for creating email Intent
    */
   fun email(): EmailIntentBuilder {
-    return EmailIntentBuilder(context, this)
+    return EmailIntentBuilder(context)
   }
 
   /**

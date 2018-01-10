@@ -41,24 +41,13 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
   }
 
   /**
-   * Add an array of email addresses as recipients of this share.
-   *
-   * @param addresses Email addresses to send to
-   * @return This BaseShareBuilder for method chaining
-   */
-  fun emailTo(addresses: Array<String>): T {
-    toAddressesSet.addAll(addresses)
-    return this as T
-  }
-
-  /**
    * Add or single value of email address as recipients of this share.
    *
    * @param address Email addresses to send to
    * @return This BaseShareBuilder for method chaining
    */
-  fun emailTo(address: String): T {
-    toAddressesSet.add(address)
+  fun emailTo(vararg address: String): T {
+    toAddressesSet.addAll(address)
     return this as T
   }
 

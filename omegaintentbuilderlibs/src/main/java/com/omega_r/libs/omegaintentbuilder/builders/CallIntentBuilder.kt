@@ -26,8 +26,6 @@ class CallIntentBuilder internal constructor(context: Context,
     private val regex = Regex("[^0-9]")
   }
 
-  private var intent: Intent? = null
-
   /**
    * This method could call ActivityNotFoundException
    *
@@ -37,8 +35,7 @@ class CallIntentBuilder internal constructor(context: Context,
     phoneNumber = phoneNumber.replace(regex, "")
     if (phoneNumber.isEmpty()) throw IllegalStateException("Empty phone number")
 
-    intent = Intent(Intent.ACTION_DIAL, Uri.parse(PHONE_SCHEME + phoneNumber))
-    return intent as Intent
+    return Intent(Intent.ACTION_DIAL, Uri.parse(PHONE_SCHEME + phoneNumber))
   }
 
 }
