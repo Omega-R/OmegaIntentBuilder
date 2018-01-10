@@ -13,6 +13,7 @@ package com.omega_r.libs.omegaintentbuilder
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
@@ -33,8 +34,8 @@ open class OmegaIntentBuilder(private val context: Context) {
   /**
    * Return CallIntentBuilder for creating call Intent
    */
-  fun call(): CallIntentBuilder {
-    return CallIntentBuilder(context,this)
+  fun call(phoneNumber: String): CallIntentBuilder {
+    return CallIntentBuilder(context, phoneNumber)
   }
 
   /**
@@ -54,8 +55,15 @@ open class OmegaIntentBuilder(private val context: Context) {
   /**
    * Return BrowserBuilder for creating intent to start web browser
    */
-  fun web(): BrowserBuilder {
-    return BrowserBuilder(context)
+  fun web(urlAddress: String): BrowserBuilder {
+    return BrowserBuilder(context, urlAddress)
+  }
+
+  /**
+   * Return BrowserBuilder for creating intent to start web browser
+   */
+  fun web(uri: Uri): BrowserBuilder {
+    return BrowserBuilder(context, uri)
   }
 
   /**
@@ -70,6 +78,10 @@ open class OmegaIntentBuilder(private val context: Context) {
    */
   fun playStore(): PlayStoreBuilder {
     return PlayStoreBuilder(context)
+  }
+
+  fun calendar(): CalendarIntentBuilder {
+    return CalendarIntentBuilder(context)
   }
 
   /**
