@@ -83,7 +83,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * allowing the user to pick what activity/app on the system should handle
    * the share.
    *
-   * @return A chooser Intent for the currently configured sharing intentAction
+   * @return A chooser Intent for the currently configured sharing action
    */
   protected fun createChooserIntent(): Intent {
     val chooserIntent = Intent(ACTION_CHOOSER)

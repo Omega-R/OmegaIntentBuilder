@@ -18,8 +18,8 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
-class CallIntentBuilder internal constructor(context: Context,
-                                             private var phoneNumber: String): BaseBuilder(context) {
+class CallIntentBuilder (context: Context,
+                         private var phoneNumber: String): BaseBuilder(context) {
 
   companion object {
     private const val PHONE_SCHEME = "tel:";
