@@ -94,10 +94,19 @@ open class OmegaIntentBuilder(private val context: Context) {
   }
 
   /**
-   * @return SmsIntentBuilder for creating intent to send sms
+   * @param addresses Array
+   * @return This SmsIntentBuilder for method chaining
    */
-  fun sms(): SmsIntentBuilder {
-    return SmsIntentBuilder(context)
+  fun sms(vararg addresses: String): SmsIntentBuilder {
+    return SmsIntentBuilder(addresses.asList(), context)
+  }
+
+  /**
+   * @param addresses Collection
+   * @return This SmsIntentBuilder for method chaining
+   */
+  fun sms(addresses: Collection<String>): SmsIntentBuilder {
+    return SmsIntentBuilder(addresses, context)
   }
 
   /**

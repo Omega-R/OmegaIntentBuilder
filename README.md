@@ -59,8 +59,7 @@ AppOmegaIntentBuilder.from(this)
 **Call Intent**
 ```
 OmegaIntentBuilder.from(this)
-                    .call()
-                    .phoneNumber("Your phone number")
+                    .call("Your phone number")
                     .createIntentHandler(this)
                     .failToast("Sorry, you don't have app for making call phone")
                     .startActivity();
@@ -115,8 +114,7 @@ OmegaIntentBuilder.from(context)
 **Web Intent**
 ```
 OmegaIntentBuilder.from(context)
-                .web()
-                .url("https://omega-r.com/")
+                .web("https://omega-r.com/")
                 .createIntentHandler()
                 .chooserTitle("Omega-R")
                 .failToast("You don't have app for open urls")
@@ -165,8 +163,7 @@ OmegaIntentBuilder.from(this)
 **Sms Intent**
 ```
 OmegaIntentBuilder.from(this)
-                .sms()
-                .phoneNumbers("Your phone number here", "88888888888")
+                .sms("Your phone number here")
                 .message("Your message here")
                 .createIntentHandler()
                 .startActivity();

@@ -22,48 +22,17 @@ import java.util.TreeSet
 /**
  * SmsIntentBuilder is a helper for constructing sms intent
  */
-class SmsIntentBuilder(private val context: Context) : BaseBuilder(context) {
+class SmsIntentBuilder(addresses: Collection<String>, private val context: Context) : BaseBuilder(context) {
 
   private var phoneNumberSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var message: String? = null
 
-  /**
-   * Add a collection of phone numbers.
-   *
-   * @param addresses Collection
-   * @return This SmsIntentBuilder for method chaining
-   */
-  fun phoneNumbers(addresses: Collection<String>): SmsIntentBuilder {
-    addresses.forEach { addPhoneNumber(it) }
-    return this
-  }
-
-  /**
-   * Add a Array of phone numbers.
-   *
-   * @param addresses Array
-   * @return This SmsIntentBuilder for method chaining
-   */
-  fun phoneNumbers(vararg address: String): SmsIntentBuilder {
-    address.forEach { addPhoneNumber(it) }
-    return this
-  }
-
-  /**
-   * Add a phone number.
-   *
-   * @param addressRes Int
-   * @return This SmsIntentBuilder for method chaining
-   */
-  fun phoneNumber(@StringRes addressRes: Int): SmsIntentBuilder {
-    addPhoneNumber(context.getString(addressRes))
-    return this
-  }
-
-  private fun addPhoneNumber(phoneNumber: String) {
-    val phone = phoneNumber.replace(CallIntentBuilder.regex, "")
-    if (!phone.isEmpty()) {
-      phoneNumberSet.add(phone)
+  init {
+    addresses.forEach {
+      val phone = it.replace(CallIntentBuilder.regex, "")
+      if (!phone.isEmpty()) {
+        phoneNumberSet.add(phone)
+      }
     }
   }
 

@@ -172,8 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void onSmsClicked() {
         OmegaIntentBuilder.from(this)
-                .sms()
-                .phoneNumbers("88000000008", "88888888888")
+                .sms("88000000008", "88888888888")
                 .message("Great library")
                 .createIntentHandler()
                 .startActivity();
