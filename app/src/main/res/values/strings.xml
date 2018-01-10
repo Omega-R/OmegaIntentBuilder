@@ -9,4 +9,5 @@
     <string name="playstore">PlayStore</string>
     <string name="navigation">Navigation</string>
     <string name="calendar">Calendar</string>
+    <string name="sms">SMS</string>
 </resources>

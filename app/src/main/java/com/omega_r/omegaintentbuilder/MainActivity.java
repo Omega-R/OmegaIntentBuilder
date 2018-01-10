@@ -1,5 +1,6 @@
 package com.omega_r.omegaintentbuilder;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_playstore).setOnClickListener(this);
         findViewById(R.id.button_navigation).setOnClickListener(this);
         findViewById(R.id.button_calendar).setOnClickListener(this);
+        findViewById(R.id.button_sms).setOnClickListener(this);
     }
 
     @Override
@@ -63,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_calendar:
                 onCalendarClicked();
+                break;
+            case R.id.button_sms:
+                onSmsClicked();
                 break;
         }
     }
@@ -161,6 +166,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .allDay(false)
                 .organizer("develop@omega-r.com")
                 .hasAlarm(false)
+                .createIntentHandler()
+                .startActivity();
+    }
+
+    private void onSmsClicked() {
+        OmegaIntentBuilder.from(this)
+                .sms("88000000008", "88888888888")
+                .message("Great library")
                 .createIntentHandler()
                 .startActivity();
     }
