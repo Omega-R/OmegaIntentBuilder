@@ -152,8 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Date startDate = new Date();
         long endDate = startDate.getTime() + TimeUnit.DAYS.toMillis(7);
         OmegaIntentBuilder.from(this)
-                .calendar()
-                .actionType(CalendarActionTypes.INSERT_EVENT)
+                .calendar(CalendarActionTypes.INSERT_EVENT)
                 .startDate(startDate)
                 .endDate(endDate)
                 .title("Omega-R")

@@ -24,11 +24,11 @@ import java.util.*
 /**
  * CalendarIntentBuilder is a helper for starting calendar
  */
-class CalendarIntentBuilder(private val context: Context): BaseBuilder(context) {
+class CalendarIntentBuilder(private val context: Context,
+                            private val actionType: CalendarActionTypes): BaseBuilder(context) {
 
   private var intent: Intent? = null
 
-  private var actionType = CalendarActionTypes.VIEW_DATE
   private var startDate: Long? = null
   private var endDate: Long? = null
   private var title: String? = null
@@ -180,17 +180,6 @@ class CalendarIntentBuilder(private val context: Context): BaseBuilder(context) 
       throw IllegalStateException("EventId can't be < 0")
     }
     this.eventId = eventId
-    return this
-  }
-
-  /**
-   * Set a actionType.
-   *
-   * @param actionType CalendarActionTypes
-   * @return This CalendarIntentBuilder for method chaining
-   */
-  fun actionType(action: CalendarActionTypes): CalendarIntentBuilder {
-    this.actionType = action
     return this
   }
 
