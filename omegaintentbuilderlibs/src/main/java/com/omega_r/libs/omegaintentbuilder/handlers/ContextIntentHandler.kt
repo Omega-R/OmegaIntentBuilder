@@ -38,6 +38,7 @@ open class ContextIntentHandler(private val context: Context, private val create
   private var failIntent: Intent? = null
   private var failCallback: FailCallback? = null
   private var failContextIntentHandler: ContextIntentHandler? = null
+  private var activityResultCallback: ActivityResultCallback? = null
 
   /**
    * Set the title that will be used for the activity chooser for this share.
@@ -191,6 +192,11 @@ open class ContextIntentHandler(private val context: Context, private val create
     }
   }
 
+  fun startActivityForResult(callback: ActivityResultCallback) {
+    activityResultCallback = callback
+    OmegaHandleResultActivity.start(context, this)
+  }
+
   protected fun handleStartActivityException(exc: ActivityNotFoundException) {
     if (!toastMessage.isNullOrBlank()) {
       Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
@@ -205,6 +211,10 @@ open class ContextIntentHandler(private val context: Context, private val create
         && failIntent == null && failContextIntentHandler == null) {
       throw RuntimeException(exc)
     }
+  }
+
+  protected fun onActivityResult(resultCode: Int, data: Intent) {
+    activityResultCallback?.onActivityResult(resultCode, data)
   }
 
   protected fun getIntent(): Intent {

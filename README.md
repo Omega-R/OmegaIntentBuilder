@@ -175,7 +175,19 @@ OmegaIntentBuilder.from(this)
                 .photoCapture()
                 // .file("Path to file") Also you can use your full path to captured file
                 .createIntentHandler(this)
-                .startActivityForResult("Your request code here");
+                // You can use startActivityForResult() method without Activity participate.
+                .startActivityForResult(new ActivityResultCallback() {
+                    @Override
+                    public void onActivityResult(int resultCode, @NotNull Intent data) {
+                        if (resultCode == RESULT_OK) {
+                            Bundle extras = data.getExtras();
+                            if (extras != null) {
+                                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                                imageView.setImageBitmap(imageBitmap);
+                            }
+                        }
+                    }
+                });
 ```
 
 **Crop image Intent**
