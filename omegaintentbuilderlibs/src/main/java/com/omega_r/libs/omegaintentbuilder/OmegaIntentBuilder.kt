@@ -20,7 +20,6 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
-import java.io.File
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
@@ -96,7 +95,7 @@ open class OmegaIntentBuilder(private val context: Context) {
 
   /**
    * @param addresses Array
-   * @return This SmsIntentBuilder for method chaining
+   * @return SmsIntentBuilder for method chaining
    */
   fun sms(vararg addresses: String): SmsIntentBuilder {
     return SmsIntentBuilder(addresses.asList(), context)
@@ -104,20 +103,23 @@ open class OmegaIntentBuilder(private val context: Context) {
 
   /**
    * @param addresses Collection
-   * @return This SmsIntentBuilder for method chaining
+   * @return SmsIntentBuilder for method chaining
    */
   fun sms(addresses: Collection<String>): SmsIntentBuilder {
     return SmsIntentBuilder(addresses, context)
   }
 
   /**
-   * @return This SmsIntentBuilder for method chaining
+   * @return SmsIntentBuilder for method chaining
    */
   fun photoCapture(): PhotoCaptureBuilder {
     return PhotoCaptureBuilder(context)
   }
 
-  fun cropImage(image: File): CropImageIntentBuilder {
+  /**
+   * @return CropImageIntentBuilder for method chaining
+   */
+  fun cropImage(): CropImageIntentBuilder {
     return CropImageIntentBuilder(context)
   }
 
