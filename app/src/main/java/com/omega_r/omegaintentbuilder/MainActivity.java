@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_calendar).setOnClickListener(this);
         findViewById(R.id.button_sms).setOnClickListener(this);
         findViewById(R.id.button_photo_capture).setOnClickListener(this);
+        findViewById(R.id.button_crop_image).setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button_photo_capture:
                 onPhotoCaptureClicked();
+                break;
+            case R.id.button_crop_image:
+                onCropImageClicked();
                 break;
         }
     }
@@ -185,6 +189,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void onPhotoCaptureClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(PhotoCaptureActivity.class)
+                .createIntentHandler()
+                .startActivity();
+    }
+
+    private void onCropImageClicked() {
+        OmegaIntentBuilder.from(this)
+                .activity(CropImageActivity.class)
                 .createIntentHandler()
                 .startActivity();
     }

@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ShareFilesActivity" />
-        <activity android:name=".PhotoCaptureActivity"></activity>
+        <activity android:name=".PhotoCaptureActivity" />
+        <activity android:name=".CropImageActivity"></activity>
     </application>
 
 </manifest>

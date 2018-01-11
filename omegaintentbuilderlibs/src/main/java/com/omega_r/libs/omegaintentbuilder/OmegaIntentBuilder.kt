@@ -20,6 +20,7 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
+import java.io.File
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
@@ -114,6 +115,10 @@ open class OmegaIntentBuilder(private val context: Context) {
    */
   fun photoCapture(): PhotoCaptureBuilder {
     return PhotoCaptureBuilder(context)
+  }
+
+  fun cropImage(image: File): CropImageIntentBuilder {
+    return CropImageIntentBuilder(context)
   }
 
   /**
