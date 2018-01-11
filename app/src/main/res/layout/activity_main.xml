@@ -100,6 +100,13 @@
             android:theme="@style/ButtonStyle"
             android:text="@string/photo_capture"/>
 
+        <Button
+            android:id="@+id/button_crop_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/crop_image"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
