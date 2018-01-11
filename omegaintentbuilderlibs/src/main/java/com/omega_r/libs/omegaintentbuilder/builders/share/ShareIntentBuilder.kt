@@ -21,8 +21,7 @@ import java.util.TreeSet
  * {Intent#ACTION_SEND_MULTIPLE} sharing intents and starting activities
  * to share content.
  */
-class ShareIntentBuilder internal constructor(private val context: Context,
-                                              private val intentBuilder: OmegaIntentBuilder) : BaseShareBuilder<ShareIntentBuilder>(context) {
+class ShareIntentBuilder internal constructor(context: Context) : BaseShareBuilder<ShareIntentBuilder>(context) {
 
   private lateinit var intent: Intent
   private var ccAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)

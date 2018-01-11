@@ -1,5 +1,6 @@
 package com.omega_r.omegaintentbuilder;
 
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,12 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 
 import org.jetbrains.annotations.NotNull;
+
+import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes;
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button_settings).setOnClickListener(this);
         findViewById(R.id.button_playstore).setOnClickListener(this);
         findViewById(R.id.button_navigation).setOnClickListener(this);
+        findViewById(R.id.button_calendar).setOnClickListener(this);
+        findViewById(R.id.button_sms).setOnClickListener(this);
+        findViewById(R.id.button_photo_capture).setOnClickListener(this);
+        findViewById(R.id.button_crop_image).setOnClickListener(this);
     }
 
     @Override
@@ -55,6 +65,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button_navigation:
                 openGoogleMap();
                 break;
+            case R.id.button_calendar:
+                onCalendarClicked();
+                break;
+            case R.id.button_sms:
+                onSmsClicked();
+                break;
+            case R.id.button_photo_capture:
+                onPhotoCaptureClicked();
+                break;
+            case R.id.button_crop_image:
+                onCropImageClicked();
+                break;
         }
     }
 
@@ -70,8 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startCallIntent() {
         OmegaIntentBuilder.from(this)
-                    .call()
-                    .phoneNumber("88000000008")
+                    .call("88000000008")
                     .createIntentHandler(this)
                     .failToast("Sorry, you don't have app for making call phone")
                     .startActivity();
@@ -107,8 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void openUrl() {
         OmegaIntentBuilder.from(this)
-                .web()
-                .url("https://omega-r.com/")
+                .web("https://omega-r.com/")
                 .createIntentHandler()
                 .chooserTitle("Omega-R")
                 .failToast("You don't have app for open urls")
@@ -138,6 +158,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .address("Omega-R")
                 .createIntentHandler()
                 .failToast("You don't have Google Map application")
+                .startActivity();
+    }
+
+    private void onCalendarClicked() {
+        Date startDate = new Date();
+        long endDate = startDate.getTime() + TimeUnit.DAYS.toMillis(7);
+        OmegaIntentBuilder.from(this)
+                .calendar(CalendarActionTypes.INSERT_EVENT)
+                .startDate(startDate)
+                .endDate(endDate)
+                .title("Omega-R")
+                .description("Great library")
+                .location("New York")
+                .allDay(false)
+                .organizer("develop@omega-r.com")
+                .hasAlarm(false)
+                .createIntentHandler()
+                .startActivity();
+    }
+
+    private void onSmsClicked() {
+        OmegaIntentBuilder.from(this)
+                .sms("88000000008", "88888888888")
+                .message("Great library")
+                .createIntentHandler()
+                .startActivity();
+    }
+
+    private void onPhotoCaptureClicked() {
+        OmegaIntentBuilder.from(this)
+                .activity(PhotoCaptureActivity.class)
+                .createIntentHandler()
+                .startActivity();
+    }
+
+    private void onCropImageClicked() {
+        OmegaIntentBuilder.from(this)
+                .activity(CropImageActivity.class)
+                .createIntentHandler()
                 .startActivity();
     }
 

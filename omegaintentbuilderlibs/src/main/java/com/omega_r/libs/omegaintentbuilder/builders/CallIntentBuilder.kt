@@ -18,29 +18,12 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
-class CallIntentBuilder internal constructor(private val context: Context,
-                                             private val intentBuilder: OmegaIntentBuilder): BaseBuilder(context) {
+class CallIntentBuilder (context: Context,
+                         private var phoneNumber: String): BaseBuilder(context) {
 
   companion object {
     private const val PHONE_SCHEME = "tel:";
-    private val regex = Regex("[^0-9]")
-  }
-
-  private var intent: Intent? = null
-  private var phoneNumber: String? = null
-
-  /**
-   * Set a phone number.
-   * This replaces all current "phones" recipients that have been set so far.
-   *
-   * @param phone Phone number to call to
-   * @return This CallIntentBuilder for method chaining
-   */
-  fun phoneNumber(phone: String): CallIntentBuilder {
-    phoneNumber = phone.replace(regex, "")
-    if (phoneNumber!!.isEmpty()) throw IllegalStateException("Empty phone number")
-
-    return this
+    val regex = Regex("[^0-9]")
   }
 
   /**
@@ -49,10 +32,10 @@ class CallIntentBuilder internal constructor(private val context: Context,
    * @return Intent for calling
    */
   override fun createIntent(): Intent {
-    if (phoneNumber == null) throw IllegalStateException("You can't call activity before phoneNumber method")
+    phoneNumber = phoneNumber.replace(regex, "")
+    if (phoneNumber.isEmpty()) throw IllegalStateException("Empty phone number")
 
-    intent = Intent(Intent.ACTION_DIAL, Uri.parse(PHONE_SCHEME + phoneNumber))
-    return intent as Intent
+    return Intent(Intent.ACTION_DIAL, Uri.parse(PHONE_SCHEME + phoneNumber))
   }
 
 }

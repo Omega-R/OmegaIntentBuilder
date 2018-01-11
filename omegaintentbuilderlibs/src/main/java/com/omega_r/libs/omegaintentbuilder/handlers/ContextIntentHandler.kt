@@ -120,7 +120,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @return Returns the same ContextIntentHandler object, for chaining multiple calls
    * into a single statement.
    */
-  fun failToast(message: String): ContextIntentHandler {
+  open fun failToast(message: String): ContextIntentHandler {
     toastMessage = message
     return this
   }
@@ -132,7 +132,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @return Returns the same ContextIntentHandler object, for chaining multiple calls
    * into a single statement.
    */
-  fun failToast(@StringRes message: Int): ContextIntentHandler {
+  open fun failToast(@StringRes message: Int): ContextIntentHandler {
     toastMessage = context.getString(message)
     return this
   }
@@ -145,7 +145,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @return Returns the same ContextIntentHandler object, for chaining multiple calls
    * into a single statement.
    */
-  fun failIntent(failIntent: Intent): ContextIntentHandler {
+  open fun failIntent(failIntent: Intent): ContextIntentHandler {
     this.failIntent = failIntent
     return this
   }
@@ -158,7 +158,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @return Returns the same ContextIntentHandler object, for chaining multiple calls
    * into a single statement.
    */
-  fun failCallback(failCallback: FailCallback): ContextIntentHandler {
+  open fun failCallback(failCallback: FailCallback): ContextIntentHandler {
     this.failCallback = failCallback
     return this
   }
@@ -172,7 +172,7 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @return Returns the same ContextIntentHandler object, for chaining multiple calls
    * into a single statement.
    */
-  fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ContextIntentHandler {
+  open fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ContextIntentHandler {
     failContextIntentHandler = failIntentHandler
     return this
   }

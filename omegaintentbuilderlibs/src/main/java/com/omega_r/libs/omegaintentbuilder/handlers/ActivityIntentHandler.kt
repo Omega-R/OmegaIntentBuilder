@@ -20,7 +20,7 @@ import android.os.Bundle
  * ActivityIntentHandler is a helper for start intents
  * Support startActivityForResult
  */
-class ActivityIntentHandler(private val activity: Activity, private val createdIntent: Intent): ContextIntentHandler(activity.applicationContext, createdIntent) {
+class ActivityIntentHandler(private val activity: Activity, private val createdIntent: Intent) : ContextIntentHandler(activity.applicationContext, createdIntent) {
 
   /**
    * Launch an activity for which you would like a result when it finished.
@@ -77,4 +77,28 @@ class ActivityIntentHandler(private val activity: Activity, private val createdI
     }
   }
 
+  override fun failToast(message: String): ActivityIntentHandler {
+    super.failToast(message)
+    return this
+  }
+
+  override fun failToast(message: Int): ActivityIntentHandler {
+    super.failToast(message)
+    return this
+  }
+
+  override fun failCallback(failCallback: FailCallback): ActivityIntentHandler {
+    super.failCallback(failCallback)
+    return this
+  }
+
+  override fun failIntent(failIntent: Intent): ActivityIntentHandler {
+    super.failIntent(failIntent)
+    return this
+  }
+
+  override fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ActivityIntentHandler {
+    super.failIntentHandler(failIntentHandler)
+    return this
+  }
 }

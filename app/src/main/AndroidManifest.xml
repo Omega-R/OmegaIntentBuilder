@@ -16,7 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ShareFilesActivity"></activity>
+        <activity android:name=".ShareFilesActivity" />
+        <activity android:name=".PhotoCaptureActivity" />
+        <activity android:name=".CropImageActivity"></activity>
     </application>
 
 </manifest>

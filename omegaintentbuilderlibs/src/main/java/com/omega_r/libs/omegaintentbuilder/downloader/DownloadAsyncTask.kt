@@ -5,10 +5,8 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.support.annotation.NonNull
 import android.util.Log
-import android.webkit.URLUtil
-import com.omega_r.libs.omegaintentbuilder.BuildConfig
 import com.omega_r.libs.omegaintentbuilder.builders.share.BaseShareBuilder
-import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
+import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -23,7 +21,7 @@ internal class DownloadAsyncTask<T>(private val context: Context,
 
   companion object {
     private val TAG = DownloadAsyncTask::class.java.simpleName
-    private const val FILE_DIR = "intent_files"
+    const val FILE_DIR = "intent_files"
     private const val BUFFER_SIZE = 8192
   }
 
@@ -97,14 +95,6 @@ internal class DownloadAsyncTask<T>(private val context: Context,
       Log.e(TAG, "No file to download. Server replied HTTP code: " + responseCode);
       return null
     }
-  }
-
-  private fun getLocalFileUri(context: Context, file: File): Uri {
-    return FileProvider.getUriForFile(context, context.packageName + "." + BuildConfig.SUFFIX_AUTHORITY, file)
-  }
-
-  private fun getFileName(@NonNull urlAddress: String, mimeType: String? = null): String {
-    return URLUtil.guessFileName(urlAddress, null, mimeType)
   }
 
 }

@@ -19,10 +19,10 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-    compile 'com.github.Omega-R:OmegaIntentBuilder:0.0.7'
+    compile 'com.github.Omega-R:OmegaIntentBuilder:0.0.8'
     // For extras
-    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:0.0.7'
-    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:0.0.7'
+    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:0.0.8'
+    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:0.0.8'
 }
 ```
 # Usage
@@ -59,8 +59,7 @@ AppOmegaIntentBuilder.from(this)
 **Call Intent**
 ```
 OmegaIntentBuilder.from(this)
-                    .call()
-                    .phoneNumber("Your phone number")
+                    .call("Your phone number")
                     .createIntentHandler(this)
                     .failToast("Sorry, you don't have app for making call phone")
                     .startActivity();
@@ -115,8 +114,7 @@ OmegaIntentBuilder.from(context)
 **Web Intent**
 ```
 OmegaIntentBuilder.from(context)
-                .web()
-                .url("https://omega-r.com/")
+                .web("https://omega-r.com/")
                 .createIntentHandler()
                 .chooserTitle("Omega-R")
                 .failToast("You don't have app for open urls")
@@ -146,6 +144,52 @@ OmegaIntentBuilder.from(context)
                 .startActivity();
 ```
 
+**Calendar Intent**
+```
+OmegaIntentBuilder.from(this)
+                .calendar(CalendarActionTypes.INSERT_EVENT)
+                .startDate(startDate)
+                .endDate(endDate)
+                .title("Omega-R")
+                .description("Great library")
+                .location("New York")
+                .allDay(false)
+                .organizer("develop@omega-r.com")
+                .hasAlarm(false)
+                .createIntentHandler()
+                .startActivity();
+```
+
+**Sms Intent**
+```
+OmegaIntentBuilder.from(this)
+                .sms("Your phone number here")
+                .message("Your message here")
+                .createIntentHandler()
+                .startActivity();
+```
+
+**Photo capture Intent**
+```
+OmegaIntentBuilder.from(this)
+                .photoCapture()
+                // .file("Path to file") Also you can use your full path to captured file
+                .createIntentHandler(this)
+                .startActivityForResult("Your request code here");
+```
+
+**Crop image Intent**
+```
+OmegaIntentBuilder.from(this)
+                .cropImage()
+                .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
+                .bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.crop_image))
+                //.file("Your image file here") Also you can use your image file instead bitmap
+                //.fileUri("Your URI here") Also you can use your URI instead bitmap, file
+                .createIntentHandler(this)
+                .failToast("You don't have app for cropping image")
+                .startActivityForResult(CROP_REQUEST_CODE);
+```
 
 # License
 ```
