@@ -178,6 +178,19 @@ OmegaIntentBuilder.from(this)
                 .startActivityForResult("Your request code here");
 ```
 
+**Crop image Intent**
+```
+OmegaIntentBuilder.from(this)
+                .cropImage()
+                .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
+                .bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.crop_image))
+                //.file("Your image file here") Also you can use your image file instead bitmap
+                //.fileUri("Your URI here") Also you can use your URI instead bitmap, file
+                .createIntentHandler(this)
+                .failToast("You don't have app for cropping image")
+                .startActivityForResult(CROP_REQUEST_CODE);
+```
+
 # License
 ```
 The MIT License

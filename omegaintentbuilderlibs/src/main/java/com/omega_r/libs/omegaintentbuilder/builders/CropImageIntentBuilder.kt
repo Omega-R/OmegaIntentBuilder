@@ -31,9 +31,7 @@ class CropImageIntentBuilder(private val context: Context): BaseBuilder(context)
   private var aspectX: Int = 1
   private var aspectY: Int = 1
   private var scale: Boolean = true
-
-  private var imageFile: File? = null
-  private var bitmap: Bitmap? = null
+  private var returnData: Boolean = true
   private var fileUri: Uri? = null
 
   companion object {
@@ -139,7 +137,7 @@ class CropImageIntentBuilder(private val context: Context): BaseBuilder(context)
    * @return This CropImageIntentBuilder for method chaining
    */
   fun file(image: File): CropImageIntentBuilder {
-    imageFile = image
+    fileUri = Uri.fromFile(image)
     return this
   }
 
@@ -150,7 +148,23 @@ class CropImageIntentBuilder(private val context: Context): BaseBuilder(context)
    * @return This CropImageIntentBuilder for method chaining
    */
   fun bitmap(bitmap: Bitmap): CropImageIntentBuilder {
-    this.bitmap = bitmap
+    val file = File(localDirFile, DEFAULT_FILE_NAME)
+    val fileOutputStream = FileOutputStream(file)
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+    fileOutputStream.close()
+    fileUri = getLocalFileUri(context, file)
+
+    return this
+  }
+
+  /**
+   * Set returnData onActivityResult.
+   *
+   * @param returnData Boolean
+   * @return This CropImageIntentBuilder for method chaining
+   */
+  fun returnData(returnData: Boolean): CropImageIntentBuilder {
+    this.returnData = returnData
     return this
   }
 
@@ -181,17 +195,11 @@ class CropImageIntentBuilder(private val context: Context): BaseBuilder(context)
     intent.putExtra("aspectX", aspectX)
     intent.putExtra("aspectY", aspectY)
     intent.putExtra("scale", scale)
-    intent.putExtra("return-data", true)
+    intent.putExtra("return-data", returnData)
 
-    if (imageFile != null) {
-      intent.data = Uri.fromFile(imageFile)
-    } else if (bitmap != null) {
-      val file = File(localDirFile, DEFAULT_FILE_NAME)
-      val fileOutputStream = FileOutputStream(file)
-      bitmap!!.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-      fileOutputStream.close()
-      intent.data = getLocalFileUri(context, file)
-    } else if (fileUri != null) {
+    if (fileUri == null) {
+      throw IllegalStateException("You can't call createIntent with empty image")
+    } else {
       intent.data = fileUri
     }
 
