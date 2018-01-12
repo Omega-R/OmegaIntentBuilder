@@ -17,6 +17,15 @@
         android:theme="@style/ButtonStyle"
         android:text="@string/crop"/>
 
+    <Button
+        android:id="@+id/button_crop_from_internet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:theme="@style/ButtonStyle"
+        android:text="@string/crop_from_internet"/>
+
+
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="wrap_content"
