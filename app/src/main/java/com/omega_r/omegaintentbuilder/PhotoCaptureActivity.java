@@ -13,7 +13,7 @@ import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 
 import org.jetbrains.annotations.NotNull;
 
-public class PhotoCaptureActivity extends AppCompatActivity implements View.OnClickListener {
+public class PhotoCaptureActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int REQUEST_IMAGE_CAPTURE = 101;
 

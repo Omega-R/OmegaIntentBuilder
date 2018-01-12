@@ -17,17 +17,19 @@ import android.os.Build
 import android.support.annotation.StringRes
 import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.CropImageIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import java.util.ArrayList
 import java.util.TreeSet
 
 @Suppress("UNCHECKED_CAST")
-open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(context) {
+open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(context), Download<T> where T: BaseShareBuilder<T>, T:Download<T> {
 
   private var toAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var subject: String? = null
   private var text: CharSequence? = null
   private var streamsSet: MutableSet<Uri> = mutableSetOf()
-  private val downloadBuilder: DownloadBuilder<T> = DownloadBuilder(context, this)
+  private val downloadBuilder = DownloadBuilder(context, this)
 
   /**
    * Add Collection of email addresses as recipients of this share.
@@ -202,7 +204,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @see Intent#ACTION_SEND
    * @see Intent#ACTION_SEND_MULTIPLE
    */
-  fun stream(streamUriList: List<Uri>): T {
+  override fun stream(streamUriList: List<Uri>): T {
     streamsSet.addAll(streamUriList)
     return this as T
   }
@@ -213,7 +215,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param urlAddresses String of the url links to share
    * @return This DownloadBuilder for download call
    */
-  fun filesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
+  fun filesUrls(vararg urlAddresses: String): DownloadBuilder<BaseShareBuilder<T>> {
     return downloadBuilder.filesUrls(*urlAddresses)
   }
 
@@ -223,7 +225,7 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param urlAddresses Collection of the url links to share
    * @return This DownloadBuilder for download call
    */
-  fun filesUrls(collection: Collection<String>): DownloadBuilder<T> {
+  fun filesUrls(collection: Collection<String>): DownloadBuilder<BaseShareBuilder<T>> {
     return downloadBuilder.filesUrls(collection)
   }
 
@@ -233,8 +235,21 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
    * @param fileSet Set of the url links to share
    * @return This DownloadBuilder for download call
    */
-  fun filesUrls(fileSet: Set<String>): DownloadBuilder<T> {
+  fun filesUrls(fileSet: Set<String>): DownloadBuilder<BaseShareBuilder<T>> {
     return downloadBuilder.filesUrls(fileSet)
+  }
+
+  /**
+   * Add a file Url address to the data that should be shared.
+   *
+   * @param urlAddress String address for downloading and share
+   * @param mimeType MimeType
+   *
+   * @return This DownloadBuilder for method chaining
+   */
+  @JvmOverloads
+  fun fileUrlWithMimeType(urlAddress: String,  mimeType: String? = null): DownloadBuilder<BaseShareBuilder<T>> {
+    return downloadBuilder.fileUrlWithMimeType(urlAddress, mimeType)
   }
 
   /**

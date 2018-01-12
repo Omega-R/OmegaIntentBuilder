@@ -14,4 +14,5 @@
     <string name="open_camera">Open Camera</string>
     <string name="crop_image">Crop Image</string>
     <string name="crop">crop</string>
+    <string name="crop_from_internet">Crop from internet</string>
 </resources>

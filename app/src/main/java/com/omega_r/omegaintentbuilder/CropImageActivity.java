@@ -9,8 +9,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
+import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
+import com.omega_r.libs.omegaintentbuilder.types.MimeTypes;
 
-public class CropImageActivity extends AppCompatActivity implements View.OnClickListener {
+import org.jetbrains.annotations.NotNull;
+
+public class CropImageActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int CROP_REQUEST_CODE = 101;
 
@@ -26,10 +31,22 @@ public class CropImageActivity extends AppCompatActivity implements View.OnClick
         imageView = findViewById(R.id.imageview);
         imageView.setImageResource(R.drawable.crop_image);
         findViewById(R.id.button_crop).setOnClickListener(this);
+        findViewById(R.id.button_crop_from_internet).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_crop:
+                crop();
+                break;
+            case R.id.button_crop_from_internet:
+                cropFromInternet();
+                break;
+        }
+    }
+
+    private void crop() {
         OmegaIntentBuilder.from(this)
                 .cropImage()
                 .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
@@ -37,6 +54,21 @@ public class CropImageActivity extends AppCompatActivity implements View.OnClick
                 .createIntentHandler(this)
                 .failToast("You don't have app for cropping image")
                 .startActivityForResult(CROP_REQUEST_CODE);
+    }
+
+    private void cropFromInternet() {
+        showProgress();
+        OmegaIntentBuilder.from(this)
+                .cropImage()
+                .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
+                .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
+                .download(new DownloadCallback() {
+                    @Override
+                    public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
+                        hideProgress();
+                        startActivityForResult(contextIntentHandler.getIntent(), CROP_REQUEST_CODE);
+                    }
+                });
     }
 
     @Override

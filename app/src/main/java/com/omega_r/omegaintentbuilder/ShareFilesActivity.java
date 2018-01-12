@@ -18,16 +18,13 @@ import omega.com.annotations.OmegaActivity;
 import omega.com.annotations.OmegaExtra;
 
 @OmegaActivity
-public class ShareFilesActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShareFilesActivity extends BaseActivity implements View.OnClickListener {
 
     @OmegaExtra
     protected String url1;
 
     @OmegaExtra("var2")
     protected String url2;
-
-    @Nullable
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +38,18 @@ public class ShareFilesActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_share:
-                downlodFiles();
+                downloadFiles();
                 break;
         }
     }
 
-    private void downlodFiles() {
+    private void downloadFiles() {
         showProgress();
         OmegaIntentBuilder.from(this).share()
                 .emailTo("your_email_here@gmail.com")
                 .subject("Great library")
                 .filesUrls(url1)
-                .filesUrlWithMimeType(url2, MimeTypes.IMAGE_PNG)
+                .fileUrlWithMimeType(url2, MimeTypes.IMAGE_PNG)
                 .download(new DownloadCallback() {
                     @Override
                     public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
@@ -60,26 +57,6 @@ public class ShareFilesActivity extends AppCompatActivity implements View.OnClic
                         contextIntentHandler.startActivity();
                     }
                 });
-    }
-
-    private void showProgress() {
-        if (progressDialog == null) {
-            progressDialog = createProgressDialog();
-        }
-        assert progressDialog != null;
-        progressDialog.show();
-    }
-
-    private ProgressDialog createProgressDialog() {
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-        return progressDialog;
-    }
-
-    private void hideProgress() {
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
     }
 
 }

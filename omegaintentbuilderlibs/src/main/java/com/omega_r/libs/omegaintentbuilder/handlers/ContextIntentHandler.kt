@@ -207,7 +207,7 @@ open class ContextIntentHandler(private val context: Context, private val create
     }
   }
 
-  protected fun getIntent(): Intent {
+  fun getIntent(): Intent {
     if (chooserTitle.isNullOrEmpty()) {
       return createdIntent
     } else {

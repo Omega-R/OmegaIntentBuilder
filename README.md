@@ -102,7 +102,7 @@ OmegaIntentBuilder.from(context)
                     .emailTo("your_email_here@gmail.com")
                     .subject("Great library")
                     .filesUrls("https://developer.android.com/studio/images/hero_image_studio.png")
-                    .filesUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
+                    .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
                     .download(new DownloadCallback() {
                         @Override
                         public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {

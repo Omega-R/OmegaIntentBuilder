@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.support.annotation.NonNull
 import android.util.Log
+import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.BaseShareBuilder
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.*
 import java.io.File
@@ -16,8 +17,8 @@ import java.net.URL
 import java.util.*
 
 internal class DownloadAsyncTask<T>(private val context: Context,
-                           private val callback: DownloadCallback,
-                           private val intentBuilder: BaseShareBuilder<T>): AsyncTask<Map<String, String?>, Void, List<Uri>>() {
+                                    private val intentBuilder: T,
+                                    private val downloadCallback: DownloadCallback) : AsyncTask<Map<String, String?>, Void, List<Uri>>() where T : BaseBuilder, T: Download<T> {
 
   companion object {
     private val TAG = DownloadAsyncTask::class.java.simpleName
@@ -54,10 +55,10 @@ internal class DownloadAsyncTask<T>(private val context: Context,
   override fun onPostExecute(result: List<Uri>) {
     super.onPostExecute(result)
       if (result.isEmpty()) {
-        callback.onDownloaded(false, intentBuilder.createIntentHandler())
+        downloadCallback.onDownloaded(false, intentBuilder.createIntentHandler())
       } else {
         intentBuilder.stream(result)
-        callback.onDownloaded(true, intentBuilder.createIntentHandler())
+        downloadCallback.onDownloaded(true, intentBuilder.createIntentHandler())
       }
   }
 
