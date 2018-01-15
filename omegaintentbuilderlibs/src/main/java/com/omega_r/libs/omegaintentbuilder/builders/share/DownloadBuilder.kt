@@ -11,6 +11,8 @@
 package com.omega_r.libs.omegaintentbuilder.builders.share
 
 import android.content.Context
+import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
+import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadAsyncTask
 import java.util.*
@@ -19,7 +21,8 @@ import java.util.*
  * DownloadBuilder is a helper for download files from internet and add it to createdIntent
  * to share content.
  */
-class DownloadBuilder<T>(private val context: Context, private val intentBuilder: BaseShareBuilder<T>) {
+class DownloadBuilder<T>(private val context: Context,
+                         private val intentBuilder: T) where T : BaseBuilder, T: Download<T> {
 
   var urlsMap: MutableMap<String, String?> = TreeMap(String.CASE_INSENSITIVE_ORDER)
 
@@ -35,13 +38,14 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
   }
 
   /**
-   * Add a array of url addresses to download.
+   * Add a String url address for downloading.
    *
-   * @param urlAddresses Array of String addresses to download and share
+   * @param urlAddress String address for downloading and share
+   * @param mimeType MimeType
    * @return This DownloadBuilder for method chaining
    */
   @JvmOverloads
-  fun filesUrlWithMimeType(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
+  fun fileUrlWithMimeType(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
     urlsMap.put(urlAddress, mimeType)
     return this
   }
@@ -83,7 +87,7 @@ class DownloadBuilder<T>(private val context: Context, private val intentBuilder
       callback.onDownloaded(true, intentBuilder.createIntentHandler())
       return
     }
-    val downloader = DownloadAsyncTask<T>(context, callback, intentBuilder)
+    val downloader = DownloadAsyncTask<T>(context, intentBuilder, callback)
     downloader.execute(urlsMap)
   }
 

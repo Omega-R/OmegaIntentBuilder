@@ -9,11 +9,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 
 import org.jetbrains.annotations.NotNull;
 
-public class PhotoCaptureActivity extends AppCompatActivity implements View.OnClickListener {
+public class PhotoCaptureActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int REQUEST_IMAGE_CAPTURE = 101;
 
@@ -38,17 +39,18 @@ public class PhotoCaptureActivity extends AppCompatActivity implements View.OnCl
                         Toast.makeText(PhotoCaptureActivity.this, exc.toString(), Toast.LENGTH_SHORT).show();
                     }
                 })
-                .startActivityForResult(REQUEST_IMAGE_CAPTURE);
+                .startActivityForResult(new ActivityResultCallback() {
+                    @Override
+                    public void onActivityResult(int resultCode, @NotNull Intent data) {
+                        if (resultCode == RESULT_OK) {
+                            Bundle extras = data.getExtras();
+                            if (extras != null) {
+                                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                                imageView.setImageBitmap(imageBitmap);
+                            }
+                        }
+                    }
+                });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                imageView.setImageBitmap(imageBitmap);
-            }
-        }
-    }
 }

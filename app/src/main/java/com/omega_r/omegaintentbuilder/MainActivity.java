@@ -1,6 +1,5 @@
 package com.omega_r.omegaintentbuilder;
 
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +17,7 @@ import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .appActivity()
                 .shareFilesActivity()
                 .url1("https://developer.android.com/studio/images/hero_image_studio.png")
-                .var2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
+                .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
                 .createIntentHandler()
                 .startActivity();
     }
