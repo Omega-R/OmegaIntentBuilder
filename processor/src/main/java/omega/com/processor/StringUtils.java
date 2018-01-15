@@ -28,10 +28,17 @@ public class StringUtils {
     }
 
     public static String replaceFirstToLowerCase(String value) {
-        if (value == null || value.length() == 0) return "";
+        if (isEmpty(value)) return "";
 
         String formatted = value.substring(0, 1);
         return value.replaceFirst(formatted, formatted.toLowerCase());
+    }
+
+    public static String replaceFirstToUpperCase(String value) {
+        if (isEmpty(value)) return "";
+
+        String formatted = value.substring(0, 1);
+        return value.replaceFirst(formatted, formatted.toUpperCase());
     }
 
     public static boolean isSuitableName(String name) {
