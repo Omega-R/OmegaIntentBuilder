@@ -178,7 +178,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                         .addStatement("intent = new Intent(context, $T.class)", activityClassName)
                         .build())
                 .addMethod(generateCreateIntentMethod(activityClassName))
-                .addMethods(generateExtraMethods(element, ClassName.get(packageName, className)))
+                .addMethods(generateActivityBuilderMethods(element, ClassName.get(packageName, className)))
                 .build();
         try {
             JavaFile.builder(packageName, intentBuilder)
@@ -238,7 +238,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .build();
     }
 
-    private List<MethodSpec> generateExtraMethods(Element parentElement, ClassName returnClassname) {
+    private List<MethodSpec> generateActivityBuilderMethods(Element parentElement, ClassName returnClassname) {
         List<MethodSpec> methodSpecList = new ArrayList<>();
         List<? extends Element> subList = parentElement.getEnclosedElements();
 
@@ -251,106 +251,44 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .addParameter(ParameterSpec.builder(ClassName.get(parentElement.asType()), "activity").build())
                 .addStatement("$T extras = activity.getIntent().getExtras()", sClassBundle);
 
-        CodeBlock.Builder injectCodeBuilder = CodeBlock.builder();
-        injectCodeBuilder.beginControlFlow("if(extras != null) ");
+        CodeBlock.Builder injectMethodCodeBuilder = CodeBlock.builder();
+        injectMethodCodeBuilder.beginControlFlow("if(extras != null) ");
 
         for (Element subElement : subList) {
-            OmegaExtra annotation = subElement.getAnnotation(OmegaExtra.class);
-            if (annotation != null) {
-                String methodName = formatMethodName(annotation);
-                String key = annotation.value();
-
-                methodName = replaceFirstToLowerCase(isSuitableName(methodName) ? methodName : subElement.toString());
-
-                if (StringUtils.isEmpty(key)) {
-                    key = subElement.toString();
-                }
-
-                ParameterSpec parameter = ParameterSpec.builder(ClassName.get(subElement.asType()), "value").build();
-
-                methodSpecList.add(MethodSpec.methodBuilder(methodName)
-                        .returns(returnClassname)
-                        .addModifiers(Modifier.PUBLIC)
-                        .addParameter(parameter)
-                        .addStatement("intent.putExtra(\"" + key + "\", value)")
-                        .addStatement("return this", returnClassname)
-                        .build());
-
-                if (subElement.getModifiers().contains(Modifier.PRIVATE)) {
-                    mMessager.printMessage(Diagnostic.Kind.ERROR, subElement.getSimpleName() + " in " + parentElement.getSimpleName() + " can't be private;");
-                } else {
-                    injectCodeBuilder.beginControlFlow("if(extras.containsKey(\"" + key + "\"))")
-                            .add("activity." + subElement.toString()
-                                    + " = (" + "$T" + ") "
-                                    + "extras.get(\"" + key + "\"); \n", ClassName.get(subElement.asType()))
-                            .endControlFlow();
-                }
-            }
+            generateExtraMethod(methodSpecList, injectMethodCodeBuilder, parentElement,
+                    returnClassname, subElement,  "", false);
 
             OmegaExtraModel extraModelAnnotation = subElement.getAnnotation(OmegaExtraModel.class);
             if (extraModelAnnotation != null ) {
-                mMessager.printMessage(Diagnostic.Kind.WARNING, "annotation = " + extraModelAnnotation);
-                String prefix = extraModelAnnotation.prefix();
-                if (!StringUtils.isEmpty(prefix)) {
-                    if (!isSuitableName(prefix)) {
-                        mMessager.printMessage(Diagnostic.Kind.WARNING, "Non suitable prefix = " + prefix + " for " + subElement.getSimpleName() + " in " + parentElement.getSimpleName());
-                        prefix = "";
-                    } else {
+                if (subElement.getKind() != ElementKind.FIELD) {
+                    mMessager.printMessage(Diagnostic.Kind.ERROR, "Annotation OmegaExtraModel can only be used for classes!");
+                } else if (subElement.getModifiers().contains(Modifier.PRIVATE)) {
+                    mMessager.printMessage(Diagnostic.Kind.ERROR, subElement.getSimpleName() + " in " + parentElement.getSimpleName() + " can't be private;");
+                } else {
+                    String prefix = extraModelAnnotation.prefix();
+                    if (!isEmpty(prefix) && isSuitableName(prefix)) {
                         prefix = replaceFirstToLowerCase(prefix);
+                    } else {
+                        prefix = "";
                     }
-                }
+                    List<? extends Element> enclosedElements = ((DeclaredType) subElement.asType()).asElement().getEnclosedElements();
 
-                List<? extends Element> enclosedElements = ((DeclaredType) subElement.asType()).asElement().getEnclosedElements();
-
-                for (Element childElement : enclosedElements) {
-                    OmegaExtra childOmegaExtra = childElement.getAnnotation(OmegaExtra.class);
-                    if (childOmegaExtra != null) {
-                        mMessager.printMessage(Diagnostic.Kind.WARNING, "field = " + childElement);
-                        if (childElement.getModifiers().contains(Modifier.PRIVATE)) {
-                            mMessager.printMessage(Diagnostic.Kind.ERROR, childElement.getSimpleName() + " in " + subElement.getSimpleName() + " can't be private;");
-                        } else {
-                            String methodName = formatMethodName(childOmegaExtra);
-                            if (isEmpty(prefix)) {
-                                methodName = replaceFirstToLowerCase(isSuitableName(methodName) ? methodName : childElement.toString());
-                            } else {
-                                methodName = prefix + replaceFirstToUpperCase(isSuitableName(methodName) ? methodName : childElement.toString());
-                            }
-                            String key = methodName;
-
-                            ParameterSpec parameter = ParameterSpec.builder(ClassName.get(childElement.asType()), "value").build();
-
-                            methodSpecList.add(MethodSpec.methodBuilder(methodName)
-                                    .returns(returnClassname)
-                                    .addModifiers(Modifier.PUBLIC)
-                                    .addParameter(parameter)
-                                    .addStatement("intent.putExtra(\"" + key + "\", value)")
-                                    .addStatement("return this", returnClassname)
-                                    .build());
-
-                            if (childElement.getModifiers().contains(Modifier.PRIVATE)) {
-                                mMessager.printMessage(Diagnostic.Kind.ERROR, childElement.getSimpleName() + " in " + subElement.getSimpleName() + " can't be private;");
-                            } else {
-                                injectCodeBuilder.beginControlFlow("if(extras.containsKey(\"" + key + "\"))")
-                                        .add("activity." + subElement.toString() + "." + childElement.toString()
-                                                + " = (" + "$T" + ") "
-                                                + "extras.get(\"" + key + "\"); \n", ClassName.get(childElement.asType()))
-                                        .endControlFlow();
-                            }
-
-                        }
+                    for (Element childElement : enclosedElements) {
+                        generateExtraMethod(methodSpecList, injectMethodCodeBuilder, subElement,
+                                returnClassname, childElement, prefix, true);
                     }
                 }
             }
         }
 
-        injectCodeBuilder.endControlFlow();
-        injectMethodBuilder.addCode(injectCodeBuilder.build());
+        injectMethodCodeBuilder.endControlFlow();
+        injectMethodBuilder.addCode(injectMethodCodeBuilder.build());
         methodSpecList.add(injectMethodBuilder.build());
         return methodSpecList;
     }
 
     private void generateExtraMethod(List<MethodSpec> methodSpecList,
-                                     CodeBlock.Builder injectCodeBuilder,
+                                     CodeBlock.Builder injectMethodCodeBuilder,
                                      Element parentElement,
                                      ClassName returnClassName,
                                      Element element,
@@ -383,18 +321,15 @@ public class AnnotationProcessor extends AbstractProcessor {
             if (element.getModifiers().contains(Modifier.PRIVATE)) {
                 mMessager.printMessage(Diagnostic.Kind.ERROR, element.getSimpleName() + " in " + parentElement.getSimpleName() + " can't be private;");
             } else {
-                injectCodeBuilder.beginControlFlow("if(extras.containsKey(\"" + key + "\"))");
+                injectMethodCodeBuilder.beginControlFlow("if(extras.containsKey(\"" + key + "\"))");
                 if(fromOmegaModel) {
-                    injectCodeBuilder.add("activity." + parentElement.toString() + "." + element.toString()
-                                    + " = (" + "$T" + ") "
-                                    + "extras.get(\"" + key + "\"); \n", ClassName.get(element.asType()))
-                            .endControlFlow();
+                    injectMethodCodeBuilder.add("activity." + parentElement.toString() + "." + element.toString());
                 } else {
-                    injectCodeBuilder.add("activity." + element.toString()
-                            + " = (" + "$T" + ") "
-                            + "extras.get(\"" + key + "\"); \n", ClassName.get(element.asType()))
-                            .endControlFlow();
+                    injectMethodCodeBuilder.add("activity." + element.toString());
                 }
+                injectMethodCodeBuilder.add(" = (" + "$T" + ") "
+                        + "extras.get(\"" + key + "\"); \n", ClassName.get(element.asType()))
+                        .endControlFlow();
             }
         }
     }
