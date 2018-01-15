@@ -17,7 +17,7 @@ import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
