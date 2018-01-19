@@ -36,8 +36,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    implementation "com.android.support:support-v4:$supportVersion"
-    compileOnly "com.android.support:support-annotations:$supportVersion"
-    compileOnly "com.android.support:support-core-utils:$supportVersion"
+    provided "com.android.support:support-annotations:$supportVersion"
+    provided "com.android.support:support-core-utils:$supportVersion"
 }
 
 repositories {
