@@ -5,8 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/OmegaIntentBuilder.iml" filepath="$PROJECT_DIR$/OmegaIntentBuilder.iml" />
       <module fileurl="file://$PROJECT_DIR$/annotations/annotations.iml" filepath="$PROJECT_DIR$/annotations/annotations.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/omegaintentbuilderlibs.iml" filepath="$PROJECT_DIR$/lib/omegaintentbuilderlibs.iml" />
       <module fileurl="file://$PROJECT_DIR$/omegaintentbuilder_compiler/omegaintentbuilder_annotated.iml" filepath="$PROJECT_DIR$/omegaintentbuilder_compiler/omegaintentbuilder_annotated.iml" />
-      <module fileurl="file://$PROJECT_DIR$/omegaintentbuilderlibs/omegaintentbuilderlibs.iml" filepath="$PROJECT_DIR$/omegaintentbuilderlibs/omegaintentbuilderlibs.iml" />
       <module fileurl="file://$PROJECT_DIR$/processor/processor.iml" filepath="$PROJECT_DIR$/processor/processor.iml" />
     </modules>
   </component>
