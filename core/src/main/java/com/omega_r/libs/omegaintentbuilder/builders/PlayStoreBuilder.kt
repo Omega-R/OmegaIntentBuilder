@@ -1,10 +1,9 @@
-package com.omega_r.libs.omegaintentbuilder.builders.share
+package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.annotation.StringRes
-import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
 
 class PlayStoreBuilder(private val context: Context): BaseBuilder(context) {
 
