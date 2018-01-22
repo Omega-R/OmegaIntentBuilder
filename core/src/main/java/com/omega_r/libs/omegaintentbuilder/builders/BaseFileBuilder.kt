@@ -21,7 +21,7 @@ abstract class BaseFileBuilder(private val context: Context): BaseBuilder(contex
     localFilesDir.mkdirs()
   }
 
-  fun toUri(bitmap: Bitmap): Uri {
+  protected fun toUri(bitmap: Bitmap): Uri {
     val file = File(localFilesDir, DEFAULT_IMAGE_FILE_NAME)
     val fileOutputStream = FileOutputStream(file)
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)

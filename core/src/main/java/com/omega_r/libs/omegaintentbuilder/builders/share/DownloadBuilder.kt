@@ -87,7 +87,7 @@ class DownloadBuilder<T>(private val context: Context,
       callback.onDownloaded(true, intentBuilder.createIntentHandler())
       return
     }
-    val downloader = DownloadAsyncTask<T>(context, intentBuilder, callback)
+    val downloader = DownloadAsyncTask<T>(context, intentBuilder, intentBuilder.localFilesDir, callback)
     downloader.execute(urlsMap)
   }
 

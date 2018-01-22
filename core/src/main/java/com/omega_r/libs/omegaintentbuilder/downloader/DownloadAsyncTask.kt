@@ -17,17 +17,12 @@ import java.util.*
 
 internal class DownloadAsyncTask<T>(private val context: Context,
                                     private val intentBuilder: T,
+                                    private val localDirFile: File,
                                     private val downloadCallback: DownloadCallback) : AsyncTask<Map<String, String?>, Void, List<Uri>>() where T : BaseFileBuilder, T: Download<T> {
 
   companion object {
     private val TAG = DownloadAsyncTask::class.java.simpleName
     private const val BUFFER_SIZE = 8192
-  }
-
-  private val localDirFile: File
-
-  init {
-    localDirFile = intentBuilder.localFilesDir
   }
 
   override fun doInBackground(vararg maps: Map<String, String?>): List<Uri> {
