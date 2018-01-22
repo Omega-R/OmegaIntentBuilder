@@ -12,7 +12,7 @@ abstract class BaseFileBuilder(private val context: Context): BaseBuilder(contex
   internal var localFilesDir: File
 
   companion object {
-    private const val FILE_DIR = "intent_files"
+    private const val FILE_DIR = "intent_files" // this value from xml/file_paths.xml
     private const val DEFAULT_IMAGE_FILE_NAME = "omegaOutput.jpg"
   }
 
