@@ -12,18 +12,18 @@ package com.omega_r.libs.omegaintentbuilder.builders.share
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.StringRes
 import android.text.Html
-import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.CropImageIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.BaseFileBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import java.util.ArrayList
 import java.util.TreeSet
 
 @Suppress("UNCHECKED_CAST")
-open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(context), Download<T> where T: BaseShareBuilder<T>, T:Download<T> {
+open class BaseShareBuilder<T>(private val context: Context): BaseFileBuilder(context), Download<T> where T: BaseShareBuilder<T>, T:Download<T> {
 
   private var toAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var subject: String? = null
@@ -250,6 +250,12 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
   @JvmOverloads
   fun fileUrlWithMimeType(urlAddress: String,  mimeType: String? = null): DownloadBuilder<BaseShareBuilder<T>> {
     return downloadBuilder.fileUrlWithMimeType(urlAddress, mimeType)
+  }
+
+  fun bitmap(bitmap: Bitmap): BaseShareBuilder<T> {
+    streamsSet.add(toUri(bitmap))
+
+    return this
   }
 
   /**
