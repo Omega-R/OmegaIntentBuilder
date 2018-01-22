@@ -5,8 +5,7 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.support.annotation.NonNull
 import android.util.Log
-import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder.Companion.FILE_DIR
+import com.omega_r.libs.omegaintentbuilder.builders.BaseFileBuilder
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.*
 import java.io.File
 import java.io.FileOutputStream
@@ -18,7 +17,7 @@ import java.util.*
 
 internal class DownloadAsyncTask<T>(private val context: Context,
                                     private val intentBuilder: T,
-                                    private val downloadCallback: DownloadCallback) : AsyncTask<Map<String, String?>, Void, List<Uri>>() where T : BaseBuilder, T: Download<T> {
+                                    private val downloadCallback: DownloadCallback) : AsyncTask<Map<String, String?>, Void, List<Uri>>() where T : BaseFileBuilder, T: Download<T> {
 
   companion object {
     private val TAG = DownloadAsyncTask::class.java.simpleName
@@ -28,7 +27,7 @@ internal class DownloadAsyncTask<T>(private val context: Context,
   private val localDirFile: File
 
   init {
-    localDirFile = intentBuilder.localFilesDirectory()
+    localDirFile = intentBuilder.localFilesDir
   }
 
   override fun doInBackground(vararg maps: Map<String, String?>): List<Uri> {

@@ -18,16 +18,12 @@ import java.io.File
 import android.graphics.Bitmap
 import com.omega_r.libs.omegaintentbuilder.builders.share.DownloadBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
-import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.getLocalFileUri
 import com.omega_r.libs.omegaintentbuilder.utils.ExtensionUtils.Companion.isNullOrLessZero
-import com.omega_r.libs.omegaintentbuilder.utils.UriUtils
-import com.omega_r.libs.omegaintentbuilder.utils.UriUtils.Companion.bitmapToUri
-import java.io.FileOutputStream
 
 /**
  * CropImageIntentBuilder builder for creating crop image intent
  */
-class CropImageIntentBuilder(private val context: Context): BaseBuilder(context), Download<CropImageIntentBuilder> {
+class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(context), Download<CropImageIntentBuilder> {
 
   private var outputX: Int? = null
   private var outputY: Int? = null
@@ -142,7 +138,7 @@ class CropImageIntentBuilder(private val context: Context): BaseBuilder(context)
    * @return This CropImageIntentBuilder for method chaining
    */
   fun bitmap(bitmap: Bitmap): CropImageIntentBuilder {
-    fileUri = bitmapToUri(context, localFilesDirectory(), bitmap)
+    fileUri = toUri(bitmap)
 
     return this
   }
