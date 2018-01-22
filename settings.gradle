@@ -1,1 +1,1 @@
-include ':app', ':omegaintentbuilderlibs', ':processor', ':annotations'
+include ':examples', ':core', ':processor', ':annotations'
