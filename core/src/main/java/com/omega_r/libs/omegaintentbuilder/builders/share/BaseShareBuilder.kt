@@ -12,6 +12,7 @@ package com.omega_r.libs.omegaintentbuilder.builders.share
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.StringRes
@@ -19,6 +20,9 @@ import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.CropImageIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
+import com.omega_r.libs.omegaintentbuilder.utils.UriUtils
+import com.omega_r.libs.omegaintentbuilder.utils.UriUtils.Companion.bitmapToUri
+import java.io.File
 import java.util.ArrayList
 import java.util.TreeSet
 
@@ -250,6 +254,12 @@ open class BaseShareBuilder<T>(private val context: Context): BaseBuilder(contex
   @JvmOverloads
   fun fileUrlWithMimeType(urlAddress: String,  mimeType: String? = null): DownloadBuilder<BaseShareBuilder<T>> {
     return downloadBuilder.fileUrlWithMimeType(urlAddress, mimeType)
+  }
+
+  fun bitmap(bitmap: Bitmap): BaseShareBuilder<T> {
+    streamsSet.add(bitmapToUri(context, localFilesDirectory(), bitmap))
+
+    return this
   }
 
   /**

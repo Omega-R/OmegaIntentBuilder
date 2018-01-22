@@ -6,7 +6,7 @@ import android.os.AsyncTask
 import android.support.annotation.NonNull
 import android.util.Log
 import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.share.BaseShareBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder.Companion.FILE_DIR
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.*
 import java.io.File
 import java.io.FileOutputStream
@@ -22,15 +22,13 @@ internal class DownloadAsyncTask<T>(private val context: Context,
 
   companion object {
     private val TAG = DownloadAsyncTask::class.java.simpleName
-    const val FILE_DIR = "intent_files"
     private const val BUFFER_SIZE = 8192
   }
 
   private val localDirFile: File
 
   init {
-    localDirFile = File(context.cacheDir, FILE_DIR)
-    localDirFile.mkdirs()
+    localDirFile = intentBuilder.localFilesDirectory()
   }
 
   override fun doInBackground(vararg maps: Map<String, String?>): List<Uri> {
