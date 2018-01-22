@@ -16,7 +16,7 @@ import android.content.Context
 import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
@@ -135,6 +135,10 @@ open class OmegaIntentBuilder(private val context: Context) {
    */
   fun map(type: MapTypes): MapIntentBuilder {
     return MapIntentBuilder(context, type)
+  }
+
+  fun uri(): UriShareBuilder {
+    return UriShareBuilder(context)
   }
 
 }
