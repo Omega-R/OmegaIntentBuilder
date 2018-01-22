@@ -11,7 +11,7 @@
 package com.omega_r.libs.omegaintentbuilder.builders.share
 
 import android.content.Context
-import com.omega_r.libs.omegaintentbuilder.builders.BaseFileBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadAsyncTask
@@ -22,7 +22,7 @@ import java.util.*
  * to share content.
  */
 class DownloadBuilder<T>(private val context: Context,
-                         private val intentBuilder: T) where T : BaseFileBuilder, T: Download<T> {
+                         private val intentBuilder: T) where T : BaseUriBuilder, T: Download<BaseUriBuilder> {
 
   var urlsMap: MutableMap<String, String?> = TreeMap(String.CASE_INSENSITIVE_ORDER)
 
@@ -61,17 +61,6 @@ class DownloadBuilder<T>(private val context: Context,
     return this
   }
 
-  /**
-   * Add a set of url addresses to download.
-   *
-   * @param set Set of String addresses to download and share
-   * @return This DownloadBuilder for method chaining
-   */
-  fun filesUrls(set: Set<String>): DownloadBuilder<T> {
-    set.forEach { it -> urlsMap.put(it) }
-    return this
-  }
-
   private fun MutableMap<String, String?>.put(key: String, value: String? = null) {
     this.put(key, value)
   }
@@ -87,7 +76,7 @@ class DownloadBuilder<T>(private val context: Context,
       callback.onDownloaded(true, intentBuilder.createIntentHandler())
       return
     }
-    val downloader = DownloadAsyncTask<T>(context, intentBuilder, intentBuilder.localFilesDir, callback)
+    val downloader = DownloadAsyncTask(context, intentBuilder, intentBuilder.localFilesDir, callback)
     downloader.execute(urlsMap)
   }
 

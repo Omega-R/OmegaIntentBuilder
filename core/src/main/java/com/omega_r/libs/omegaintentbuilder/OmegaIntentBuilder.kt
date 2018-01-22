@@ -137,8 +137,4 @@ open class OmegaIntentBuilder(private val context: Context) {
     return MapIntentBuilder(context, type)
   }
 
-  fun uri(): UriShareBuilder {
-    return UriShareBuilder(context)
-  }
-
 }

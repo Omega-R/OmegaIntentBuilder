@@ -12,24 +12,18 @@ package com.omega_r.libs.omegaintentbuilder.builders.share
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Build
 import android.support.annotation.StringRes
 import android.text.Html
-import com.omega_r.libs.omegaintentbuilder.builders.BaseFileBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
-import com.omega_r.libs.omegaintentbuilder.downloader.Download
-import java.util.ArrayList
-import java.util.TreeSet
+import java.util.*
 
 @Suppress("UNCHECKED_CAST")
-open class BaseShareBuilder<T>(private val context: Context): BaseUriBuilder<T>(context), Download<T> where T: BaseUriBuilder<T>, T: Download<T>  {
+open class BaseShareBuilder<T>(private val context: Context): BaseUriBuilder(context) {
 
   private var toAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var subject: String? = null
   private var text: CharSequence? = null
-  private val downloadBuilder = DownloadBuilder(context, this)
 
   /**
    * Add Collection of email addresses as recipients of this share.

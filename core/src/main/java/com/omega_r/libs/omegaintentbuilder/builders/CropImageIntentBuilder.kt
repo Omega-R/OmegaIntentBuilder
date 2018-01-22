@@ -12,18 +12,13 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
-import java.io.File
-import android.graphics.Bitmap
-import com.omega_r.libs.omegaintentbuilder.builders.share.DownloadBuilder
-import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.utils.ExtensionUtils.Companion.isNullOrLessZero
 
 /**
  * CropImageIntentBuilder builder for creating crop image intent
  */
-class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(context), Download<CropImageIntentBuilder> {
+class CropImageIntentBuilder(private val context: Context): BaseUriBuilder(context) {
 
   private var outputX: Int? = null
   private var outputY: Int? = null
@@ -31,8 +26,6 @@ class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(cont
   private var aspectY: Int = 1
   private var scale: Boolean = true
   private var returnData: Boolean = true
-  private var fileUri: Uri? = null
-  private val downloadBuilder = DownloadBuilder(context, this)
 
   /**
    * Set Output image width
@@ -121,29 +114,6 @@ class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(cont
   }
 
   /**
-   * Image that will be used for cropping. This image is not changed during the cropImage
-   *
-   * @param image File
-   * @return This CropImageIntentBuilder for method chaining
-   */
-  fun file(image: File): CropImageIntentBuilder {
-    fileUri = Uri.fromFile(image)
-    return this
-  }
-
-  /**
-   * Bitmap that will be used for cropping.
-   *
-   * @param bitmap Bitmap
-   * @return This CropImageIntentBuilder for method chaining
-   */
-  fun bitmap(bitmap: Bitmap): CropImageIntentBuilder {
-    fileUri = toUri(bitmap)
-
-    return this
-  }
-
-  /**
    * Set returnData onActivityResult.
    *
    * @param returnData Boolean
@@ -152,42 +122,6 @@ class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(cont
   fun returnData(returnData: Boolean): CropImageIntentBuilder {
     this.returnData = returnData
     return this
-  }
-
-  /**
-   * File uri that will be used for cropping.
-   *
-   * @param uri Uri
-   * @return This CropImageIntentBuilder for method chaining
-   */
-  fun fileUri(uri: Uri): CropImageIntentBuilder {
-    fileUri = uri
-    return this
-  }
-
-  /**
-   * Add a uri URI to the data that should be croped.
-   *
-   * @param uriList URI of the uri to share
-   * @return This CropImageIntentBuilder for method chaining
-   */
-  override fun uri(uriList: List<Uri>): CropImageIntentBuilder {
-    if (!uriList.isEmpty()) {
-      fileUri = uriList[0]
-    }
-    return this
-  }
-
-  /**
-   * Add a String url address for downloading.
-   *
-   * @param urlAddress String address for downloading and share
-   * @param mimeType MimeType
-   * @return DownloadBuilder for method chaining
-   */
-  @JvmOverloads
-  fun fileUrlWithMimeType(urlAddress: String,  mimeType: String? = null): DownloadBuilder<CropImageIntentBuilder> {
-    return downloadBuilder.fileUrlWithMimeType(urlAddress, mimeType)
   }
 
   override fun createIntent(): Intent {
@@ -208,11 +142,7 @@ class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(cont
     intent.putExtra("scale", scale)
     intent.putExtra("return-data", returnData)
 
-    if (fileUri == null) {
-      throw IllegalStateException("You can't call createIntent with empty image")
-    } else {
-      intent.data = fileUri
-    }
+    intent.data = getFirstUri()
 
     return intent
   }

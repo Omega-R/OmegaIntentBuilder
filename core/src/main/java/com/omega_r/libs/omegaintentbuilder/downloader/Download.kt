@@ -1,11 +1,10 @@
 package com.omega_r.libs.omegaintentbuilder.downloader
 
 import android.net.Uri
-import com.omega_r.libs.omegaintentbuilder.builders.BaseFileBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 
-interface Download<out T> where T: BaseFileBuilder {
+interface Download<out T> where T: BaseUriBuilder {
 
-  fun uri(uriList: List<Uri>): T
+  fun uri(uriCollection: Collection<Uri>): T
 
 }
