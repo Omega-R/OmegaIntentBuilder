@@ -166,14 +166,14 @@ class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(cont
   }
 
   /**
-   * Add a stream URI to the data that should be croped.
+   * Add a uri URI to the data that should be croped.
    *
-   * @param streamUriList URI of the stream to share
+   * @param uriList URI of the uri to share
    * @return This CropImageIntentBuilder for method chaining
    */
-  override fun stream(streamUriList: List<Uri>): CropImageIntentBuilder {
-    if (!streamUriList.isEmpty()) {
-      fileUri = streamUriList[0]
+  override fun uri(uriList: List<Uri>): CropImageIntentBuilder {
+    if (!uriList.isEmpty()) {
+      fileUri = uriList[0]
     }
     return this
   }

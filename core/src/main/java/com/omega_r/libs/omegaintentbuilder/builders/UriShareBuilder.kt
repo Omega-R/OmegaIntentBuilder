@@ -37,51 +37,51 @@ class UriShareBuilder(private val context: Context) {
   }
 
   /**
-   * @param streamUri URI of the stream to share
+   * @param streamUri URI of the uri to share
    * @return ShareIntentBuilder for method chaining
    */
   fun share(vararg streamUri: Uri): ShareIntentBuilder {
-    return ShareIntentBuilder(context).stream(*streamUri)
+    return ShareIntentBuilder(context).uri(*streamUri)
   }
 
   /**
-   * @param streamUriSet Set<Uri> of the stream to share
+   * @param streamUriSet Set<Uri> of the uri to share
    * @return ShareIntentBuilder for method chaining
    */
   fun share(streamUriSet: MutableSet<Uri>): ShareIntentBuilder {
-    return ShareIntentBuilder(context).stream(streamUriSet)
+    return ShareIntentBuilder(context).uri(streamUriSet)
   }
 
   /**
-   * @param streamUriList List<Uri> of the stream to share
+   * @param streamUriList List<Uri> of the uri to share
    * @return ShareIntentBuilder for method chaining
    */
   fun share(streamUriList: List<Uri>): ShareIntentBuilder {
-    return ShareIntentBuilder(context).stream(streamUriList)
+    return ShareIntentBuilder(context).uri(streamUriList)
   }
 
   /**
-   * @param streamUri URI of the stream to share
+   * @param streamUri URI of the uri to share
    * @return EmailIntentBuilder for method chaining
    */
   fun email(vararg streamUri: Uri): EmailIntentBuilder {
-    return EmailIntentBuilder(context).stream(*streamUri)
+    return EmailIntentBuilder(context).uri(*streamUri)
   }
 
   /**
-   * @param streamUriSet Set<Uri> of the stream to share
+   * @param streamUriSet Set<Uri> of the uri to share
    * @return EmailIntentBuilder for method chaining
    */
   fun email(streamUriSet: MutableSet<Uri>): EmailIntentBuilder {
-    return EmailIntentBuilder(context).stream(streamUriSet)
+    return EmailIntentBuilder(context).uri(streamUriSet)
   }
 
   /**
-   * @param streamUriList List<Uri> of the stream to share
+   * @param streamUriList List<Uri> of the uri to share
    * @return EmailIntentBuilder for method chaining
    */
   fun email(streamUriList: List<Uri>): EmailIntentBuilder {
-    return EmailIntentBuilder(context).stream(streamUriList)
+    return EmailIntentBuilder(context).uri(streamUriList)
   }
 
 

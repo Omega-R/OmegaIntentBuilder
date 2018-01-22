@@ -18,17 +18,17 @@ import android.os.Build
 import android.support.annotation.StringRes
 import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.builders.BaseFileBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import java.util.ArrayList
 import java.util.TreeSet
 
 @Suppress("UNCHECKED_CAST")
-open class BaseShareBuilder<T>(private val context: Context): BaseFileBuilder(context), Download<T> where T: BaseShareBuilder<T>, T:Download<T> {
+open class BaseShareBuilder<T>(private val context: Context): BaseUriBuilder<T>(context), Download<T> where T: BaseUriBuilder<T>, T: Download<T>  {
 
   private var toAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var subject: String? = null
   private var text: CharSequence? = null
-  private var streamsSet: MutableSet<Uri> = mutableSetOf()
   private val downloadBuilder = DownloadBuilder(context, this)
 
   /**
@@ -162,103 +162,6 @@ open class BaseShareBuilder<T>(private val context: Context): BaseFileBuilder(co
   }
 
   /**
-   * Add a stream URI to the data that should be shared. If this is not the first
-   * stream URI added the final createdIntent constructed will become an ACTION_SEND_MULTIPLE
-   * createdIntent. Not all apps will handle both ACTION_SEND and ACTION_SEND_MULTIPLE.
-   *
-   * @param streamUri URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   * @see Intent#EXTRA_STREAM
-   * @see Intent#ACTION_SEND
-   * @see Intent#ACTION_SEND_MULTIPLE
-   */
-  fun stream(vararg streamUri: Uri): T {
-    streamsSet.addAll(streamUri)
-    return this as T
-  }
-
-  /**
-   * Add a stream URI to the data that should be shared. If this is not the first
-   * stream URI added the final createdIntent constructed will become an ACTION_SEND_MULTIPLE
-   * createdIntent. Not all apps will handle both ACTION_SEND and ACTION_SEND_MULTIPLE.
-   *
-   * @param streamUriSet URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   * @see Intent#EXTRA_STREAM
-   * @see Intent#ACTION_SEND
-   * @see Intent#ACTION_SEND_MULTIPLE
-   */
-  fun stream(streamUriSet: MutableSet<Uri>): T {
-    streamsSet.addAll(streamUriSet)
-    return this as T
-  }
-
-  /**
-   * Add a stream URI to the data that should be shared. If this is not the first
-   * stream URI added the final createdIntent constructed will become an ACTION_SEND_MULTIPLE
-   * createdIntent. Not all apps will handle both ACTION_SEND and ACTION_SEND_MULTIPLE.
-   *
-   * @param streamUriList URI of the stream to share
-   * @return This ShareIntentBuilder for method chaining
-   * @see Intent#EXTRA_STREAM
-   * @see Intent#ACTION_SEND
-   * @see Intent#ACTION_SEND_MULTIPLE
-   */
-  override fun stream(streamUriList: List<Uri>): T {
-    streamsSet.addAll(streamUriList)
-    return this as T
-  }
-
-  /**
-   * Add a files Url address to the data that should be shared.
-   *
-   * @param urlAddresses String of the url links to share
-   * @return This DownloadBuilder for download call
-   */
-  fun filesUrls(vararg urlAddresses: String): DownloadBuilder<BaseShareBuilder<T>> {
-    return downloadBuilder.filesUrls(*urlAddresses)
-  }
-
-  /**
-   * Add a files Url address to the data that should be shared.
-   *
-   * @param urlAddresses Collection of the url links to share
-   * @return This DownloadBuilder for download call
-   */
-  fun filesUrls(collection: Collection<String>): DownloadBuilder<BaseShareBuilder<T>> {
-    return downloadBuilder.filesUrls(collection)
-  }
-
-  /**
-   * Add a files Url address to the data that should be shared.
-   *
-   * @param fileSet Set of the url links to share
-   * @return This DownloadBuilder for download call
-   */
-  fun filesUrls(fileSet: Set<String>): DownloadBuilder<BaseShareBuilder<T>> {
-    return downloadBuilder.filesUrls(fileSet)
-  }
-
-  /**
-   * Add a file Url address to the data that should be shared.
-   *
-   * @param urlAddress String address for downloading and share
-   * @param mimeType MimeType
-   *
-   * @return This DownloadBuilder for method chaining
-   */
-  @JvmOverloads
-  fun fileUrlWithMimeType(urlAddress: String,  mimeType: String? = null): DownloadBuilder<BaseShareBuilder<T>> {
-    return downloadBuilder.fileUrlWithMimeType(urlAddress, mimeType)
-  }
-
-  fun bitmap(bitmap: Bitmap): BaseShareBuilder<T> {
-    streamsSet.add(toUri(bitmap))
-
-    return this
-  }
-
-  /**
    * This method could call ActivityNotFoundException
    *
    * @return Intent for sharing
@@ -266,14 +169,15 @@ open class BaseShareBuilder<T>(private val context: Context): BaseFileBuilder(co
   override fun createIntent(): Intent {
     val intent = Intent()
     intent.action = Intent.ACTION_SEND
+    val uriSet = getUriSet()
 
-    if (streamsSet.size == 1) {
+    if (uriSet.size == 1) {
       intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-      intent.putExtra(Intent.EXTRA_STREAM, streamsSet.elementAt(0))
-    } else if (streamsSet.size > 1) {
+      intent.putExtra(Intent.EXTRA_STREAM, uriSet.elementAt(0))
+    } else if (uriSet.size > 1) {
       intent.action = Intent.ACTION_SEND_MULTIPLE
       intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-      intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, convertSetToArrayList(streamsSet))
+      intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, convertSetToArrayList(uriSet))
     }
     if (toAddressesSet.isNotEmpty()) {
       intent.putExtra(Intent.EXTRA_EMAIL, toAddressesSet.toTypedArray())
