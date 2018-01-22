@@ -18,15 +18,12 @@ import java.io.File
 import android.graphics.Bitmap
 import com.omega_r.libs.omegaintentbuilder.builders.share.DownloadBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
-import com.omega_r.libs.omegaintentbuilder.downloader.DownloadAsyncTask.Companion.FILE_DIR
-import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.getLocalFileUri
 import com.omega_r.libs.omegaintentbuilder.utils.ExtensionUtils.Companion.isNullOrLessZero
-import java.io.FileOutputStream
 
 /**
  * CropImageIntentBuilder builder for creating crop image intent
  */
-class CropImageIntentBuilder(private val context: Context): BaseBuilder(context), Download<CropImageIntentBuilder> {
+class CropImageIntentBuilder(private val context: Context): BaseFileBuilder(context), Download<CropImageIntentBuilder> {
 
   private var outputX: Int? = null
   private var outputY: Int? = null
@@ -36,16 +33,6 @@ class CropImageIntentBuilder(private val context: Context): BaseBuilder(context)
   private var returnData: Boolean = true
   private var fileUri: Uri? = null
   private val downloadBuilder = DownloadBuilder(context, this)
-
-  companion object {
-    private const val DEFAULT_FILE_NAME = "omegaOutput.jpg"
-  }
-
-  private val localDirFile: File = File(context.cacheDir, FILE_DIR)
-
-  init {
-    localDirFile.mkdirs()
-  }
 
   /**
    * Set Output image width
@@ -151,11 +138,7 @@ class CropImageIntentBuilder(private val context: Context): BaseBuilder(context)
    * @return This CropImageIntentBuilder for method chaining
    */
   fun bitmap(bitmap: Bitmap): CropImageIntentBuilder {
-    val file = File(localDirFile, DEFAULT_FILE_NAME)
-    val fileOutputStream = FileOutputStream(file)
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-    fileOutputStream.close()
-    fileUri = getLocalFileUri(context, file)
+    fileUri = toUri(bitmap)
 
     return this
   }
