@@ -31,7 +31,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportVersion"
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    api project(':omegaintentbuilderlibs')
+    api project(':core')
 
     api project(':annotations')
     annotationProcessor project(':processor')
