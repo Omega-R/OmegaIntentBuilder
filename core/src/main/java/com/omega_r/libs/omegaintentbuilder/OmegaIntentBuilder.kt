@@ -16,7 +16,7 @@ import android.content.Context
 import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.share.PlayStoreBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.PlayStoreBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
