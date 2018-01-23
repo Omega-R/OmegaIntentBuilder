@@ -58,6 +58,11 @@ public class AnnotationProcessor extends AbstractProcessor {
     private static final ClassName sClassAppOmegaIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_OMEGA_INTENT_BUILDER);
     private static final ClassName sClassAppActivityIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_ACTIVITY_INTENT_BUILDER);
 
+    private static final String OMEGA_GENERATED = "$OmegaGenerated";
+    private static final String SET = "set";
+    private static final String MODEL = "model";
+    private static final String VALUE = "value";
+
     private Filer mFiler;
     private Messager mMessager;
     private Elements mElements;
@@ -273,6 +278,8 @@ public class AnnotationProcessor extends AbstractProcessor {
                     }
                     List<? extends Element> enclosedElements = ((DeclaredType) subElement.asType()).asElement().getEnclosedElements();
 
+                    generateProtectedBackdoorClass(subElement, enclosedElements);
+
                     for (Element childElement : enclosedElements) {
                         generateExtraMethod(methodSpecList, injectMethodCodeBuilder, subElement,
                                 returnClassname, childElement, prefix, true);
@@ -285,6 +292,46 @@ public class AnnotationProcessor extends AbstractProcessor {
         injectMethodBuilder.addCode(injectMethodCodeBuilder.build());
         methodSpecList.add(injectMethodBuilder.build());
         return methodSpecList;
+    }
+
+    private void generateProtectedBackdoorClass(Element omegaModelElement, List<? extends Element> subElements) {
+        List<Element> protectedElements = new ArrayList<>();
+
+        for (Element element : subElements) {
+            OmegaExtra annotation = element.getAnnotation(OmegaExtra.class);
+            if (annotation != null && isDefaultOrProtected(element)) {
+                protectedElements.add(element);
+            }
+        }
+        if (!protectedElements.isEmpty()) {
+            Element parentElement = ((DeclaredType) omegaModelElement.asType()).asElement();
+            String className = parentElement.getSimpleName().toString();
+            String packageName = mElements.getPackageOf(parentElement).toString();
+
+            TypeSpec.Builder classBuilder = TypeSpec.classBuilder(className + OMEGA_GENERATED)
+                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
+
+            for (Element element : protectedElements) {
+                String elementName = element.getSimpleName().toString();
+                String methodName = SET + replaceFirstToUpperCase(elementName);
+
+                ParameterSpec modelParameterSpec = ParameterSpec.builder(ClassName.get(parentElement.asType()), MODEL).build();
+                ParameterSpec valueParameterSpec = ParameterSpec.builder(ClassName.get(element.asType()), VALUE).build();
+
+                classBuilder.addMethod(MethodSpec.methodBuilder(methodName)
+                        .addParameter(modelParameterSpec)
+                        .addParameter(valueParameterSpec)
+                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                        .addStatement(MODEL + "." + elementName + " = " + VALUE).build());
+            }
+            try {
+                JavaFile.builder(packageName, classBuilder.build())
+                        .build()
+                        .writeTo(mFiler);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void generateExtraMethod(List<MethodSpec> methodSpecList,
@@ -314,7 +361,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                     .returns(returnClassName)
                     .addModifiers(Modifier.PUBLIC)
                     .addParameter(parameter)
-                    .addStatement("intent.putExtra(\"" + key + "\", value)")
+                    .addStatement("intent.putExtra(\"" + key + "\"," + VALUE + ")")
                     .addStatement("return this", returnClassName)
                     .build());
 
@@ -323,15 +370,38 @@ public class AnnotationProcessor extends AbstractProcessor {
             } else {
                 injectMethodCodeBuilder.beginControlFlow("if(extras.containsKey(\"" + key + "\"))");
                 if(fromOmegaModel) {
-                    injectMethodCodeBuilder.add("activity." + parentElement.toString() + "." + element.toString());
+                    if (isDefaultOrProtected(element)) {
+                        Element omegaModelElement = ((DeclaredType) parentElement.asType()).asElement();
+                        String shortClassName = omegaModelElement.getSimpleName().toString() + OMEGA_GENERATED;
+                        String packageName = mElements.getPackageOf(omegaModelElement).toString();
+                        ClassName backdoorClassName = ClassName.get(packageName, shortClassName);
+                        String method = SET + replaceFirstToUpperCase(element.getSimpleName().toString());
+
+                        injectMethodCodeBuilder.add( "$T." + method + "(activity."
+                                + parentElement.toString() + ", " + "(" + "$T" + ") "
+                                + "extras.get(\"" + key + "\")); \n", backdoorClassName, ClassName.get(element.asType()));
+                    } else {
+                        injectMethodCodeBuilder.add("activity." + parentElement.toString() + "." + element.toString());
+                        injectMethodCodeBuilder.add(" = (" + "$T" + ") "
+                                + "extras.get(\"" + key + "\"); \n", ClassName.get(element.asType()));
+
+                    }
                 } else {
                     injectMethodCodeBuilder.add("activity." + element.toString());
+                    injectMethodCodeBuilder.add(" = (" + "$T" + ") "
+                            + "extras.get(\"" + key + "\"); \n", ClassName.get(element.asType()));
                 }
-                injectMethodCodeBuilder.add(" = (" + "$T" + ") "
-                        + "extras.get(\"" + key + "\"); \n", ClassName.get(element.asType()))
-                        .endControlFlow();
+                injectMethodCodeBuilder.endControlFlow();
             }
         }
+    }
+
+    private boolean isDefaultOrProtected(Element element) {
+        Set<Modifier> modifiers = element.getModifiers();
+        if (modifiers.contains(Modifier.PROTECTED)) return true;
+        if (modifiers.contains(Modifier.PUBLIC)) return false;
+        if (modifiers.contains(Modifier.PRIVATE)) return false;
+        return true;
     }
 
 }
