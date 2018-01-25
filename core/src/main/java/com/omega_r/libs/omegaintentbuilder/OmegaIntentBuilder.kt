@@ -137,4 +137,11 @@ open class OmegaIntentBuilder(private val context: Context) {
     return MapIntentBuilder(context, type)
   }
 
+  /**
+   * @return ImagePickerBuilder for creating intent to pick photo from gallery
+   */
+  fun pickImage(): ImagePickerBuilder {
+    return ImagePickerBuilder(context)
+  }
+
 }

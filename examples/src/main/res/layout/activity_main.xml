@@ -107,6 +107,15 @@
             android:theme="@style/ButtonStyle"
             android:text="@string/crop_image"/>
 
+        <Button
+            android:id="@+id/button_pick_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/pick_image"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
