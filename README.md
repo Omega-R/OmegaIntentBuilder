@@ -177,7 +177,7 @@ OmegaIntentBuilder.from(this)
 **Pick file Intent**
 ```
 OmegaIntentBuilder.from(this)
-        .pickFiles()
+        .pickFile()
         .multiply(false)
         .createIntentHandler(this)
         .startActivityForResult("Your result code here");
@@ -186,7 +186,7 @@ OmegaIntentBuilder.from(this)
 **Pick image Intent**
 ```
 OmegaIntentBuilder.from(this)
-        .pickImages()
+        .pickImage()
         .multiply(false)
         .createIntentHandler(this)
         .startActivityForResult("Your result code here");
