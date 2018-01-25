@@ -142,14 +142,14 @@ open class OmegaIntentBuilder(private val context: Context) {
   /**
    * @return BasePickBuilder for creating intent to pick files
    */
-  fun pickFile(): BasePickBuilder {
+  fun pickFiles(): BasePickBuilder {
     return BasePickBuilder(context)
   }
 
   /**
    * @return ImagePickBuilder for creating intent to pick photo from gallery
    */
-  fun pickImage(): ImagePickBuilder {
+  fun pickImages(): ImagePickBuilder {
     return ImagePickBuilder(context)
   }
 
