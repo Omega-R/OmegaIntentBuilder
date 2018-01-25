@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".ShareFilesActivity" />
         <activity android:name=".PhotoCaptureActivity" />
-        <activity android:name=".CropImageActivity"></activity>
+        <activity android:name=".CropImageActivity" />
+        <activity android:name=".PickImageActivity"></activity>
     </application>
 
 </manifest>

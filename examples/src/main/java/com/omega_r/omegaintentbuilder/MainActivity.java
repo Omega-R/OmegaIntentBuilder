@@ -1,5 +1,6 @@
 package com.omega_r.omegaintentbuilder;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +37,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_sms).setOnClickListener(this);
         findViewById(R.id.button_photo_capture).setOnClickListener(this);
         findViewById(R.id.button_crop_image).setOnClickListener(this);
+        findViewById(R.id.button_pick_image).setOnClickListener(this);
     }
 
     @Override
@@ -75,6 +78,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_crop_image:
                 onCropImageClicked();
+                break;
+            case R.id.button_pick_image:
+                onPickImageClicked();
                 break;
         }
     }
@@ -195,6 +201,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void onCropImageClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(CropImageActivity.class)
+                .createIntentHandler()
+                .startActivity();
+    }
+
+    private void onPickImageClicked() {
+        OmegaIntentBuilder.from(this)
+                .activity(PickImageActivity.class)
                 .createIntentHandler()
                 .startActivity();
     }

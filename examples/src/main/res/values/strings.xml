@@ -15,4 +15,5 @@
     <string name="crop_image">Crop Image</string>
     <string name="crop">crop</string>
     <string name="crop_from_internet">Crop from internet</string>
+    <string name="pick_image">Pick image</string>
 </resources>
