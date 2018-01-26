@@ -1,5 +1,6 @@
 package com.omega_r.omegaintentbuilder;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +37,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_sms).setOnClickListener(this);
         findViewById(R.id.button_photo_capture).setOnClickListener(this);
         findViewById(R.id.button_crop_image).setOnClickListener(this);
+        findViewById(R.id.button_pick_image).setOnClickListener(this);
+        findViewById(R.id.button_speech_to_text).setOnClickListener(this);
     }
 
     @Override
@@ -76,6 +80,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.button_crop_image:
                 onCropImageClicked();
                 break;
+            case R.id.button_pick_image:
+                onPickImageClicked();
+                break;
+            case R.id.button_speech_to_text:
+                onSpeechToTextClicked();
+                break;
         }
     }
 
@@ -85,7 +95,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .shareFilesActivity()
                 .url1("https://developer.android.com/studio/images/hero_image_studio.png")
                 .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
-                .createIntentHandler()
                 .startActivity();
     }
 
@@ -145,7 +154,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         OmegaIntentBuilder.from(this)
                 .playStore()
                 .packageName("com.omegar.coloring")
-                .createIntentHandler()
                 .startActivity();
     }
 
@@ -173,7 +181,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .allDay(false)
                 .organizer("develop@omega-r.com")
                 .hasAlarm(false)
-                .createIntentHandler()
                 .startActivity();
     }
 
@@ -188,13 +195,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void onPhotoCaptureClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(PhotoCaptureActivity.class)
-                .createIntentHandler()
                 .startActivity();
     }
 
     private void onCropImageClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(CropImageActivity.class)
+                .startActivity();
+    }
+
+    private void onPickImageClicked() {
+        OmegaIntentBuilder.from(this)
+                .activity(PickImageActivity.class)
+                .startActivity();
+    }
+
+    private void onSpeechToTextClicked() {
+        OmegaIntentBuilder.from(this)
+                .activity(SpeechToTextActivity.class)
                 .createIntentHandler()
                 .startActivity();
     }

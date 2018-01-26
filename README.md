@@ -174,6 +174,37 @@ OmegaIntentBuilder.from(this)
                 .startActivityForResult(CROP_REQUEST_CODE);
 ```
 
+**Pick file Intent**
+```
+OmegaIntentBuilder.from(this)
+        .pick()
+        .file()
+        .mimeType("Your mimeType here") // Default mimeType "file/*"
+        .multiply(false)
+        .createIntentHandler(this)
+        .startActivityForResult("Your result code here");
+```
+
+**Pick image Intent**
+```
+OmegaIntentBuilder.from(this)
+        .pick()
+        .image()
+        .multiply(false)
+        .createIntentHandler(this)
+        .startActivityForResult("Your result code here");
+```
+
+**Speech to text Intent**
+```
+OmegaIntentBuilder.from(this)
+        .speechToText()
+        .prompt("Say something")
+        .createIntentHandler(this)
+        .failToast("You don't have app for \"Speech to text\"")
+        .startActivityForResult(request_code)
+```
+
 **Extras**
 ```
 @OmegaActivity

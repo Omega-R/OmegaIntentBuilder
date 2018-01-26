@@ -4,6 +4,6 @@ import android.content.Intent
 
 interface ActivityResultCallback {
 
-  fun onActivityResult(resultCode: Int, data: Intent)
+  fun onActivityResult(resultCode: Int, data: Intent?)
 
 }

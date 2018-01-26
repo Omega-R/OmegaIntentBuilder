@@ -213,7 +213,7 @@ open class ContextIntentHandler(private val context: Context, private val create
     }
   }
 
-  protected fun onActivityResult(resultCode: Int, data: Intent) {
+  protected fun onActivityResult(resultCode: Int, data: Intent?) {
     activityResultCallback?.onActivityResult(resultCode, data)
   }
 
