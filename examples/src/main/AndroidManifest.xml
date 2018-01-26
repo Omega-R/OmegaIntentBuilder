@@ -19,7 +19,8 @@
         <activity android:name=".ShareFilesActivity" />
         <activity android:name=".PhotoCaptureActivity" />
         <activity android:name=".CropImageActivity" />
-        <activity android:name=".PickImageActivity"></activity>
+        <activity android:name=".PickImageActivity" />
+        <activity android:name=".SpeechToTextActivity" />
     </application>
 
 </manifest>

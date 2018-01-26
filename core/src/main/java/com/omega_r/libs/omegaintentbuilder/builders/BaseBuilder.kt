@@ -26,4 +26,8 @@ abstract class BaseBuilder(private val context: Context): IntentBuilder {
     return ActivityIntentHandler(activity, createIntent())
   }
 
+  override fun startActivity() {
+    createIntentHandler().startActivity()
+  }
+
 }
