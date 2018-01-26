@@ -145,6 +145,9 @@ open class OmegaIntentBuilder(private val context: Context) {
     return PickBuilder(context)
   }
 
+  /**
+   * @return SpeechToTextBuilder
+   */
   fun speechToText(): SpeechToTextBuilder {
     return SpeechToTextBuilder(context)
   }

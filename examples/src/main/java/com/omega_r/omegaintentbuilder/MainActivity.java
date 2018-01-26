@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_photo_capture).setOnClickListener(this);
         findViewById(R.id.button_crop_image).setOnClickListener(this);
         findViewById(R.id.button_pick_image).setOnClickListener(this);
+        findViewById(R.id.button_speech_to_text).setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +82,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_pick_image:
                 onPickImageClicked();
+                break;
+            case R.id.button_speech_to_text:
+                onSpeechToTextClicked();
                 break;
         }
     }
@@ -208,6 +212,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void onPickImageClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(PickImageActivity.class)
+                .createIntentHandler()
+                .startActivity();
+    }
+
+    private void onSpeechToTextClicked() {
+        OmegaIntentBuilder.from(this)
+                .activity(SpeechToTextActivity.class)
                 .createIntentHandler()
                 .startActivity();
     }

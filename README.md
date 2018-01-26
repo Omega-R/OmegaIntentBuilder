@@ -195,6 +195,16 @@ OmegaIntentBuilder.from(this)
         .startActivityForResult("Your result code here");
 ```
 
+**Speech to text Intent**
+```
+OmegaIntentBuilder.from(this)
+        .speechToText()
+        .prompt("Say something")
+        .createIntentHandler(this)
+        .failToast("You don't have app for \"Speech to text\"")
+        .startActivityForResult(request_code)
+```
+
 **Extras**
 ```
 @OmegaActivity

@@ -16,4 +16,5 @@
     <string name="crop">crop</string>
     <string name="crop_from_internet">Crop from internet</string>
     <string name="pick_image">Pick image</string>
+    <string name="speech_to_text">Speech to text</string>
 </resources>
