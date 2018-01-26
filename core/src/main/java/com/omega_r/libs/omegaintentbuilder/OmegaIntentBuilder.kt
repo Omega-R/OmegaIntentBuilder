@@ -144,4 +144,8 @@ open class OmegaIntentBuilder(private val context: Context) {
     return ImagePickerBuilder(context)
   }
 
+  fun speechToText(): SpeechToTextBuilder {
+    return SpeechToTextBuilder(context)
+  }
+
 }
