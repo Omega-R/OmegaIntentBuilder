@@ -13,17 +13,32 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.types.CallTypes
 
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
-class CallIntentBuilder (context: Context,
+class CallIntentBuilder (private val context: Context,
                          private var phoneNumber: String): BaseBuilder(context) {
+
+  private var callType = CallTypes.SYSTEM_CALL
 
   companion object {
     private const val PHONE_SCHEME = "tel:";
+    private const val SKYPE_SCHEME = "skype:";
     val regex = Regex("[^0-9]")
+  }
+
+  init {
+    phoneNumber = phoneNumber.replace(regex, "")
+    if (phoneNumber.isEmpty()) {
+      throw IllegalStateException("Empty phone number")
+    }
+  }
+
+  fun type(callType: CallTypes): CallIntentBuilder {
+    this.callType = callType
+    return this
   }
 
   /**
@@ -32,10 +47,23 @@ class CallIntentBuilder (context: Context,
    * @return Intent for calling
    */
   override fun createIntent(): Intent {
-    phoneNumber = phoneNumber.replace(regex, "")
-    if (phoneNumber.isEmpty()) throw IllegalStateException("Empty phone number")
+    val intent = Intent()
+    intent.data = Uri.parse(PHONE_SCHEME + phoneNumber)
 
-    return Intent(Intent.ACTION_DIAL, Uri.parse(PHONE_SCHEME + phoneNumber))
+    if (callType == CallTypes.SYSTEM_CALL) {
+      intent.action = Intent.ACTION_DIAL
+    } else {
+      intent.action = Intent.ACTION_VIEW
+      when(callType) {
+        CallTypes.VIBER -> {
+          intent.setClassName("com.viber.voip", "com.viber.voip.WelcomeActivity")
+        }
+        CallTypes.SKYPE -> {
+          intent.data = Uri.parse(SKYPE_SCHEME + phoneNumber + "?call")
+        }
+      }
+    }
+    return intent
   }
 
 }
