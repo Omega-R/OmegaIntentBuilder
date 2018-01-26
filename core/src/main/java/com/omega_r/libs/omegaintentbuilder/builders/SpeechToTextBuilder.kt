@@ -146,7 +146,7 @@ class SpeechToTextBuilder(private val context: Context): BaseBuilder(context) {
    * the current language preference is needed in the response.
    * This avoids any additional computation if all you need is EXTRA_LANGUAGE_PREFERENCE in the response.
    *
-   * @param partialResults Boolean
+   * @param partialResults String
    * @return This SpeechToTextBuilder for method chaining
    */
   fun onlyReturnLanguagePreference(onlyReturnLanguagePreference: String): SpeechToTextBuilder {
@@ -159,7 +159,7 @@ class SpeechToTextBuilder(private val context: Context): BaseBuilder(context) {
    * the current language preference is needed in the response.
    * This avoids any additional computation if all you need is EXTRA_LANGUAGE_PREFERENCE in the response.
    *
-   * @param partialResults Boolean
+   * @param partialResults Locale
    * @return This SpeechToTextBuilder for method chaining
    */
   fun onlyReturnLanguagePreference(onlyReturnLanguagePreference: Locale): SpeechToTextBuilder {
