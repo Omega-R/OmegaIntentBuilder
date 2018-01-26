@@ -18,6 +18,8 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder;
  */
 public interface MimeTypes {
 
+    String FILE = "file/*";
+
     String IMAGE = "image/*";
     String IMAGE_PNG = "image/png";
     String IMAGE_JPEG = "image/jpeg";
