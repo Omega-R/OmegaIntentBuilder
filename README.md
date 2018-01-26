@@ -174,10 +174,22 @@ OmegaIntentBuilder.from(this)
                 .startActivityForResult(CROP_REQUEST_CODE);
 ```
 
+**Pick file Intent**
+```
+OmegaIntentBuilder.from(this)
+        .pick()
+        .file()
+        .mimeType("Your mimeType here") // Default mimeType "file/*"
+        .multiply(false)
+        .createIntentHandler(this)
+        .startActivityForResult("Your result code here");
+```
+
 **Pick image Intent**
 ```
 OmegaIntentBuilder.from(this)
-        .pickImage()
+        .pick()
+        .image()
         .multiply(false)
         .createIntentHandler(this)
         .startActivityForResult("Your result code here");
