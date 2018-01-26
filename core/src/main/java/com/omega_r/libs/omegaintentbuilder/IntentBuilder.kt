@@ -12,8 +12,10 @@
 package com.omega_r.libs.omegaintentbuilder
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 
@@ -38,5 +40,12 @@ interface IntentBuilder {
    * Support startActivity, startActivityForResult, start Chooser.
    */
   fun createIntentHandler(activity: Activity): ActivityIntentHandler
+
+  /**
+   * Same as {@link #startActivity(Intent, Bundle)} with no options specified.
+   *
+   * @throws ActivityNotFoundException &nbsp;
+   */
+  fun startActivity();
 
 }

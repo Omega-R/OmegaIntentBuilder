@@ -95,7 +95,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .shareFilesActivity()
                 .url1("https://developer.android.com/studio/images/hero_image_studio.png")
                 .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
-                .createIntentHandler()
                 .startActivity();
     }
 
@@ -155,7 +154,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         OmegaIntentBuilder.from(this)
                 .playStore()
                 .packageName("com.omegar.coloring")
-                .createIntentHandler()
                 .startActivity();
     }
 
@@ -183,7 +181,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .allDay(false)
                 .organizer("develop@omega-r.com")
                 .hasAlarm(false)
-                .createIntentHandler()
                 .startActivity();
     }
 
@@ -198,21 +195,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void onPhotoCaptureClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(PhotoCaptureActivity.class)
-                .createIntentHandler()
                 .startActivity();
     }
 
     private void onCropImageClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(CropImageActivity.class)
-                .createIntentHandler()
                 .startActivity();
     }
 
     private void onPickImageClicked() {
         OmegaIntentBuilder.from(this)
                 .activity(PickImageActivity.class)
-                .createIntentHandler()
                 .startActivity();
     }
 
