@@ -23,6 +23,8 @@ import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 open class BasePickBuilder(context: Context): BaseBuilder(context) {
 
   private var allowMultiply = false
+  protected var mimeType: String = MimeTypes.FILE
+
   /**
    * Extra used to indicate that an intent can allow the user to select and
    * return multiple items. This is a boolean extra; the default is false. If
@@ -41,7 +43,7 @@ open class BasePickBuilder(context: Context): BaseBuilder(context) {
   override fun createIntent(): Intent {
     val intent = Intent(Intent.ACTION_GET_CONTENT)
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    intent.type = MimeTypes.FILE
+    intent.type = mimeType
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
       intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiply)
     }

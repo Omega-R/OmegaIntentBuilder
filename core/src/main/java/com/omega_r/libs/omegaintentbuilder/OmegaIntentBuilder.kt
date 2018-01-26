@@ -17,8 +17,7 @@ import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.PlayStoreBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.pick.BasePickBuilder
-import com.omega_r.libs.omegaintentbuilder.builders.pick.ImagePickBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.pick.PickBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
@@ -140,17 +139,10 @@ open class OmegaIntentBuilder(private val context: Context) {
   }
 
   /**
-   * @return BasePickBuilder for creating intent to pick files
+   * @return PickBuilder for pick different files
    */
-  fun pickFile(): BasePickBuilder {
-    return BasePickBuilder(context)
-  }
-
-  /**
-   * @return ImagePickBuilder for creating intent to pick photo from gallery
-   */
-  fun pickImage(): ImagePickBuilder {
-    return ImagePickBuilder(context)
+  fun pick(): PickBuilder {
+    return PickBuilder(context)
   }
 
 }
