@@ -6,7 +6,6 @@ import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -162,12 +161,12 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .writeTo(mFiler);
     }
 
-    private List<MethodSpec> generateBuilderMethods(Set<? extends Element> elements, boolean activityAnnotation) {
+    private List<MethodSpec> generateBuilderMethods(Set<? extends Element> elements, boolean fromActivityAnnotation) {
         List<Element> list = new ArrayList<>();
         List<ClassName> classNameList = new ArrayList<>();
 
         for (Element element : elements) {
-            if (generateBuilderClass(element, activityAnnotation)) {
+            if (generateBuilderClass(element, fromActivityAnnotation)) {
                 list.add(element);
                 ClassName className = ClassName.get(mElements.getPackageOf(element).getQualifiedName().toString(),
                         element.getSimpleName().toString());
@@ -180,13 +179,13 @@ public class AnnotationProcessor extends AbstractProcessor {
             methodList.add(generateReturnBuilderMethod(element));
         }
 
-        methodList.add(activityAnnotation ? generateInjectMethodForActivity(classNameList) : generateInjectMethodForService(classNameList));
+        methodList.add(generateInjectMethod(classNameList, fromActivityAnnotation));
         return methodList;
     }
 
-    private boolean generateBuilderClass(Element element, boolean activityAnnotation) {
+    private boolean generateBuilderClass(Element element, boolean fromActivityAnnotation) {
         if (element.getKind() != ElementKind.CLASS) {
-            String message = "Annotation" + (activityAnnotation ? "activity" : "service") + "can only be used for classes!";
+            String message = "Annotation" + (fromActivityAnnotation ? "activity" : "service") + "can only be used for classes!";
             mMessager.printMessage(Diagnostic.Kind.ERROR, message);
             return false;
         }
@@ -198,13 +197,13 @@ public class AnnotationProcessor extends AbstractProcessor {
 
         TypeSpec intentBuilder = TypeSpec.classBuilder(className)
                 .addModifiers(Modifier.PUBLIC)
-                .superclass(activityAnnotation ? sClassBaseBuilder : sClassBaseServiceBuilder)
+                .superclass(fromActivityAnnotation ? sClassBaseBuilder : sClassBaseServiceBuilder)
                 .addField(sClassIntent, "intent", Modifier.PRIVATE, Modifier.FINAL)
                 .addMethod(generateClassConstructorMethod(false, true)
                         .addStatement("intent = new Intent(context, $T.class)", cls)
                         .build())
                 .addMethod(generateCreateIntentMethod(cls))
-                .addMethods(generateBuilderMethods(element, ClassName.get(packageName, className), activityAnnotation))
+                .addMethods(generateBuilderMethods(element, ClassName.get(packageName, className), fromActivityAnnotation))
                 .build();
         try {
             JavaFile.builder(packageName, intentBuilder)
@@ -229,35 +228,28 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .build();
     }
 
-    private MethodSpec generateInjectMethodForActivity(List<ClassName> list) {
+    private MethodSpec generateInjectMethod(List<ClassName> list, boolean fromActivityAnnotation) {
         MethodSpec.Builder builder = MethodSpec.methodBuilder("inject")
-                                                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                                                .addParameter(ParameterSpec.builder(sClassActivity, "activity").build());
-        CodeBlock.Builder codeBuilder = CodeBlock.builder();
-        for (ClassName clsName : list) {
-            String activityName = clsName.simpleName();
-            ClassName fullClassName = ClassName.get(clsName.packageName(), activityName);
-            codeBuilder.beginControlFlow("if(activity instanceof $T)", fullClassName)
-                    .addStatement(activityName + "Builder.inject((" + activityName + ") activity)", activityName)
-                    .endControlFlow();
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
+        if (fromActivityAnnotation) {
+            builder.addParameter(ParameterSpec.builder(sClassActivity, "activity").build());
+        } else {
+            builder.addParameter(ParameterSpec.builder(sClassService, "service").build())
+                   .addParameter(ParameterSpec.builder(sClassIntent, "intent").build());
         }
-        builder.addCode(codeBuilder.build());
-        return builder.build();
-    }
-
-    private MethodSpec generateInjectMethodForService(List<ClassName> list) {
-        MethodSpec.Builder builder = MethodSpec.methodBuilder("inject")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .addParameter(ParameterSpec.builder(sClassService, "service").build())
-                .addParameter(ParameterSpec.builder(sClassIntent, "intent").build());
-
         CodeBlock.Builder codeBuilder = CodeBlock.builder();
         for (ClassName clsName : list) {
-            String activityName = clsName.simpleName();
-            ClassName fullClassName = ClassName.get(clsName.packageName(), activityName);
-            codeBuilder.beginControlFlow("if(service instanceof $T)", fullClassName)
-                    .addStatement(activityName + "Builder.inject((" + activityName + ") service" + ", intent)", activityName)
-                    .endControlFlow();
+            String className = clsName.simpleName();
+            ClassName fullClassName = ClassName.get(clsName.packageName(), className);
+            if (fromActivityAnnotation) {
+                codeBuilder.beginControlFlow("if(activity instanceof $T)", fullClassName)
+                        .addStatement(className + "Builder.inject((" + className + ") activity)", className)
+                        .endControlFlow();
+            } else {
+                codeBuilder.beginControlFlow("if(service instanceof $T)", fullClassName)
+                        .addStatement(className + "Builder.inject((" + className + ") service" + ", intent)", className)
+                        .endControlFlow();
+            }
         }
         builder.addCode(codeBuilder.build());
         return builder.build();
@@ -276,15 +268,15 @@ public class AnnotationProcessor extends AbstractProcessor {
         return builder;
     }
 
-    private MethodSpec generateCreateIntentMethod(ClassName activityClassName) {
+    private MethodSpec generateCreateIntentMethod(ClassName className) {
         return MethodSpec.methodBuilder("createIntent")
                 .returns(sClassIntent)
-                .addStatement("return intent", activityClassName)
+                .addStatement("return intent", className)
                 .addModifiers(Modifier.PUBLIC)
                 .build();
     }
 
-    private List<MethodSpec> generateBuilderMethods(Element parentElement, ClassName returnClassname, boolean activityAnnotation) {
+    private List<MethodSpec> generateBuilderMethods(Element parentElement, ClassName returnClassname, boolean fromActivityAnnotation) {
         List<MethodSpec> methodSpecList = new ArrayList<>();
         List<? extends Element> subList = parentElement.getEnclosedElements();
 
@@ -295,7 +287,7 @@ public class AnnotationProcessor extends AbstractProcessor {
         String valueName = replaceFirstToLowerCase(((DeclaredType) parentElement.asType()).asElement().getSimpleName().toString());
         MethodSpec.Builder injectMethodBuilder = generateSubInjectMethod(parentElement,
                                                                          valueName,
-                                                                         activityAnnotation);
+                                                                         fromActivityAnnotation);
 
         CodeBlock.Builder injectMethodCodeBuilder = CodeBlock.builder();
         injectMethodCodeBuilder.beginControlFlow("if(extras != null) ");
@@ -337,15 +329,16 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     private MethodSpec.Builder generateSubInjectMethod(Element element,
                                                        String valueName,
-                                                       boolean activityAnnotation) {
+                                                       boolean fromActivityAnnotation) {
         MethodSpec.Builder injectMethodBuilder = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(ClassName.get(element.asType()), valueName).build());
-        if (activityAnnotation) {
+        if (fromActivityAnnotation) {
             injectMethodBuilder.addStatement("$T extras = " + valueName + ".getIntent().getExtras()", sClassBundle);
         } else {
-            injectMethodBuilder.addParameter(ParameterSpec.builder(sClassIntent, "intent").build());
-            injectMethodBuilder.addStatement("$T extras = intent.getExtras()", sClassBundle);
+            injectMethodBuilder.addStatement("if(intent == null) return")
+                    .addParameter(ParameterSpec.builder(sClassIntent, "intent").build())
+                    .addStatement("$T extras = intent.getExtras()", sClassBundle);
         }
 
         return injectMethodBuilder;
