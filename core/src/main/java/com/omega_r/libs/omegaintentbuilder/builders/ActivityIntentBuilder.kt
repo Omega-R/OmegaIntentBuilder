@@ -12,12 +12,12 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.app.Activity
 import android.content.Context
-import com.omega_r.libs.omegaintentbuilder.IntentBuilder
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 
 class ActivityIntentBuilder<T: Activity> (private val context: Context,
-                                          activity: Class<T>): BaseIntentBuilder<T>(context, activity), IntentBuilder {
+                                          activity: Class<T>): BaseActivityServiceIntentBuilder<T>(context, activity), IntentHandler {
 
   override fun createIntentHandler(): ContextIntentHandler {
     return ContextIntentHandler(context, createIntent())

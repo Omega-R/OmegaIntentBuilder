@@ -1,11 +1,9 @@
 package com.omega_r.libs.omegaintentbuilder.builders
 
-import android.app.Service
 import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.interfaces.ServiceHandler
 
-class ServiceIntentBuilder<T: Service> (private val context: Context,
-                                        service: Class<T>): BaseActivityServiceIntentBuilder<T>(context, service), ServiceHandler {
+abstract class BaseServiceBuilder(private val context: Context): ServiceHandler {
 
   override fun startService() {
     context.startService(createIntent())
