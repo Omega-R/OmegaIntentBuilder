@@ -20,7 +20,7 @@ import android.support.annotation.RequiresApi
 /**
  * SettingsIntentBuilder is a helper for constructing settings intent
  */
-class SettingsIntentBuilder(context: Context): BaseBuilder(context) {
+class SettingsIntentBuilder(context: Context): BaseActivityBuilder(context) {
 
   private var action: String = Settings.ACTION_SETTINGS
 

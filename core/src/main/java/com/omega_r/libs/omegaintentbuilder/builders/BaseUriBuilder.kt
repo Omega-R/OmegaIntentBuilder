@@ -19,7 +19,7 @@ import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 
-abstract class BaseUriBuilder(private val context: Context): BaseBuilder(context), Download<BaseUriBuilder> {
+abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder(context), Download<BaseUriBuilder> {
 
   private var uriSet: MutableSet<Uri> = mutableSetOf()
   private val downloadBuilder = DownloadBuilder(context, this)

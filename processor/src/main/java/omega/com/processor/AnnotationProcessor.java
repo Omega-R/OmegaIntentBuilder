@@ -52,7 +52,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     private static final ClassName sClassService = ClassName.get("android.app", "Service");
     private static final ClassName sClassBundle = ClassName.get("android.os", "Bundle");
 
-    private static final ClassName sClassBaseBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.builders", "BaseBuilder");
+    private static final ClassName sClassBaseBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.builders", "BaseActivityBuilder");
     private static final ClassName sClassBaseServiceBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.builders", "BaseServiceBuilder");
     private static final ClassName sClassOmegaIntentBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder", "OmegaIntentBuilder");
 

@@ -19,7 +19,7 @@ import android.support.annotation.StringRes
 import com.omega_r.libs.omegaintentbuilder.types.LanguageModelTypes
 import java.util.*
 
-class SpeechToTextBuilder(private val context: Context): BaseBuilder(context) {
+class SpeechToTextBuilder(private val context: Context): BaseActivityBuilder(context) {
 
   private var prompt: String? = null
   private var language: String = Locale.getDefault().toString()

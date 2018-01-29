@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import java.io.Serializable
 
-open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) {
+open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
 
   private val intent: Intent = Intent(context, cls)
 
@@ -18,10 +18,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The boolean data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Boolean): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Boolean): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -34,10 +34,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The byte data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Byte): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Byte): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -50,10 +50,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The char data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Char): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Char): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -66,10 +66,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The short data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Short): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Short): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -82,10 +82,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The integer data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Int): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Int): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -98,10 +98,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The long data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Long): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Long): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -114,10 +114,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The float data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Float): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Float): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -130,10 +130,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The double data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Double): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Double): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -146,10 +146,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The String data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: String): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: String): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -162,10 +162,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The CharSequence data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: CharSequence): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: CharSequence): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -178,10 +178,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The Parcelable data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Parcelable): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Parcelable): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -194,10 +194,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The Parcelable[] data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Array<Parcelable>): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Array<Parcelable>): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -210,10 +210,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The ArrayList<Parcelable> data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun <P: Parcelable> putParcelableArrayListExtra(name: String, value: ArrayList<P>): BaseActivityServiceIntentBuilder<T> {
+  fun <P: Parcelable> putParcelableArrayListExtra(name: String, value: ArrayList<P>): BaseIntentBuilder<T> {
     intent.putParcelableArrayListExtra(name, value)
     return this
   }
@@ -226,10 +226,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The ArrayList<Integer> data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putIntegerArrayListExtra(name: String, value: ArrayList<Int>): BaseActivityServiceIntentBuilder<T> {
+  fun putIntegerArrayListExtra(name: String, value: ArrayList<Int>): BaseIntentBuilder<T> {
     intent.putIntegerArrayListExtra(name, value)
     return this
   }
@@ -242,10 +242,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The ArrayList<String> data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putStringArrayListExtra(name: String, value: ArrayList<String>): BaseActivityServiceIntentBuilder<T> {
+  fun putStringArrayListExtra(name: String, value: ArrayList<String>): BaseIntentBuilder<T> {
     intent.putStringArrayListExtra(name, value)
     return this
   }
@@ -258,10 +258,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The ArrayList<CharSequence> data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putCharSequenceArrayListExtra(name: String, value: ArrayList<CharSequence>): BaseActivityServiceIntentBuilder<T> {
+  fun putCharSequenceArrayListExtra(name: String, value: ArrayList<CharSequence>): BaseIntentBuilder<T> {
     intent.putCharSequenceArrayListExtra(name, value)
     return this
   }
@@ -274,10 +274,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The Serializable data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Serializable): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Serializable): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -290,10 +290,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The boolean array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: BooleanArray): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: BooleanArray): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -306,10 +306,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The short array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: ShortArray): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: ShortArray): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -322,10 +322,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The char array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: CharArray): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: CharArray): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -338,10 +338,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The int array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: IntArray): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: IntArray): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -354,10 +354,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The byte array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: LongArray): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: LongArray): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -370,10 +370,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The float array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: FloatArray): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: FloatArray): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -386,10 +386,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The double array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: DoubleArray): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: DoubleArray): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -402,10 +402,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The String array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Array<String>): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Array<String>): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -418,10 +418,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The CharSequence array data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Array<CharSequence>): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Array<CharSequence>): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -434,10 +434,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param name The name of the extra data, with package prefix.
    * @param value The Bundle data value.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Bundle): BaseActivityServiceIntentBuilder<T> {
+  fun putExtra(name: String, value: Bundle): BaseIntentBuilder<T> {
     intent.putExtra(name, value)
     return this
   }
@@ -449,7 +449,7 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    *
    * @param extras The Bundle of extras to add to this createdIntent.
    */
-  fun putExtras(value: Bundle): BaseActivityServiceIntentBuilder<T> {
+  fun putExtras(value: Bundle): BaseIntentBuilder<T> {
     intent.putExtras(value)
     return this
   }
@@ -459,7 +459,7 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    *
    * @param src Contains the extras to copy.
    */
-  fun putExtras(value: Intent): BaseActivityServiceIntentBuilder<T> {
+  fun putExtras(value: Intent): BaseIntentBuilder<T> {
     intent.putExtras(value)
     return this
   }
@@ -471,7 +471,7 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    * @param src The exact extras contained in this Intent are copied
    * into the target createdIntent, replacing any that were previously there.
    */
-  fun replaceExtras(value: Intent): BaseActivityServiceIntentBuilder<T> {
+  fun replaceExtras(value: Intent): BaseIntentBuilder<T> {
     intent.replaceExtras(value)
     return this
   }
@@ -479,7 +479,7 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
   /**
    * Remove extended data from the createdIntent.
    */
-  fun removeExtra(value: String): BaseActivityServiceIntentBuilder<T> {
+  fun removeExtra(value: String): BaseIntentBuilder<T> {
     intent.removeExtra(value)
     return this
   }
@@ -490,10 +490,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    *
    * @param extras The new set of extras in the Intent, or null to erase
    * all extras.
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun replaceExtras(value: Bundle): BaseActivityServiceIntentBuilder<T> {
+  fun replaceExtras(value: Bundle): BaseIntentBuilder<T> {
     intent.replaceExtras(value)
     return this
   }
@@ -504,10 +504,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    *
    * @param flags The new flags to set.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun addFlags(flags: Int): BaseActivityServiceIntentBuilder<T> {
+  fun addFlags(flags: Int): BaseIntentBuilder<T> {
     intent.addFlags(flags)
     return this
   }
@@ -522,10 +522,10 @@ open class BaseActivityServiceIntentBuilder<T>(context: Context, cls: Class<T>) 
    *
    * @param flags The desired flags.
    *
-   * @return Returns the same BaseActivityServiceIntentBuilder<T> object, for chaining multiple calls
+   * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun setFlags(flags: Int): BaseActivityServiceIntentBuilder<T> {
+  fun setFlags(flags: Int): BaseIntentBuilder<T> {
     intent.flags = flags
     return this
   }

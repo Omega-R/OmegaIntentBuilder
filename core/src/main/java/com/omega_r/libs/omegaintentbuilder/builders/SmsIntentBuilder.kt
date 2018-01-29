@@ -22,7 +22,7 @@ import java.util.TreeSet
 /**
  * SmsIntentBuilder is a helper for constructing sms intent
  */
-class SmsIntentBuilder(addresses: Collection<String>, private val context: Context) : BaseBuilder(context) {
+class SmsIntentBuilder(addresses: Collection<String>, private val context: Context) : BaseActivityBuilder(context) {
 
   private var phoneNumberSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
   private var message: String? = null

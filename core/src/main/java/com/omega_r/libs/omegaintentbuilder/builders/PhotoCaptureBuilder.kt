@@ -19,7 +19,7 @@ import java.io.File
 /**
  * PhotoCaptureBuilder return intent for calling standard camera application for capturing an image
  */
-class PhotoCaptureBuilder(context: Context): BaseBuilder(context) {
+class PhotoCaptureBuilder(context: Context): BaseActivityBuilder(context) {
 
   private var fileUri: Uri? = null
 

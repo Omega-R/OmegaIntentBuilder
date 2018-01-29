@@ -13,13 +13,12 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
 class CallIntentBuilder (context: Context,
-                         private var phoneNumber: String): BaseBuilder(context) {
+                         private var phoneNumber: String): BaseActivityBuilder(context) {
 
   companion object {
     private const val PHONE_SCHEME = "tel:";
