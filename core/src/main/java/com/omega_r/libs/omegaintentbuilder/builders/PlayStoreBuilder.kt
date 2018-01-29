@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.support.annotation.StringRes
 
-class PlayStoreBuilder(private val context: Context): BaseBuilder(context) {
+class PlayStoreBuilder(private val context: Context): BaseActivityBuilder(context) {
 
   private var packageName: String? = null
 

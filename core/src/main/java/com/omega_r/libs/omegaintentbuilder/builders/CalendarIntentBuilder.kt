@@ -25,7 +25,7 @@ import java.util.*
  * CalendarIntentBuilder is a helper for starting calendar
  */
 class CalendarIntentBuilder(private val context: Context,
-                            private val actionType: CalendarActionTypes): BaseBuilder(context) {
+                            private val actionType: CalendarActionTypes): BaseActivityBuilder(context) {
 
   private var intent: Intent? = null
 

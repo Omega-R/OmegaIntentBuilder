@@ -17,7 +17,7 @@ import android.net.Uri
 /**
  * BrowserBuilder class for starting web browser
  */
-class BrowserBuilder: BaseBuilder {
+class BrowserBuilder: BaseActivityBuilder {
 
   private val uri: Uri
 
