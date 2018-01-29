@@ -32,4 +32,11 @@ class PickBuilder(private val context: Context) {
     return VideoPickBuilder(context)
   }
 
+  /**
+   * @return ContactPickBuilder for creating intent to pick contact (doesn't support multiplay)
+   */
+  fun contact(): ContactPickBuilder {
+    return ContactPickBuilder(context)
+  }
+
 }

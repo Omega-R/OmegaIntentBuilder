@@ -5,7 +5,7 @@ import omega.com.annotations.OmegaExtra;
 public class Model {
 
     @OmegaExtra("Var2")
-    public String url;
+    String url;
 
     public String getUrl() {
         return url;

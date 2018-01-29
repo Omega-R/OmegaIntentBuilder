@@ -14,13 +14,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.support.annotation.RequiresApi
-import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.BaseActivityBuilder
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 
 /**
  * BasePickBuilder is a helper for creating pick file intent
  */
-open class BasePickBuilder(context: Context): BaseBuilder(context) {
+open class BasePickBuilder(context: Context): BaseActivityBuilder(context) {
 
   private var allowMultiply = false
   protected var mimeType: String = MimeTypes.FILE

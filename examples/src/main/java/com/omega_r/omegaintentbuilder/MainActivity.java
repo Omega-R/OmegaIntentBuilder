@@ -39,6 +39,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_crop_image).setOnClickListener(this);
         findViewById(R.id.button_pick_image).setOnClickListener(this);
         findViewById(R.id.button_speech_to_text).setOnClickListener(this);
+        findViewById(R.id.button_service_extra).setOnClickListener(this);
     }
 
     @Override
@@ -85,6 +86,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_speech_to_text:
                 onSpeechToTextClicked();
+                break;
+            case R.id.button_service_extra:
+                onExtrasToServiceClicked();
                 break;
         }
     }
@@ -215,6 +219,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .activity(SpeechToTextActivity.class)
                 .createIntentHandler()
                 .startActivity();
+    }
+
+    private void onExtrasToServiceClicked() {
+        AppOmegaIntentBuilder.from(this)
+                .appService()
+                .testService()
+                .value("Great library")
+                .modelVar2("Omega-R")
+                .startService();
     }
 
 }

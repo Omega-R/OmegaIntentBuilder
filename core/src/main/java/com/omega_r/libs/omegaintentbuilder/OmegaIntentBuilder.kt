@@ -12,6 +12,7 @@
 package com.omega_r.libs.omegaintentbuilder
 
 import android.app.Activity
+import android.app.Service
 import android.content.Context
 import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.builders.*
@@ -129,6 +130,13 @@ open class OmegaIntentBuilder(private val context: Context) {
    */
   fun <T: Activity> activity(activity: Class<T>): ActivityIntentBuilder<T> {
     return ActivityIntentBuilder(context, activity)
+  }
+
+  /**
+   * @return ServiceIntentBuilder for creating service intent
+   */
+  fun <T: Service> service(service: Class<T>): ServiceIntentBuilder<T> {
+    return ServiceIntentBuilder(context, service)
   }
 
   /**

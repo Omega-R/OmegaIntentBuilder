@@ -21,7 +21,7 @@ import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
 /**
  * MapIntentBuilder is a helper for open Maps applications
  */
-class MapIntentBuilder(val context: Context, val type: MapTypes) : BaseBuilder(context) {
+class MapIntentBuilder(val context: Context, val type: MapTypes) : BaseActivityBuilder(context) {
 
   private var latitude: Double? = null
   private var longitude: Double? = null
