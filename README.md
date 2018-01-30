@@ -19,10 +19,10 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-    compile 'com.github.Omega-R.OmegaIntentBuilder:core:1.0.6'
+    compile 'com.github.Omega-R.OmegaIntentBuilder:core:1.0.7'
     // For extras
-    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.0.6'
-    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.0.6'
+    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.0.7'
+    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.0.7'
 }
 ```
 # Usage
