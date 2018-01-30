@@ -13,9 +13,9 @@ package com.omega_r.libs.omegaintentbuilder.builders.pick
 import android.content.Context
 import android.content.Intent
 import android.provider.ContactsContract
-import com.omega_r.libs.omegaintentbuilder.builders.BaseBuilder
+import com.omega_r.libs.omegaintentbuilder.builders.BaseActivityBuilder
 
-class ContactPickBuilder(context: Context): BaseBuilder(context) {
+class ContactPickBuilder(context: Context): BaseActivityBuilder(context) {
 
   override fun createIntent(): Intent {
     val intent = Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI)
