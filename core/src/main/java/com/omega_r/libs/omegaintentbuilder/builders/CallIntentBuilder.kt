@@ -19,7 +19,7 @@ import com.omega_r.libs.omegaintentbuilder.types.CallTypes
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
 class CallIntentBuilder (private val context: Context,
-                         private var phoneNumber: String): BaseBuilder(context) {
+                         private var phoneNumber: String): BaseActivityBuilder(context) {
 
   private var callType = CallTypes.SYSTEM_CALL
 
