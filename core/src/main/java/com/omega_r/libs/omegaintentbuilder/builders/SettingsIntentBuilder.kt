@@ -675,9 +675,10 @@ class SettingsIntentBuilder(private val context: Context) : BaseActivityBuilder(
      * Activity Category: Show application detail settings.
      * @return This SettingsIntentBuilder for method chaining
      */
-    fun applicationSettingsInfo(): SettingsIntentBuilder {
+    @JvmOverloads
+    fun applicationSettingsInfo(packageName: String = context.packageName): SettingsIntentBuilder {
         action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        intent.data = Uri.fromParts("package", context.packageName, null)
+        intent.data = Uri.fromParts("package", packageName, null)
         return this
     }
 
