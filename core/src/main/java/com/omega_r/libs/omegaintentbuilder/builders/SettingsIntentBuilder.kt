@@ -26,6 +26,10 @@ class SettingsIntentBuilder(private val context: Context) : BaseActivityBuilder(
     private var action: String = Settings.ACTION_SETTINGS
     private val intent = Intent()
 
+    companion object {
+        private const val PACKAGE = "package"
+    }
+
     /**
      * Activity Action: Show settings to allow configuration of Wi-Fi.
      * @return This SettingsIntentBuilder for method chaining
@@ -678,7 +682,7 @@ class SettingsIntentBuilder(private val context: Context) : BaseActivityBuilder(
     @JvmOverloads
     fun applicationSettingsInfo(packageName: String = context.packageName): SettingsIntentBuilder {
         action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        intent.data = Uri.fromParts("package", packageName, null)
+        intent.data = Uri.fromParts(PACKAGE, packageName, null)
         return this
     }
 
