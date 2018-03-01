@@ -86,7 +86,7 @@ abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder
    * @return BaseUriBuilder for method chaining
    */
   fun file(vararg file: File): BaseUriBuilder {
-    file.forEach { uriSet.add(Uri.fromFile(it)) }
+    file.forEach { uriSet.add(toUri(it)) }
     return this
   }
 
@@ -98,9 +98,9 @@ abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder
    */
   fun <T> file(collection: Collection<T>): BaseUriBuilder {
     if (collection.all { it is String }) {
-      collection.forEach {  uriSet.add(Uri.fromFile(File(it as String))) }
+      collection.forEach {  uriSet.add(toUri(File(it as String))) }
     } else if (collection.all { it is File }) {
-      collection.forEach { uriSet.add(Uri.fromFile(it as File)) }
+      collection.forEach { uriSet.add(toUri(it as File)) }
     } else {
       throw IllegalStateException("Collection type should be String or File")
     }
@@ -112,8 +112,14 @@ abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder
    * @return BaseUriBuilder for method chaining
    */
   fun file(vararg file: String): BaseUriBuilder {
-    file.forEach { uriSet.add(Uri.fromFile(File(it))) }
+    file.forEach { uriSet.add(toUri(File(it))) }
     return this
+  }
+
+  private fun toUri(file:File): Uri {
+    val cacheFile = File(localFilesDir, file.name)
+    file.copyTo(cacheFile)
+    return FileProvider.getLocalFileUri(context, cacheFile)
   }
 
   /**
