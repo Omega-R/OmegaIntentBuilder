@@ -118,7 +118,7 @@ abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder
 
   private fun toUri(file:File): Uri {
     val cacheFile = File(localFilesDir, file.name)
-    file.copyTo(cacheFile)
+    file.copyTo(cacheFile, overwrite = true)
     return FileProvider.getLocalFileUri(context, cacheFile)
   }
 
