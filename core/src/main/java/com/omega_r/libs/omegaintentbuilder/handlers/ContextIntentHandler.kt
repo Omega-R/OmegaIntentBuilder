@@ -21,6 +21,7 @@ import android.content.Intent.EXTRA_TITLE
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.support.annotation.StringRes
+import android.util.AndroidRuntimeException
 import android.widget.Toast
 
 /**
@@ -185,10 +186,21 @@ open class ContextIntentHandler(private val context: Context, private val create
    * @throws ActivityNotFoundException
    */
   fun startActivity() {
+    val intent = getIntent()
     try {
-      context.startActivity(getIntent())
+      startActivity(intent)
     } catch (exc: ActivityNotFoundException) {
       handleStartActivityException(exc)
+    }
+  }
+
+  @Throws(ActivityNotFoundException::class)
+  private fun startActivity(intent: Intent) {
+    try {
+      context.startActivity(intent)
+    } catch (exc: AndroidRuntimeException) {
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      context.startActivity(intent)
     }
   }
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -23,7 +24,12 @@ public class OmegaHandleResultActivity extends Activity {
         Intent intent = new Intent(context, OmegaHandleResultActivity.class);
         int index = pushContextIntentHandler(handler);
         intent.putExtra(EXTRA_INDEX, index);
-        context.startActivity(intent);
+        try {
+            context.startActivity(intent);
+        } catch (AndroidRuntimeException exc) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
         return index;
     }
 
