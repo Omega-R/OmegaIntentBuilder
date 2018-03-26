@@ -31,9 +31,6 @@ class CallIntentBuilder (private val context: Context,
 
   init {
     phoneNumber = phoneNumber.replace(regex, "")
-    if (phoneNumber.isEmpty()) {
-      throw IllegalStateException("Empty phone number")
-    }
   }
 
   fun type(callType: CallTypes): CallIntentBuilder {
