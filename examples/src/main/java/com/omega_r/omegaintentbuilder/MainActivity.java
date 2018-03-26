@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.omega_r.libs.omegafragmentbuilder.AppOmegaFragmentBuilder;
 import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
@@ -40,6 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_pick_image).setOnClickListener(this);
         findViewById(R.id.button_speech_to_text).setOnClickListener(this);
         findViewById(R.id.button_service_extra).setOnClickListener(this);
+        findViewById(R.id.button_fragment_extra).setOnClickListener(this);
     }
 
     @Override
@@ -89,6 +91,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_service_extra:
                 onExtrasToServiceClicked();
+                break;
+            case R.id.button_fragment_extra:
+                onExtrasToFragmentClicked();
                 break;
         }
     }
@@ -228,6 +233,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .value("Great library")
                 .modelVar2("Omega-R")
                 .startService();
+    }
+
+
+    private void onExtrasToFragmentClicked() {
+        AppOmegaIntentBuilder.from(this)
+                .appActivity()
+                .tabActivity()
+                .startActivity();
     }
 
 }
