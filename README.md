@@ -205,7 +205,9 @@ OmegaIntentBuilder.from(this)
         .startActivityForResult(request_code)
 ```
 
-**Extras**
+# Extras
+
+**Activity**
 ```
 @OmegaActivity
 public class ExampleActivity extends Activity {
@@ -250,6 +252,67 @@ AppOmegaIntentBuilder.from(this)
                 .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
                 .createIntentHandler()
                 .startActivity();
+```
+
+**Fragment**
+
+```
+@OmegaFragment
+public class FirstFragment extends BaseFragment {
+
+    @OmegaExtra
+    String value;
+   
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AppOmegaFragmentBuilder.inject(this);
+    }
+```
+
+```
+AppOmegaFragmentBuilder.firstFragment()
+                       .value("First fragment")
+                       .createFragment();
+```
+
+**Service**
+```
+@OmegaService
+public class TestService extends IntentService {
+
+    private static final String TAG = TestService.class.getSimpleName();
+
+    @OmegaExtra
+    String value;
+
+    @OmegaExtraModel(prefix = "model")
+    Model model = new Model();
+
+    public TestService() {
+        this(TAG);
+    }
+
+    public TestService(String name) {
+        super(name);
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        AppOmegaIntentBuilder.inject(this, intent);
+        Log.d(TAG, value);
+        Log.d(TAG, model.getUrl());
+    }
+}
+```
+
+```
+AppOmegaIntentBuilder.from(context)
+        .appService()
+        .testService()
+        .value("Great library")
+        .modelVar2("Omega-R")
+        .startService();
 ```
 
 # License
