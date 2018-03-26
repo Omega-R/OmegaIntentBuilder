@@ -3,12 +3,14 @@ package omega.com.processor;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +33,7 @@ import javax.tools.Diagnostic;
 import omega.com.annotations.OmegaActivity;
 import omega.com.annotations.OmegaExtra;
 import omega.com.annotations.OmegaExtraModel;
+import omega.com.annotations.OmegaFragment;
 import omega.com.annotations.OmegaService;
 
 import static omega.com.processor.StringUtils.formatMethodName;
@@ -38,6 +41,8 @@ import static omega.com.processor.StringUtils.isEmpty;
 import static omega.com.processor.StringUtils.isSuitableName;
 import static omega.com.processor.StringUtils.replaceFirstToLowerCase;
 import static omega.com.processor.StringUtils.replaceFirstToUpperCase;
+import static omega.com.processor.SupportUtils.isDefaultOrProtected;
+import static omega.com.processor.SupportUtils.isInstanceOfSuperclass;
 
 @AutoService(Processor.class)
 @SupportedAnnotationTypes({"omega.com.annotations.OmegaActivity",
@@ -49,17 +54,23 @@ public class AnnotationProcessor extends AbstractProcessor {
     private static final ClassName sClassIntent = ClassName.get("android.content", "Intent");
     private static final ClassName sClassContext = ClassName.get("android.content", "Context");
     private static final ClassName sClassActivity = ClassName.get("android.app", "Activity");
+    private static final ClassName sClassFragment = ClassName.get("android.app", "Fragment");
+    private static final ClassName sClassSupportFragment = ClassName.get("android.support.v4.app", "Fragment");
+
     private static final ClassName sClassService = ClassName.get("android.app", "Service");
     private static final ClassName sClassBundle = ClassName.get("android.os", "Bundle");
 
     private static final ClassName sClassBaseBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.builders", "BaseActivityBuilder");
     private static final ClassName sClassBaseServiceBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.builders", "BaseServiceBuilder");
     private static final ClassName sClassOmegaIntentBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder", "OmegaIntentBuilder");
+    private static final ClassName sClassBundleBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.bundle", "BundleBuilder");
 
     private static final String PACKAGE_NAME = "com.omega_r.libs.omegaintentbuilder";
+    private static final String FRAGMENT_BUILDER_PACKAGE_NAME = "com.omega_r.libs.omegafragmentbuilder";
     private static final String APP_ACTIVITY_INTENT_BUILDER = "AppActivityIntentBuilder";
     private static final String APP_SERVICE_INTENT_BUILDER = "AppServiceIntentBuilder";
     private static final String APP_OMEGA_INTENT_BUILDER = "AppOmegaIntentBuilder";
+    private static final String APP_OMEGA_FRAGMENT_BUILDER = "AppOmegaFragmentBuilder";
     private static final ClassName sClassAppOmegaIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_OMEGA_INTENT_BUILDER);
     private static final ClassName sClassAppActivityIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_ACTIVITY_INTENT_BUILDER);
     private static final ClassName sClassAppServiceIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_SERVICE_INTENT_BUILDER);
@@ -93,8 +104,11 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     private boolean process() {
         try {
-            List<MethodSpec> activityBuildersList = generateBuilderMethods(mRoundEnvironment.getElementsAnnotatedWith(OmegaActivity.class), true);
-            List<MethodSpec> serviceBuildersList = generateBuilderMethods(mRoundEnvironment.getElementsAnnotatedWith(OmegaService.class), false);
+            List<Element> activityElements = getCorrectElements(OmegaActivity.class, TypeEnum.ACTIVITY);
+            List<MethodSpec> activityBuildersList = generateBuilderMethods(activityElements, TypeEnum.ACTIVITY);
+
+            List<Element> serviceElements = getCorrectElements(OmegaService.class, TypeEnum.SERVICE);
+            List<MethodSpec> serviceBuildersList = generateBuilderMethods(serviceElements, TypeEnum.SERVICE);
 
             TypeSpec activityIntentBuilder = TypeSpec.classBuilder(APP_ACTIVITY_INTENT_BUILDER)
                     .addModifiers(Modifier.PUBLIC)
@@ -115,6 +129,7 @@ public class AnnotationProcessor extends AbstractProcessor {
             JavaFile.builder(PACKAGE_NAME, serviceIntentBuilder).build()
                     .writeTo(mFiler);
             generateAppOmegaIntentBuilder();
+            generateAppOmegaFragmentBuilder();
         } catch (IOException e) {
             return false;
         }
@@ -161,49 +176,111 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .writeTo(mFiler);
     }
 
-    private List<MethodSpec> generateBuilderMethods(Set<? extends Element> elements, boolean fromActivityAnnotation) {
+    private void generateAppOmegaFragmentBuilder() throws IOException {
+        List<Element> fragmentElements = getCorrectElements(OmegaFragment.class, TypeEnum.FRAGMENT);
+        List<MethodSpec> fragmentBuildersList = generateBuilderMethods(fragmentElements, TypeEnum.FRAGMENT);
+
+        List<Element> supportFragmentElements = getCorrectElements(OmegaFragment.class, TypeEnum.SUPPORT_FRAGMENT);
+        fragmentBuildersList.addAll(generateBuilderMethods(supportFragmentElements, TypeEnum.SUPPORT_FRAGMENT));
+
+        TypeSpec omegaFragmentBuilder = TypeSpec.classBuilder(APP_OMEGA_FRAGMENT_BUILDER)
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                .addMethods(fragmentBuildersList)
+                .build();
+        JavaFile.builder(FRAGMENT_BUILDER_PACKAGE_NAME, omegaFragmentBuilder)
+                .build()
+                .writeTo(mFiler);
+    }
+
+    private List<Element> getCorrectElements(Class<? extends Annotation> annotation, TypeEnum type) {
+        Set<? extends Element> annotatedElements = mRoundEnvironment.getElementsAnnotatedWith(annotation);
+        List<Element> correctElements = new ArrayList<>();
+
+        for (Element element : annotatedElements) {
+            if (isAnnotationCorrect(element, type)) correctElements.add(element);
+        }
+        return correctElements;
+    }
+
+    private boolean isAnnotationCorrect(Element element, TypeEnum type) {
+        if (element.getKind() != ElementKind.CLASS) {
+            String message = "Annotation" + type.getShortName() + "can only be used for classes!";
+            mMessager.printMessage(Diagnostic.Kind.ERROR, message);
+            return false;
+        }
+        switch (type) {
+            case FRAGMENT:
+            case SUPPORT_FRAGMENT:
+                if (!isInstanceOfSuperclass(element, TypeEnum.FRAGMENT.className, TypeEnum.SUPPORT_FRAGMENT.className)) {
+                    mMessager.printMessage(Diagnostic.Kind.ERROR,
+                            element.getSimpleName().toString() + " should be instanceOf "
+                                    + TypeEnum.FRAGMENT.className + " or " + TypeEnum.SUPPORT_FRAGMENT.className);
+                    return false;
+                }
+                return isInstanceOfSuperclass(element, type.className);
+            default:
+                if (!isInstanceOfSuperclass(element, type.className)) {
+                    mMessager.printMessage(Diagnostic.Kind.ERROR,
+                            element.getSimpleName().toString() + " should be instanceOf " + type.className);
+                    return false;
+                }
+                break;
+        }
+
+        return true;
+    }
+
+    private List<MethodSpec> generateBuilderMethods(List<Element> elements, TypeEnum type) {
         List<Element> list = new ArrayList<>();
         List<ClassName> classNameList = new ArrayList<>();
 
         for (Element element : elements) {
-            if (generateBuilderClass(element, fromActivityAnnotation)) {
+            ClassName className = ClassName.get(mElements.getPackageOf(element).getQualifiedName().toString(),
+                    element.getSimpleName().toString());
+            if (generateBuilderClass(element, className, type)) {
                 list.add(element);
-                ClassName className = ClassName.get(mElements.getPackageOf(element).getQualifiedName().toString(),
-                        element.getSimpleName().toString());
                 classNameList.add(className);
             }
         }
 
         List<MethodSpec> methodList = new ArrayList<>();
+        methodList.add(generateInjectMethod(classNameList, type));
+
         for (Element element : list) {
-            methodList.add(generateReturnBuilderMethod(element));
+            methodList.add(generateReturnBuilderMethod(element, type));
         }
 
-        methodList.add(generateInjectMethod(classNameList, fromActivityAnnotation));
         return methodList;
     }
 
-    private boolean generateBuilderClass(Element element, boolean fromActivityAnnotation) {
-        if (element.getKind() != ElementKind.CLASS) {
-            String message = "Annotation" + (fromActivityAnnotation ? "activity" : "service") + "can only be used for classes!";
-            mMessager.printMessage(Diagnostic.Kind.ERROR, message);
-            return false;
-        }
-
-        String className = element.getSimpleName().toString() + "Builder";
-        ClassName cls = ClassName.get(mElements.getPackageOf(element).getQualifiedName().toString(),
-                                                    element.getSimpleName().toString());
+    private boolean generateBuilderClass(Element element, ClassName elementClassName, TypeEnum type) {
+        String builderClassName = element.getSimpleName().toString() + "Builder";
         String packageName = mElements.getPackageOf(element).toString();
 
-        TypeSpec intentBuilder = TypeSpec.classBuilder(className)
+        switch (type) {
+            case FRAGMENT:
+            case SUPPORT_FRAGMENT:
+                return generateFragmentBuilderClass(type, element, elementClassName, builderClassName, packageName);
+            case ACTIVITY:
+                return generateBuilderClass(type, element, elementClassName, builderClassName, packageName, sClassBaseBuilder);
+            case SERVICE:
+                return generateBuilderClass(type, element, elementClassName, builderClassName, packageName, sClassBaseServiceBuilder);
+        }
+        return false;
+    }
+
+    private boolean generateBuilderClass(TypeEnum type, Element element,
+                                         ClassName elementClassName, String builderClassName,
+                                         String packageName, ClassName superClass) {
+        TypeSpec intentBuilder = TypeSpec.classBuilder(builderClassName)
                 .addModifiers(Modifier.PUBLIC)
-                .superclass(fromActivityAnnotation ? sClassBaseBuilder : sClassBaseServiceBuilder)
+                .superclass(superClass)
                 .addField(sClassIntent, "intent", Modifier.PRIVATE, Modifier.FINAL)
                 .addMethod(generateClassConstructorMethod(false, true)
-                        .addStatement("intent = new Intent(context, $T.class)", cls)
+                        .addStatement("intent = new Intent(context, $T.class)", elementClassName)
                         .build())
-                .addMethod(generateCreateIntentMethod(cls))
-                .addMethods(generateBuilderMethods(element, ClassName.get(packageName, className), fromActivityAnnotation))
+                .addMethod(generateCreateIntentMethod(elementClassName))
+                .addMethods(generateBuilderMethods(element, ClassName.get(packageName, builderClassName), type))
                 .build();
         try {
             JavaFile.builder(packageName, intentBuilder)
@@ -215,43 +292,89 @@ public class AnnotationProcessor extends AbstractProcessor {
         }
     }
 
-    private MethodSpec generateReturnBuilderMethod(Element element) {
+    private boolean generateFragmentBuilderClass(TypeEnum type, Element element, ClassName elementClassName,
+                                                 String builderClassName, String packageName) {
+        FieldSpec bundleBuilderField = FieldSpec.builder(sClassBundleBuilder, "bundleBuilder")
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .initializer("new $T()", sClassBundleBuilder)
+                .build();
+        TypeSpec fragmentBuilder = TypeSpec.classBuilder(builderClassName)
+                .addModifiers(Modifier.PUBLIC)
+                .addField(bundleBuilderField)
+                .addMethod(MethodSpec.methodBuilder("createFragment")
+                        .addModifiers(Modifier.PUBLIC)
+                        .addStatement("$T fragment = new $T()", elementClassName, elementClassName)
+                        .addStatement("fragment.setArguments(bundleBuilder.create())", elementClassName)
+                        .addStatement("return fragment")
+                        .returns(elementClassName)
+                        .build())
+                .addMethods(generateBuilderMethods(element, ClassName.get(packageName, builderClassName), type))
+                .build();
+        try {
+            JavaFile.builder(packageName, fragmentBuilder)
+                    .build()
+                    .writeTo(mFiler);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private MethodSpec generateReturnBuilderMethod(Element element, TypeEnum type) {
         String methodName = element.getSimpleName().toString();
         String returnClassName = methodName + "Builder";
         methodName = replaceFirstToLowerCase(methodName);
         String packageName = mElements.getPackageOf(element).toString();
 
-        return MethodSpec.methodBuilder(methodName)
-                .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                .addStatement("return new " + returnClassName + "(context)")
-                .returns(ClassName.get(packageName, returnClassName))
+        MethodSpec.Builder builder = MethodSpec.methodBuilder(methodName);
+        switch (type) {
+            case FRAGMENT:
+            case SUPPORT_FRAGMENT:
+                builder.addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
+                       .addStatement("return new " + returnClassName + "()");
+                break;
+            default:
+                builder.addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                       .addStatement("return new " + returnClassName + "(context)");
+                break;
+        }
+
+        return builder.returns(ClassName.get(packageName, returnClassName))
                 .build();
     }
 
-    private MethodSpec generateInjectMethod(List<ClassName> list, boolean fromActivityAnnotation) {
+    private MethodSpec generateInjectMethod(List<ClassName> list, TypeEnum type) {
         MethodSpec.Builder builder = MethodSpec.methodBuilder("inject")
-                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
-        if (fromActivityAnnotation) {
-            builder.addParameter(ParameterSpec.builder(sClassActivity, "activity").build());
-        } else {
-            builder.addParameter(ParameterSpec.builder(sClassService, "service").build())
-                   .addParameter(ParameterSpec.builder(sClassIntent, "intent").build());
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .addParameter(ParameterSpec.builder(type.getClassName(), type.getShortName()).build());
+        switch (type) {
+            case SERVICE:
+                builder.addParameter(ParameterSpec.builder(sClassIntent, "intent").build());
+                break;
+            default:
+                // nothing
+                break;
         }
         CodeBlock.Builder codeBuilder = CodeBlock.builder();
         for (ClassName clsName : list) {
             String className = clsName.simpleName();
             ClassName fullClassName = ClassName.get(clsName.packageName(), className);
-            if (fromActivityAnnotation) {
-                codeBuilder.beginControlFlow("if(activity instanceof $T)", fullClassName)
-                        .addStatement(className + "Builder.inject((" + className + ") activity)", className)
-                        .endControlFlow();
-            } else {
-                codeBuilder.beginControlFlow("if(service instanceof $T)", fullClassName)
-                        .addStatement(className + "Builder.inject((" + className + ") service" + ", intent)", className)
-                        .endControlFlow();
+            codeBuilder.beginControlFlow("if(" + type.getShortName() + " instanceof $T)", fullClassName);
+            switch (type) {
+                case SERVICE:
+                    codeBuilder.addStatement(className + "Builder.inject((" + className + ")" + type.getShortName() + ", intent)", className)
+                            .addStatement("return")
+                            .endControlFlow();
+                    break;
+                default:
+                    codeBuilder.addStatement(className + "Builder.inject((" + className + ")" + type.getShortName() + ")", className)
+                            .addStatement("return")
+                            .endControlFlow();
+                    break;
             }
         }
         builder.addCode(codeBuilder.build());
+
         return builder.build();
     }
 
@@ -276,7 +399,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .build();
     }
 
-    private List<MethodSpec> generateBuilderMethods(Element parentElement, ClassName returnClassname, boolean fromActivityAnnotation) {
+    private List<MethodSpec> generateBuilderMethods(Element parentElement, ClassName returnClassname, TypeEnum type) {
         List<MethodSpec> methodSpecList = new ArrayList<>();
         List<? extends Element> subList = parentElement.getEnclosedElements();
 
@@ -285,19 +408,17 @@ public class AnnotationProcessor extends AbstractProcessor {
         }
 
         String valueName = replaceFirstToLowerCase(((DeclaredType) parentElement.asType()).asElement().getSimpleName().toString());
-        MethodSpec.Builder injectMethodBuilder = generateSubInjectMethod(parentElement,
-                                                                         valueName,
-                                                                         fromActivityAnnotation);
+        MethodSpec.Builder injectMethodBuilder = generateSubInjectMethod(type, parentElement, valueName);
 
         CodeBlock.Builder injectMethodCodeBuilder = CodeBlock.builder();
         injectMethodCodeBuilder.beginControlFlow("if(extras != null) ");
 
         for (Element subElement : subList) {
-            generateExtraMethod(methodSpecList, injectMethodCodeBuilder, parentElement,
-                    returnClassname, subElement,  "", valueName, false);
+            generateExtraMethod(type, methodSpecList, injectMethodCodeBuilder, parentElement,
+                    returnClassname, subElement, "", valueName, false);
 
             OmegaExtraModel extraModelAnnotation = subElement.getAnnotation(OmegaExtraModel.class);
-            if (extraModelAnnotation != null ) {
+            if (extraModelAnnotation != null) {
                 if (subElement.getKind() != ElementKind.FIELD) {
                     mMessager.printMessage(Diagnostic.Kind.ERROR, "Annotation OmegaExtraModel can only be used for classes!");
                 } else if (subElement.getModifiers().contains(Modifier.PRIVATE)) {
@@ -314,7 +435,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                     generateProtectedBackdoorClass(subElement, enclosedElements);
 
                     for (Element childElement : enclosedElements) {
-                        generateExtraMethod(methodSpecList, injectMethodCodeBuilder, subElement,
+                        generateExtraMethod(type, methodSpecList, injectMethodCodeBuilder, subElement,
                                 returnClassname, childElement, prefix, valueName, true);
                     }
                 }
@@ -327,18 +448,26 @@ public class AnnotationProcessor extends AbstractProcessor {
         return methodSpecList;
     }
 
-    private MethodSpec.Builder generateSubInjectMethod(Element element,
-                                                       String valueName,
-                                                       boolean fromActivityAnnotation) {
+    private MethodSpec.Builder generateSubInjectMethod(TypeEnum type, Element element, String valueName) {
         MethodSpec.Builder injectMethodBuilder = MethodSpec.methodBuilder("inject")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                 .addParameter(ParameterSpec.builder(ClassName.get(element.asType()), valueName).build());
-        if (fromActivityAnnotation) {
-            injectMethodBuilder.addStatement("$T extras = " + valueName + ".getIntent().getExtras()", sClassBundle);
-        } else {
-            injectMethodBuilder.addStatement("if(intent == null) return")
-                    .addParameter(ParameterSpec.builder(sClassIntent, "intent").build())
-                    .addStatement("$T extras = intent.getExtras()", sClassBundle);
+
+        switch (type) {
+            case ACTIVITY:
+                injectMethodBuilder.addStatement("$T extras = " + valueName + ".getIntent().getExtras()", sClassBundle);
+                break;
+            case SERVICE:
+                injectMethodBuilder.addStatement("if(intent == null) return")
+                        .addParameter(ParameterSpec.builder(sClassIntent, "intent").build())
+                        .addStatement("$T extras = intent.getExtras()", sClassBundle);
+                break;
+            case FRAGMENT:
+            case SUPPORT_FRAGMENT:
+                injectMethodBuilder.addStatement("if(" + valueName + " == null) return")
+                        .addStatement("if(" + valueName + ".getArguments() == null) return")
+                        .addStatement("$T extras = " + valueName + ".getArguments()", sClassBundle);
+                break;
         }
 
         return injectMethodBuilder;
@@ -384,7 +513,8 @@ public class AnnotationProcessor extends AbstractProcessor {
         }
     }
 
-    private void generateExtraMethod(List<MethodSpec> methodSpecList,
+    private void generateExtraMethod(TypeEnum type,
+                                     List<MethodSpec> methodSpecList,
                                      CodeBlock.Builder injectMethodCodeBuilder,
                                      Element parentElement,
                                      ClassName returnClassName,
@@ -408,19 +538,27 @@ public class AnnotationProcessor extends AbstractProcessor {
 
             ParameterSpec parameter = ParameterSpec.builder(ClassName.get(element.asType()), "value").build();
 
-            methodSpecList.add(MethodSpec.methodBuilder(methodName)
+            MethodSpec.Builder putExtraMethodBuilder = MethodSpec.methodBuilder(methodName)
                     .returns(returnClassName)
                     .addModifiers(Modifier.PUBLIC)
-                    .addParameter(parameter)
-                    .addStatement("intent.putExtra(\"" + key + "\", " + VALUE + ")")
-                    .addStatement("return this", returnClassName)
-                    .build());
+                    .addParameter(parameter);
+
+            switch (type) {
+                case FRAGMENT:
+                case SUPPORT_FRAGMENT:
+                    putExtraMethodBuilder.addStatement("bundleBuilder.putExtra(\"" + key + "\", " + VALUE + ")");
+                    break;
+                default:
+                    putExtraMethodBuilder.addStatement("intent.putExtra(\"" + key + "\", " + VALUE + ")");
+                    break;
+            }
+            methodSpecList.add(putExtraMethodBuilder.addStatement("return this", returnClassName).build());
 
             if (element.getModifiers().contains(Modifier.PRIVATE)) {
                 mMessager.printMessage(Diagnostic.Kind.ERROR, element.getSimpleName() + " in " + parentElement.getSimpleName() + " can't be private;");
             } else {
                 injectMethodCodeBuilder.beginControlFlow("if(extras.containsKey(\"" + key + "\"))");
-                if(fromOmegaModel) {
+                if (fromOmegaModel) {
                     if (isDefaultOrProtected(element)) {
                         Element omegaModelElement = ((DeclaredType) parentElement.asType()).asElement();
                         String shortClassName = omegaModelElement.getSimpleName().toString() + OMEGA_GENERATED;
@@ -428,7 +566,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                         ClassName backdoorClassName = ClassName.get(packageName, shortClassName);
                         String method = SET + replaceFirstToUpperCase(element.getSimpleName().toString());
 
-                        injectMethodCodeBuilder.add( "$T." + method + "(" + valueName + "."
+                        injectMethodCodeBuilder.add("$T." + method + "(" + valueName + "."
                                 + parentElement.toString() + ", " + "(" + "$T" + ") "
                                 + "extras.get(\"" + key + "\")); \n", backdoorClassName, ClassName.get(element.asType()));
                     } else {
@@ -447,12 +585,27 @@ public class AnnotationProcessor extends AbstractProcessor {
         }
     }
 
-    private boolean isDefaultOrProtected(Element element) {
-        Set<Modifier> modifiers = element.getModifiers();
-        if (modifiers.contains(Modifier.PROTECTED)) return true;
-        if (modifiers.contains(Modifier.PUBLIC)) return false;
-        if (modifiers.contains(Modifier.PRIVATE)) return false;
-        return true;
+    private enum TypeEnum {
+        ACTIVITY(sClassActivity, "activity"),
+        FRAGMENT(sClassFragment, "fragment"),
+        SUPPORT_FRAGMENT(sClassSupportFragment, "fragment"),
+        SERVICE(sClassService, "service");
+
+        ClassName className;
+        String shortName;
+
+        TypeEnum(ClassName className, String shortName) {
+            this.className = className;
+            this.shortName = shortName;
+        }
+
+        public ClassName getClassName() {
+            return className;
+        }
+
+        public String getShortName() {
+            return shortName;
+        }
     }
 
 }
