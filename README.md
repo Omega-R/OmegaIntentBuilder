@@ -245,7 +245,7 @@ public class Model {
 
 ```
 AppOmegaIntentBuilder.from(this)
-                .appActivity()
+                .appActivities()
                 .exampleActivity()
                 .parameter_name("Omega-R")
                 .title("https://omega-r.com/")
@@ -290,11 +290,7 @@ public class TestService extends IntentService {
     Model model = new Model();
 
     public TestService() {
-        this(TAG);
-    }
-
-    public TestService(String name) {
-        super(name);
+        super(TAG);
     }
 
     @Override
@@ -308,7 +304,7 @@ public class TestService extends IntentService {
 
 ```
 AppOmegaIntentBuilder.from(context)
-        .appService()
+        .appServices()
         .testService()
         .value("Great library")
         .modelVar2("Omega-R")
