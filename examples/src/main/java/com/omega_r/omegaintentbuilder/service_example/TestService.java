@@ -24,11 +24,7 @@ public class TestService extends IntentService {
     Model model = new Model();
 
     public TestService() {
-        this(TAG);
-    }
-
-    public TestService(String name) {
-        super(name);
+        super(TAG);
     }
 
     @Override
