@@ -1,20 +1,16 @@
 package com.omega_r.omegaintentbuilder;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
-import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes;
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +36,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_pick_image).setOnClickListener(this);
         findViewById(R.id.button_speech_to_text).setOnClickListener(this);
         findViewById(R.id.button_service_extra).setOnClickListener(this);
+        findViewById(R.id.button_fragment_extra).setOnClickListener(this);
     }
 
     @Override
@@ -90,12 +87,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.button_service_extra:
                 onExtrasToServiceClicked();
                 break;
+            case R.id.button_fragment_extra:
+                onExtrasToFragmentClicked();
+                break;
         }
     }
 
     private void startShareFilesActivity() {
         AppOmegaIntentBuilder.from(this)
-                .appActivity()
+                .appActivities()
                 .shareFilesActivity()
                 .url1("https://developer.android.com/studio/images/hero_image_studio.png")
                 .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
@@ -223,11 +223,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void onExtrasToServiceClicked() {
         AppOmegaIntentBuilder.from(this)
-                .appService()
+                .appServices()
                 .testService()
                 .value("Great library")
                 .modelVar2("Omega-R")
                 .startService();
+    }
+
+
+    private void onExtrasToFragmentClicked() {
+        AppOmegaIntentBuilder.from(this)
+                .appActivities()
+                .tabActivity()
+                .startActivity();
     }
 
 }

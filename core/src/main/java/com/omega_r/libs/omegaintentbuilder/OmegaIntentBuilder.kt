@@ -38,7 +38,8 @@ open class OmegaIntentBuilder(private val context: Context) {
    * @param phoneNumber String for calling
    * @return CallIntentBuilder for creating call Intent
    */
-  fun call(phoneNumber: String): CallIntentBuilder {
+  @JvmOverloads
+  fun call(phoneNumber: String = ""): CallIntentBuilder {
     return CallIntentBuilder(context, phoneNumber)
   }
 

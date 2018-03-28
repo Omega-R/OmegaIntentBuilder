@@ -132,6 +132,13 @@
             android:theme="@style/ButtonStyle"
             android:text="@string/service_extra"/>
 
+        <Button
+            android:id="@+id/button_fragment_extra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/fragment_extra"/>
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

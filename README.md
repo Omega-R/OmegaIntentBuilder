@@ -19,10 +19,10 @@ allprojects {
 **Step 2.** Add the dependency
 ```
 dependencies {
-   compile 'com.github.Omega-R.OmegaIntentBuilder:core:1.0.9'
+   compile 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.0'
     // For extras
-    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.0.9'
-    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.0.9'
+    compile 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.1.0'
+    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.0'
 }
 ```
 # Usage
@@ -205,7 +205,9 @@ OmegaIntentBuilder.from(this)
         .startActivityForResult(request_code)
 ```
 
-**Extras**
+# Extras
+
+**Activity**
 ```
 @OmegaActivity
 public class ExampleActivity extends Activity {
@@ -243,13 +245,70 @@ public class Model {
 
 ```
 AppOmegaIntentBuilder.from(this)
-                .appActivity()
+                .appActivities()
                 .exampleActivity()
                 .parameter_name("Omega-R")
                 .title("https://omega-r.com/")
                 .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
                 .createIntentHandler()
                 .startActivity();
+```
+
+**Fragment**
+
+```
+@OmegaFragment
+public class FirstFragment extends BaseFragment {
+
+    @OmegaExtra
+    String value;
+   
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AppOmegaFragmentBuilder.inject(this);
+    }
+```
+
+```
+AppOmegaFragmentBuilder.firstFragment()
+                       .value("First fragment")
+                       .createFragment();
+```
+
+**Service**
+```
+@OmegaService
+public class TestService extends IntentService {
+
+    private static final String TAG = TestService.class.getSimpleName();
+
+    @OmegaExtra
+    String value;
+
+    @OmegaExtraModel(prefix = "model")
+    Model model = new Model();
+
+    public TestService() {
+        super(TAG);
+    }
+
+    @Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        AppOmegaIntentBuilder.inject(this, intent);
+        Log.d(TAG, value);
+        Log.d(TAG, model.getUrl());
+    }
+}
+```
+
+```
+AppOmegaIntentBuilder.from(context)
+        .appServices()
+        .testService()
+        .value("Great library")
+        .modelVar2("Omega-R")
+        .startService();
 ```
 
 # License
