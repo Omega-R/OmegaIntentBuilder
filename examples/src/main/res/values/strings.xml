@@ -19,4 +19,6 @@
     <string name="speech_to_text">Speech to text</string>
     <string name="start_service">Start Service</string>
     <string name="service_extra">Extras to Service</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="fragment_extra">Extras to Fragment</string>
 </resources>
