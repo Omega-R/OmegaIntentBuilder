@@ -17,8 +17,8 @@ class BundleBuilder {
      * @param bundle a Bundle
      * @return This BundleBuilder for method chaining
      */
-    fun putExtra(bundle: Bundle): BundleBuilder {
-        bundle.putAll(bundle)
+    fun putExtra(name: String, bundle: Bundle): BundleBuilder {
+        bundle.putBundle(name, bundle)
         return this
     }
 
@@ -29,8 +29,8 @@ class BundleBuilder {
      * @return This BundleBuilder for method chaining
      */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun putExtra(bundle: PersistableBundle): BundleBuilder {
-        bundle.putAll(bundle)
+    fun putExtra(name: String, bundle: PersistableBundle): BundleBuilder {
+        bundle.putPersistableBundle(name, bundle)
         return this
     }
 
