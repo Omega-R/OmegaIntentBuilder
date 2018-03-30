@@ -60,9 +60,6 @@ class SmsIntentBuilder(addresses: Collection<String>, private val context: Conte
 
   @SuppressLint("NewApi")
   override fun createIntent(): Intent {
-    if (phoneNumberSet.isEmpty()) {
-      throw IllegalStateException("You can't call createIntent with empty phone number")
-    }
     if (message == null) {
       message = ""
     }
