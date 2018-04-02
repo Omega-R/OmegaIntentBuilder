@@ -16,19 +16,21 @@ import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 
-class ActivityIntentBuilder<T: Activity> (private val context: Context,
-                                          activity: Class<T>): BaseIntentBuilder<T>(context, activity), IntentHandler {
+class ActivityIntentBuilder<T : Activity>(
+        private val context: Context,
+        activity: Class<T>
+) : BaseIntentBuilder<ActivityIntentBuilder<T>, T>(context, activity), IntentHandler {
 
-  override fun createIntentHandler(): ContextIntentHandler {
-    return ContextIntentHandler(context, createIntent())
-  }
+    override fun createIntentHandler(): ContextIntentHandler {
+        return ContextIntentHandler(context, createIntent())
+    }
 
-  override fun createIntentHandler(activity: Activity): ActivityIntentHandler {
-    return ActivityIntentHandler(activity, createIntent())
-  }
+    override fun createIntentHandler(activity: Activity): ActivityIntentHandler {
+        return ActivityIntentHandler(activity, createIntent())
+    }
 
-  override fun startActivity() {
-    createIntentHandler().startActivity()
-  }
+    override fun startActivity() {
+        createIntentHandler().startActivity()
+    }
 
 }

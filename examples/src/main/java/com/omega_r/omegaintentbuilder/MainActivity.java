@@ -150,7 +150,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void openSettings() {
         OmegaIntentBuilder.from(this)
                 .settings()
-                .createIntentHandler()
                 .startActivity();
     }
 
