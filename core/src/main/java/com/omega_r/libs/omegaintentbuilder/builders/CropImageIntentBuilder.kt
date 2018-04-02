@@ -135,8 +135,8 @@ class CropImageIntentBuilder(private val context: Context): BaseUriBuilder(conte
     val intent = Intent("com.android.camera.action.CROP")
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
     intent.type = MimeTypes.IMAGE
-    intent.putExtra("outputX", outputX)
-    intent.putExtra("outputY", outputY)
+    outputX?.let { intent.putExtra("outputX", it) }
+    outputY?.let { intent.putExtra("outputY", it) }
     intent.putExtra("aspectX", aspectX)
     intent.putExtra("aspectY", aspectY)
     intent.putExtra("scale", scale)

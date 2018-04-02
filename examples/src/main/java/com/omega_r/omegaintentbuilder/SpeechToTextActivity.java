@@ -37,10 +37,10 @@ public class SpeechToTextActivity extends AppCompatActivity implements View.OnCl
                 .startActivityForResult(new ActivityResultCallback() {
                     @Override
                     public void onActivityResult(int resultCode, @Nullable Intent data) {
-                        if (resultCode == RESULT_OK && null != data) {
+                        if (resultCode == RESULT_OK && data != null) {
                             textView.setText("");
                             List<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                            for (String msg: result) {
+                            for (String msg : result) {
                                 textView.append("\n" + msg);
                             }
                         }
