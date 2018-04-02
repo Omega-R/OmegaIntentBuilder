@@ -6,7 +6,8 @@ import android.os.Bundle
 import android.os.Parcelable
 import java.io.Serializable
 
-open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
+@Suppress("UNCHECKED_CAST")
+open class BaseIntentBuilder<out S, T> (context: Context, cls: Class<T>) {
 
   private val intent: Intent = Intent(context, cls)
 
@@ -21,9 +22,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Boolean): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Boolean): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -37,9 +38,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Byte): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Byte): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -53,9 +54,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Char): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Char): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -69,9 +70,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Short): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Short): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -85,9 +86,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Int): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Int): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -101,9 +102,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Long): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Long): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -117,9 +118,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Float): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Float): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -133,9 +134,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Double): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Double): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -149,9 +150,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: String): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: String): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -165,9 +166,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: CharSequence): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: CharSequence): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -181,9 +182,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Parcelable): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Parcelable): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -197,9 +198,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Array<Parcelable>): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Array<Parcelable>): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -213,9 +214,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun <P: Parcelable> putParcelableArrayListExtra(name: String, value: ArrayList<P>): BaseIntentBuilder<T> {
+  fun <P: Parcelable> putParcelableArrayListExtra(name: String, value: ArrayList<P>): S {
     intent.putParcelableArrayListExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -229,9 +230,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putIntegerArrayListExtra(name: String, value: ArrayList<Int>): BaseIntentBuilder<T> {
+  fun putIntegerArrayListExtra(name: String, value: ArrayList<Int>): S {
     intent.putIntegerArrayListExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -245,9 +246,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putStringArrayListExtra(name: String, value: ArrayList<String>): BaseIntentBuilder<T> {
+  fun putStringArrayListExtra(name: String, value: ArrayList<String>): S {
     intent.putStringArrayListExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -261,9 +262,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putCharSequenceArrayListExtra(name: String, value: ArrayList<CharSequence>): BaseIntentBuilder<T> {
+  fun putCharSequenceArrayListExtra(name: String, value: ArrayList<CharSequence>): S {
     intent.putCharSequenceArrayListExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -277,9 +278,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Serializable): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Serializable): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -293,9 +294,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: BooleanArray): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: BooleanArray): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -309,9 +310,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: ShortArray): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: ShortArray): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -325,9 +326,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: CharArray): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: CharArray): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -341,9 +342,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: IntArray): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: IntArray): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -357,9 +358,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: LongArray): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: LongArray): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -373,9 +374,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: FloatArray): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: FloatArray): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -389,9 +390,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: DoubleArray): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: DoubleArray): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -405,9 +406,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Array<String>): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Array<String>): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -421,9 +422,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Array<CharSequence>): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Array<CharSequence>): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -437,9 +438,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun putExtra(name: String, value: Bundle): BaseIntentBuilder<T> {
+  fun putExtra(name: String, value: Bundle): S {
     intent.putExtra(name, value)
-    return this
+    return this as S
   }
 
   /**
@@ -449,9 +450,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    *
    * @param extras The Bundle of extras to add to this createdIntent.
    */
-  fun putExtras(value: Bundle): BaseIntentBuilder<T> {
+  fun putExtras(value: Bundle): S {
     intent.putExtras(value)
-    return this
+    return this as S
   }
 
   /**
@@ -459,9 +460,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    *
    * @param src Contains the extras to copy.
    */
-  fun putExtras(value: Intent): BaseIntentBuilder<T> {
+  fun putExtras(value: Intent): S {
     intent.putExtras(value)
-    return this
+    return this as S
   }
 
   /**
@@ -471,17 +472,17 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @param src The exact extras contained in this Intent are copied
    * into the target createdIntent, replacing any that were previously there.
    */
-  fun replaceExtras(value: Intent): BaseIntentBuilder<T> {
+  fun replaceExtras(value: Intent): S {
     intent.replaceExtras(value)
-    return this
+    return this as S
   }
 
   /**
    * Remove extended data from the createdIntent.
    */
-  fun removeExtra(value: String): BaseIntentBuilder<T> {
+  fun removeExtra(value: String): S {
     intent.removeExtra(value)
-    return this
+    return this as S
   }
 
   /**
@@ -493,9 +494,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun replaceExtras(value: Bundle): BaseIntentBuilder<T> {
+  fun replaceExtras(value: Bundle): S {
     intent.replaceExtras(value)
-    return this
+    return this as S
   }
 
   /**
@@ -507,9 +508,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun addFlags(flags: Int): BaseIntentBuilder<T> {
+  fun addFlags(flags: Int): S {
     intent.addFlags(flags)
-    return this
+    return this as S
   }
 
   /**
@@ -525,9 +526,9 @@ open class BaseIntentBuilder<T>(context: Context, cls: Class<T>) {
    * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
    * into a single statement.
    */
-  fun setFlags(flags: Int): BaseIntentBuilder<T> {
+  fun setFlags(flags: Int): S {
     intent.flags = flags
-    return this
+    return this as S
   }
 
   fun createIntent(): Intent {
