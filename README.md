@@ -25,291 +25,36 @@ dependencies {
     annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.1'
 }
 ```
-# Usage
 
-**Call Intent**
-```
-OmegaIntentBuilder.from(this)
-                    .call("Your phone number")
-                    .createIntentHandler(this)
-                    .failToast("Sorry, you don't have app for making call phone")
-                    .startActivity();
-```
+## [Wiki](https://github.com/Omega-R/OmegaIntentBuilder/wiki)
 
-**Email Intent**
-```
-OmegaIntentBuilder.from(this)
-                .email()
-                .text("Hello world")
-                .emailTo("develop@omega-r.com")
-                .subject("Great library")
-                .createIntentHandler()
-                .failCallback(new FailCallback() {
-                    @Override
-                    public void onActivityStartError(@NotNull Exception exc) {
-                        Toast.makeText(getApplicationContext(), "Sorry, you don't have app for sending email", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .startActivity();
-```
+Supported features.
 
-**Share Intent**
-```
-OmegaIntentBuilder.from(context)
-                    .share()
-                    .emailTo("develop@omega-r.com")
-                    .emailBcc("bcc1@test.com","bcc2@test.com") // Concealed addresses
-                    .emailCc("cc1@test.com","cc2@test.com")  // Copy addresses
-                    .subject("Great library")
-                    .createIntentHandler()
-                    .chooserTitle("Choose")
-                    .startActivity();
-```
+* [Build Extras](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Build-Extra)
+  * [Activity Extras Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Activity-Extras-builder)
+  * [Fragment Extras Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Fragment-Extras-Builder)
+  * [Service Extras Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Service-Extras-Builder) 
+* Supported intents
+  * [Activity Intent Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Activity-Intent-builder)
+  * [Service Intent Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Service-Intent-Builder)
+  * [Call Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Call-Intent)
+  * [Email Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Email-Intent)
+  * [Share Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Share-Intent)
+  * [Web Browser Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Web-Intent)
+  * [Settings Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Settings-Intent)
+  * [Speech to text](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Speech-to-text)
+  * [GooglePlayStore Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Google-play-store)
+  * [Photo Capture Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Photo-Capture-Intent)
+  * [Map Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Map-Intent)
+  * [Crop Image Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Crop-Image-Intent)
+  * [Calendar Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Calendar-Intent)
+  * [Pick Files](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Pick-files)
+    * [File](https://github.com/Omega-R/OmegaIntentBuilder/wiki/File-Pick)
+    * [Image](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Image-Pick)
+    * [Audio](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Audio-Pick)
+    * [Contact](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Contact-Pick)
+    * [Video](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Video-Pick)
 
-You can download file from internet and put it to intent. 
-```
-OmegaIntentBuilder.from(context)
-                    .share()
-                    .emailTo("your_email_here@gmail.com")
-                    .subject("Great library")
-                    .filesUrls("https://developer.android.com/studio/images/hero_image_studio.png")
-                    .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
-                    .download(new DownloadCallback() {
-                        @Override
-                        public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
-                            contextIntentHandler.startActivity();
-                        }
-                    });
-```
-
-**Web Intent**
-```
-OmegaIntentBuilder.from(context)
-                .web("https://omega-r.com/")
-                .createIntentHandler()
-                .chooserTitle("Omega-R")
-                .failToast("You don't have app for open urls")
-                .startActivity();
-```
-
-**Settings Intent**
-```
-OmegaIntentBuilder.from(context)
-                .settings()
-                .wifi()
-                .createIntentHandler()
-                .startActivity();
-```
-
-**Map Intent**
-
-Supported map application : Google, Yandex, Kakao, Naver;
-```
-OmegaIntentBuilder.from(context)
-                .map(MapTypes.GOOGLE_MAP)
-                .latitude(56.6327622)
-                .longitude(47.910693)
-                .address("Omega-R")
-                .createIntentHandler()
-                .failToast("You don't have Google Map application")
-                .startActivity();
-```
-
-**Calendar Intent**
-```
-OmegaIntentBuilder.from(this)
-                .calendar(CalendarActionTypes.INSERT_EVENT)
-                .startDate(startDate)
-                .endDate(endDate)
-                .title("Omega-R")
-                .description("Great library")
-                .location("New York")
-                .allDay(false)
-                .organizer("develop@omega-r.com")
-                .hasAlarm(false)
-                .createIntentHandler()
-                .startActivity();
-```
-
-**Sms Intent**
-```
-OmegaIntentBuilder.from(this)
-                .sms("Your phone number here")
-                .message("Your message here")
-                .createIntentHandler()
-                .startActivity();
-```
-
-**Photo capture Intent**
-```
-OmegaIntentBuilder.from(this)
-                .photoCapture()
-                // .file("Path to file") Also you can use your full path to captured file
-                .createIntentHandler(this)
-                // You can use startActivityForResult() method without Activity participate.
-                .startActivityForResult(new ActivityResultCallback() {
-                    @Override
-                    public void onActivityResult(int resultCode, @NotNull Intent data) {
-                        if (resultCode == RESULT_OK) {
-                            Bundle extras = data.getExtras();
-                            if (extras != null) {
-                                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                                imageView.setImageBitmap(imageBitmap);
-                            }
-                        }
-                    }
-                });
-```
-
-**Crop image Intent**
-```
-OmegaIntentBuilder.from(this)
-                .cropImage()
-                .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
-                .bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.crop_image))
-                //.file("Your image file here") Also you can use your image file instead bitmap
-                //.fileUri("Your URI here") Also you can use your URI instead bitmap, file
-                .createIntentHandler(this)
-                .failToast("You don't have app for cropping image")
-                .startActivityForResult(CROP_REQUEST_CODE);
-```
-
-**Pick file Intent**
-```
-OmegaIntentBuilder.from(this)
-        .pick()
-        .file()
-        .mimeType("Your mimeType here") // Default mimeType "file/*"
-        .multiply(false)
-        .createIntentHandler(this)
-        .startActivityForResult("Your result code here");
-```
-
-**Pick image Intent**
-```
-OmegaIntentBuilder.from(this)
-        .pick()
-        .image()
-        .multiply(false)
-        .createIntentHandler(this)
-        .startActivityForResult("Your result code here");
-```
-
-**Speech to text Intent**
-```
-OmegaIntentBuilder.from(this)
-        .speechToText()
-        .prompt("Say something")
-        .createIntentHandler(this)
-        .failToast("You don't have app for \"Speech to text\"")
-        .startActivityForResult(request_code)
-```
-
-# Extras
-
-**Activity**
-```
-@OmegaActivity
-public class ExampleActivity extends Activity {
-
-    @OmegaExtra("parameter_name")   // You can use your own generated parameter name
-    String message;
-
-    @OmegaExtra()   // Or parameter name will be automatically generated by value name
-    String title;
-
-
-    @OmegaExtraModel(prefix = "model") // You can use your model class with OmegaExtra annotation parameters
-    Model model = new Model();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ...
-        AppOmegaIntentBuilder.inject(this);
-    }
-}
-```
-
-```
-public class Model {
-
-    @OmegaExtra("Var2")
-    public String url;
-
-    public String getUrl() {
-        return url;
-    }
-}
-```
-
-```
-AppOmegaIntentBuilder.from(this)
-                .appActivities()
-                .exampleActivity()
-                .parameter_name("Omega-R")
-                .title("https://omega-r.com/")
-                .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
-                .createIntentHandler()
-                .startActivity();
-```
-
-**Fragment**
-
-```
-@OmegaFragment
-public class FirstFragment extends BaseFragment {
-
-    @OmegaExtra
-    String value;
-   
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        AppOmegaFragmentBuilder.inject(this);
-    }
-```
-
-```
-AppOmegaFragmentBuilder.firstFragment()
-                       .value("First fragment")
-                       .createFragment();
-```
-
-**Service**
-```
-@OmegaService
-public class TestService extends IntentService {
-
-    private static final String TAG = TestService.class.getSimpleName();
-
-    @OmegaExtra
-    String value;
-
-    @OmegaExtraModel(prefix = "model")
-    Model model = new Model();
-
-    public TestService() {
-        super(TAG);
-    }
-
-    @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        AppOmegaIntentBuilder.inject(this, intent);
-        Log.d(TAG, value);
-        Log.d(TAG, model.getUrl());
-    }
-}
-```
-
-```
-AppOmegaIntentBuilder.from(context)
-        .appServices()
-        .testService()
-        .value("Great library")
-        .modelVar2("Omega-R")
-        .startService();
-```
 
 # License
 ```
