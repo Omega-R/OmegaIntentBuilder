@@ -34,7 +34,7 @@ Supported features.
   * [Activity Extras Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Activity-Extras-builder)
   * [Fragment Extras Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Fragment-Extras-Builder)
   * [Service Extras Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Service-Extras-Builder) 
-* Supported intents
+* [Supported intents](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Supported-intents) 
   * [Activity Intent Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Activity-Intent-builder)
   * [Service Intent Builder](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Service-Intent-Builder)
   * [Call Intent](https://github.com/Omega-R/OmegaIntentBuilder/wiki/Call-Intent)
