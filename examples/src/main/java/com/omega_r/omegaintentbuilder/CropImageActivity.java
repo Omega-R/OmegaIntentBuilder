@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
-import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes;
 
@@ -17,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CropImageActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final int REQUEST_CODE = 111;
     private static final int DEFAULT_OUTPUT_X = 200;
     private static final int DEFAULT_OUTPUT_Y = 200;
 
@@ -49,14 +49,9 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
                 .cropImage()
                 .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
                 .bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.crop_image))
-                .createIntentHandler()
+                .createIntentHandler(this)
                 .failToast("You don't have app for cropping image")
-                .startActivityForResult(new ActivityResultCallback() {
-                    @Override
-                    public void onActivityResult(int resultCode, @NotNull Intent data) {
-                        onResult(resultCode, data);
-                    }
-                });
+                .startActivityForResult(REQUEST_CODE);
     }
 
     private void cropFromInternet() {
@@ -69,18 +64,14 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
                     @Override
                     public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
                         hideProgress();
-                        contextIntentHandler.startActivityForResult(new ActivityResultCallback() {
-                            @Override
-                            public void onActivityResult(int resultCode, @NotNull Intent data) {
-                                onResult(resultCode, data);
-                            }
-                        });
+                        startActivityForResult(contextIntentHandler.getIntent(), REQUEST_CODE);
                     }
                 });
     }
 
-    private void onResult(int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             if (extras != null) {
                 Bitmap cropped = extras.getParcelable("data");

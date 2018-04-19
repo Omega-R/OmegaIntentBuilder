@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class PickImageActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final int REQUEST_CODE = 141;
     private ImageView imageView;
 
     @Override
@@ -34,20 +35,20 @@ public class PickImageActivity extends BaseActivity implements View.OnClickListe
                 .image()
                 .multiply(false)
                 .createIntentHandler(this)
-                .startActivityForResult(new ActivityResultCallback() {
-                    @Override
-                    public void onActivityResult(int resultCode, @Nullable Intent data) {
-                        if (resultCode == RESULT_OK && data != null) {
-                            try {
-                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                                imageView.setImageBitmap(bitmap);
-                            } catch (IOException exc) {
-                                exc.printStackTrace();
-                            }
-                        } else if (resultCode == RESULT_CANCELED) {
-                            Toast.makeText(getApplicationContext(), "Pick cancelled", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                .startActivityForResult(REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            Toast.makeText(getApplicationContext(), "Pick cancelled", Toast.LENGTH_SHORT).show();
+        }
     }
 }
