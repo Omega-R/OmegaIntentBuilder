@@ -35,7 +35,7 @@ public class PickImageActivity extends BaseActivity implements View.OnClickListe
                 .image()
                 .multiply(false)
                 .createIntentHandler(this)
-                .startActivityForResult(111);
+                .startActivityForResult(REQUEST_CODE);
     }
 
     @Override
