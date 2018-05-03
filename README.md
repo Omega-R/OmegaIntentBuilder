@@ -17,6 +17,7 @@ allprojects {
 }
 ```
 **Step 2.** Add the dependency
+#### If you use only Java.
 ```
 dependencies {
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.1'
@@ -25,6 +26,30 @@ dependencies {
     annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.1'
 }
 ```
+
+#### If you use Kotlin or Java with Kotlin, please use kapt instead java annotationProcessor. Main build.gradle file should look like this
+```
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+kapt {
+    generateStubs = true
+}
+
+android {
+    ......
+}    
+    
+dependencies {
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.1'
+    // For extras
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.1.1'
+    kapt 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.1'
+}
+```
+
+
 
 ## [Wiki](https://github.com/Omega-R/OmegaIntentBuilder/wiki)
 
