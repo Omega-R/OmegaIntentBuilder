@@ -17,6 +17,7 @@ allprojects {
 }
 ```
 **Step 2.** Add the dependency
+#### If you use only Java.
 ```
 dependencies {
     implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.1'
@@ -26,8 +27,7 @@ dependencies {
 }
 ```
 
-If you use Kotlin or Java with Kotlin, please use kapt instead java annotationProcessor. 
-Main build.gradle file should look like this
+#### If you use Kotlin or Java with Kotlin, please use kapt instead java annotationProcessor. Main build.gradle file should look like this
 ```
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
