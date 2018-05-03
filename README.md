@@ -26,7 +26,7 @@ dependencies {
 }
 ```
 
-If you use only Kotlin, please use kapt instead java annotationProcessor. 
+If you use Kotlin or Java with Kotlin, please use kapt instead java annotationProcessor. 
 Main build.gradle file should look like this
 ```
 apply plugin: 'com.android.application'
