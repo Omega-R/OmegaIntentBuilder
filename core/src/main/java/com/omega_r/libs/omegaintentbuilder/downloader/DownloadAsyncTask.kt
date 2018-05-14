@@ -6,6 +6,7 @@ import android.os.AsyncTask
 import android.support.annotation.NonNull
 import android.util.Log
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
+import com.omega_r.libs.omegaintentbuilder.models.FileInfo
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.*
 import java.io.File
 import java.io.FileOutputStream
@@ -18,21 +19,21 @@ import java.util.*
 internal class DownloadAsyncTask<T>(private val context: Context,
                                     private val intentBuilder: T,
                                     private val localDirFile: File,
-                                    private val downloadCallback: DownloadCallback) : AsyncTask<Map<String, String?>, Void, List<Uri>>() where T : BaseUriBuilder {
+                                    private val downloadCallback: DownloadCallback) : AsyncTask<Set<FileInfo>, Void, List<Uri>>() where T : BaseUriBuilder {
 
   companion object {
     private val TAG = DownloadAsyncTask::class.java.simpleName
     private const val BUFFER_SIZE = 8192
   }
 
-  override fun doInBackground(vararg maps: Map<String, String?>): List<Uri> {
+  override fun doInBackground(vararg params: Set<FileInfo>): List<Uri> {
     val fileSet: MutableSet<File> = mutableSetOf()
-    val urlsMap: MutableMap<String, String?> = TreeMap(String.CASE_INSENSITIVE_ORDER)
-    maps.forEach { it -> urlsMap.putAll(it) }
+    val fileInfoSet: MutableSet<FileInfo> = mutableSetOf()
+    params.forEach { fileInfoSet.addAll(it) }
 
-    for (address in urlsMap) {
+    fileInfoSet.forEach {
       try {
-        downloadFile(address.key, address.value)?.let { it -> fileSet.add(it) }
+        downloadFile(it)?.let { fileSet.add(it) }
       } catch (exc: IOException)  {
         Log.e(TAG, exc.toString())
       }
@@ -55,18 +56,23 @@ internal class DownloadAsyncTask<T>(private val context: Context,
   }
 
   @Throws(IOException::class)
-  private fun downloadFile(@NonNull urlAddress: String, mimType: String? = null): File? {
-    val url = URL(urlAddress)
+  private fun downloadFile(@NonNull fileInfo: FileInfo): File? {
+    val url = URL(fileInfo.urlAddress)
     val httpConnection: HttpURLConnection = url.openConnection() as HttpURLConnection
 
     val responseCode = httpConnection.responseCode
     if (responseCode == HttpURLConnection.HTTP_OK) {
       val inputStream: InputStream = httpConnection.inputStream;
       val file: File
-      if (mimType.isNullOrEmpty()) {
-        file = File(localDirFile, getFileName(urlAddress))
+
+      if (fileInfo.originalName.isNullOrEmpty()) {
+        if (fileInfo.mimeType.isNullOrEmpty()) {
+          file = File(localDirFile, getFileName(fileInfo.urlAddress))
+        } else {
+          file = File(localDirFile, getFileName(fileInfo.urlAddress, fileInfo.mimeType))
+        }
       } else {
-        file = File(localDirFile, getFileName(urlAddress, mimType))
+          file = File(localDirFile, fileInfo.originalName)
       }
 
       val fileOutputStream = FileOutputStream(file)
