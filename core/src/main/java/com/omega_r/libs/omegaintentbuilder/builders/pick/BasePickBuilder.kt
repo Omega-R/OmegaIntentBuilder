@@ -23,7 +23,7 @@ import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 open class BasePickBuilder(context: Context): BaseActivityBuilder(context) {
 
   private var allowMultiply = false
-  protected var mimeType: String = MimeTypes.FILE
+  protected var mimeType: String = MimeTypes.ANY
 
   /**
    * Extra used to indicate that an intent can allow the user to select and

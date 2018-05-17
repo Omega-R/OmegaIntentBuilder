@@ -21,7 +21,7 @@ import java.io.FileOutputStream
 
 abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder(context), Download<BaseUriBuilder> {
 
-  private var uriSet: MutableSet<Uri> = mutableSetOf()
+  private val uriSet: MutableSet<Uri> = mutableSetOf()
   private val downloadBuilder = DownloadBuilder(context, this)
   internal var localFilesDir: File
 
@@ -79,6 +79,17 @@ abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder
   @JvmOverloads
   fun fileUrlWithMimeType(urlAddress: String,  mimeType: String? = null): DownloadBuilder<BaseUriBuilder> {
     return downloadBuilder.fileUrlWithMimeType(urlAddress, mimeType)
+  }
+
+  /**
+   * Add a String url address for downloading.
+   *
+   * @param urlAddress String address for downloading and share
+   * @param name String - Your own file name with type ("example.mp3")
+   * @return DownloadBuilder for method chaining
+   */
+  fun fileUrlWithName(urlAddress: String, name: String): DownloadBuilder<BaseUriBuilder> {
+    return downloadBuilder.fileUrlWithName(urlAddress, name)
   }
 
   /**

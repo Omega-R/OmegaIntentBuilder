@@ -15,6 +15,7 @@ import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadAsyncTask
+import com.omega_r.libs.omegaintentbuilder.models.FileInfo
 import java.util.*
 
 /**
@@ -24,7 +25,7 @@ import java.util.*
 class DownloadBuilder<T>(private val context: Context,
                          private val intentBuilder: T) where T : BaseUriBuilder, T: Download<BaseUriBuilder> {
 
-  var urlsMap: MutableMap<String, String?> = TreeMap(String.CASE_INSENSITIVE_ORDER)
+  val fileInfoSet: MutableSet<FileInfo> = mutableSetOf()
 
   /**
    * Add a array of url addresses to download.
@@ -33,7 +34,7 @@ class DownloadBuilder<T>(private val context: Context,
    * @return This DownloadBuilder for method chaining
    */
   fun filesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
-    urlAddresses.forEach { it -> urlsMap.put(it) }
+    urlAddresses.forEach { fileInfoSet.put(it) }
     return this
   }
 
@@ -46,7 +47,19 @@ class DownloadBuilder<T>(private val context: Context,
    */
   @JvmOverloads
   fun fileUrlWithMimeType(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
-    urlsMap.put(urlAddress, mimeType)
+    fileInfoSet.put(urlAddress, mimeType)
+    return this
+  }
+
+  /**
+   * Add a String url address for downloading.
+   *
+   * @param urlAddress String address for downloading and share
+   * @param name String - Your own file name with type ("example.mp3")
+   * @return This DownloadBuilder for method chaining
+   */
+  fun fileUrlWithName(urlAddress: String, name: String): DownloadBuilder<T> {
+    fileInfoSet.put(urlAddress, null, name)
     return this
   }
 
@@ -57,12 +70,12 @@ class DownloadBuilder<T>(private val context: Context,
    * @return This DownloadBuilder for method chaining
    */
   fun filesUrls(collection: Collection<String>): DownloadBuilder<T> {
-    collection.forEach { it -> urlsMap.put(it) }
+    collection.forEach { fileInfoSet.put(it) }
     return this
   }
 
-  private fun MutableMap<String, String?>.put(key: String, value: String? = null) {
-    this.put(key, value)
+  private fun MutableSet<FileInfo>.put(urlAddress: String, mimeType: String? = null, name: String? = null) {
+    this.add(FileInfo(urlAddress, mimeType, name))
   }
 
   /**
@@ -72,12 +85,12 @@ class DownloadBuilder<T>(private val context: Context,
    * @return This ContextIntentHandler for method chaining
    */
   fun download(callback: DownloadCallback) {
-    if (urlsMap.isEmpty()) {
+    if (fileInfoSet.isEmpty()) {
       callback.onDownloaded(true, intentBuilder.createIntentHandler())
       return
     }
     val downloader = DownloadAsyncTask(context, intentBuilder, intentBuilder.localFilesDir, callback)
-    downloader.execute(urlsMap)
+    downloader.execute(fileInfoSet)
   }
 
 
