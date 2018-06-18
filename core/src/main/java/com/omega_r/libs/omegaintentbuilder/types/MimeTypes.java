@@ -60,4 +60,10 @@ public interface MimeTypes {
     String APPLICATION_GZIP = "application/gzip";
     String APPLICATION_XML = "application/xml";
 
+    String DOC = "application/msword";
+    String DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+    String XLS = "application/vnd.ms-excel";
+    String XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
 }
