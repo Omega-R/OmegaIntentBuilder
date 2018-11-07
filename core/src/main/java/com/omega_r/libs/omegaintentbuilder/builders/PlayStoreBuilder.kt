@@ -8,6 +8,7 @@ import android.support.annotation.StringRes
 class PlayStoreBuilder(private val context: Context): BaseActivityBuilder(context) {
 
   private var packageName: String? = null
+  private var referrer: String? = null
 
   fun packageName(packageName: String): PlayStoreBuilder {
     this.packageName = packageName
@@ -19,12 +20,27 @@ class PlayStoreBuilder(private val context: Context): BaseActivityBuilder(contex
     return this
   }
 
+  fun referrer(referrer: String): PlayStoreBuilder {
+    this.referrer = referrer
+    return this
+  }
+
+  fun referrer(@StringRes referrerRes: Int): PlayStoreBuilder {
+    this.referrer = context.getString(referrerRes)
+    return this
+  }
+
   override fun createIntent(): Intent {
     if (packageName.isNullOrBlank()) {
       packageName = context.packageName
     }
 
-    return Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName))
+    var referrerAppendix = ""
+    if (!referrer.isNullOrBlank()) {
+        referrerAppendix = "&referrer=$referrer"
+    }
+
+    return Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName$referrerAppendix"))
   }
 
 }
