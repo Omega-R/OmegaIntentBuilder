@@ -20,10 +20,10 @@ allprojects {
 #### If you use only Java.
 ```
 dependencies {
-    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.2'
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.4'
     // For extras
-    implementation 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.1.2'
-    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.2'
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.1.4'
+    annotationProcessor 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.4'
 }
 ```
 
@@ -42,10 +42,10 @@ android {
 }    
     
 dependencies {
-    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.2'
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:core:1.1.4'
     // For extras
-    implementation 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.1.2'
-    kapt 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.2'
+    implementation 'com.github.Omega-R.OmegaIntentBuilder:annotations:1.1.4'
+    kapt 'com.github.Omega-R.OmegaIntentBuilder:processor:1.1.4'
 }
 ```
 
