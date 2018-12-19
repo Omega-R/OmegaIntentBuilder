@@ -120,9 +120,9 @@ class ShareIntentBuilder internal constructor(context: Context) : BaseShareBuild
       intent.putExtra(Intent.EXTRA_BCC, bccAddressesSet.toTypedArray())
     }
     if (!mimeType.isNullOrEmpty()) {
-      intent.setType(mimeType)
+      intent.type = mimeType
     } else {
-      intent.setType(MimeTypes.TEXT_PLAIN)
+      intent.type = if (getUriSet().isEmpty()) MimeTypes.TEXT_PLAIN else MimeTypes.FILE
     }
 
     return intent
