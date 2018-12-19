@@ -20,7 +20,7 @@ import android.content.Intent.EXTRA_INTENT
 import android.content.Intent.EXTRA_TITLE
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.util.AndroidRuntimeException
 import android.widget.Toast
 

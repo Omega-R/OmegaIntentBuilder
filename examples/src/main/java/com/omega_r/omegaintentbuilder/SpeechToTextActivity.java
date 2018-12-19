@@ -2,7 +2,7 @@ package com.omega_r.omegaintentbuilder;
 
 import android.content.Intent;
 import android.speech.RecognizerIntent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +11,6 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
 
 import org.jetbrains.annotations.Nullable;
-import org.w3c.dom.Text;
 
 import java.util.List;
 

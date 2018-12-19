@@ -14,8 +14,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.speech.RecognizerIntent
-import android.support.annotation.RequiresApi
-import android.support.annotation.StringRes
+import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import com.omega_r.libs.omegaintentbuilder.types.LanguageModelTypes
 import java.util.*
 

@@ -15,7 +15,7 @@ import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
 import android.provider.CalendarContract.*
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes.*
 import com.omega_r.libs.omegaintentbuilder.types.CalendarAvailabilityTypes
