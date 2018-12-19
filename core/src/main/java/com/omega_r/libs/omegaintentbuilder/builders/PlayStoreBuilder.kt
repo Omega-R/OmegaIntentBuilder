@@ -3,7 +3,7 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 
 class PlayStoreBuilder(private val context: Context): BaseActivityBuilder(context) {
 

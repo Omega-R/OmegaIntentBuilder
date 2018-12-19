@@ -16,7 +16,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 
 /**
  * SettingsIntentBuilder is a helper for constructing settings intent

@@ -13,7 +13,7 @@ package com.omega_r.libs.omegaintentbuilder.builders.pick
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.builders.BaseActivityBuilder
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 

@@ -14,7 +14,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
