@@ -12,11 +12,14 @@ package com.omega_r.libs.omegaintentbuilder.builders.share
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.support.annotation.StringRes
 import android.text.Html
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
+import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("UNCHECKED_CAST")
 open class BaseShareBuilder<T>(private val context: Context): BaseUriBuilder(context) {
@@ -165,13 +168,11 @@ open class BaseShareBuilder<T>(private val context: Context): BaseUriBuilder(con
     intent.action = Intent.ACTION_SEND
     val uriSet = getUriSet()
 
-    if (uriSet.size == 1) {
-      intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-      intent.putExtra(Intent.EXTRA_STREAM, uriSet.elementAt(0))
-    } else if (uriSet.size > 1) {
+    if (uriSet.isNotEmpty()) intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    if (uriSet.size == 1) intent.putExtra(Intent.EXTRA_STREAM, uriSet.first())
+    if (uriSet.size > 1) {
       intent.action = Intent.ACTION_SEND_MULTIPLE
-      intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-      intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, convertSetToArrayList(uriSet))
+      intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriSet.toArrayList())
     }
     if (toAddressesSet.isNotEmpty()) {
       intent.putExtra(Intent.EXTRA_EMAIL, toAddressesSet.toTypedArray())
@@ -186,10 +187,6 @@ open class BaseShareBuilder<T>(private val context: Context): BaseUriBuilder(con
     return intent
   }
 
-  private fun <T> convertSetToArrayList(sets: MutableSet<T>): ArrayList<T> {
-    val list: ArrayList<T> = arrayListOf()
-    sets.forEach { it -> list.add(it) }
-    return list
-  }
+  private fun Set<Uri>.toArrayList(): ArrayList<Uri> = ArrayList(this.toList())
 
 }

@@ -7,19 +7,21 @@ import android.support.annotation.NonNull
 import android.util.Log
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegaintentbuilder.models.FileInfo
-import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.*
+import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.getFileName
+import com.omega_r.libs.omegaintentbuilder.providers.FileProvider.getLocalFileUri
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
 
-internal class DownloadAsyncTask<T>(private val context: Context,
-                                    private val intentBuilder: T,
-                                    private val localDirFile: File,
-                                    private val downloadCallback: DownloadCallback) : AsyncTask<Set<FileInfo>, Void, List<Uri>>() where T : BaseUriBuilder {
+internal class DownloadAsyncTask<T>(
+        private val context: Context,
+        private val intentBuilder: T,
+        private val localDirFile: File,
+        private val downloadCallback: DownloadCallback
+) : AsyncTask<Set<FileInfo>, Void, List<Uri>>() where T : BaseUriBuilder {
 
   companion object {
     private val TAG = DownloadAsyncTask::class.java.simpleName

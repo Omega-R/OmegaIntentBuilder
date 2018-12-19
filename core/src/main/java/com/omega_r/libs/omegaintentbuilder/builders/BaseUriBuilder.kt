@@ -23,11 +23,13 @@ abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder
 
   private val uriSet: MutableSet<Uri> = mutableSetOf()
   private val downloadBuilder = DownloadBuilder(context, this)
+  private var bitmapIndex = 0
   internal var localFilesDir: File
 
   companion object {
     private const val FILE_DIR = "intent_files" // this value from xml/file_paths.xml
-    private const val DEFAULT_IMAGE_FILE_NAME = "omegaOutput.jpg"
+    private const val DEFAULT_IMAGE_FILE_NAME = "File"
+    private const val DEFAULT_IMAGE_FILE_TYPE = ".jpg";
   }
 
   init {
@@ -134,18 +136,21 @@ abstract class BaseUriBuilder(private val context: Context): BaseActivityBuilder
   }
 
   /**
-   * @param bitmap Bitmap
+   * @param bitmaps Bitmap
    * @return BaseUriBuilder for method chaining
    */
-  fun bitmap(bitmap: Bitmap): BaseUriBuilder {
-    uriSet.add(toUri(bitmap))
+  fun bitmap(vararg bitmaps: Bitmap): BaseUriBuilder {
+    bitmaps.forEach { bitmap ->
+      uriSet.add(bitmap.toUri(bitmapIndex))
+      bitmapIndex++
+    }
     return this
   }
 
-  private fun toUri(bitmap: Bitmap): Uri {
-    val file = File(localFilesDir, DEFAULT_IMAGE_FILE_NAME)
+  private fun Bitmap.toUri(fileIndex: Int): Uri {
+    val file = File(localFilesDir, DEFAULT_IMAGE_FILE_NAME + fileIndex + DEFAULT_IMAGE_FILE_TYPE)
     val fileOutputStream = FileOutputStream(file)
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+    this.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
     fileOutputStream.close()
 
     return FileProvider.getLocalFileUri(context, file)
