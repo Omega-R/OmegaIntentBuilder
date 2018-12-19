@@ -3,7 +3,7 @@ package com.omega_r.libs.omegaintentbuilder.downloader
 import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
-import android.support.annotation.NonNull
+import androidx.annotation.NonNull
 import android.util.Log
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegaintentbuilder.models.FileInfo

@@ -16,7 +16,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Telephony
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import java.util.TreeSet
 
 /**

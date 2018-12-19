@@ -55,7 +55,7 @@ public class AnnotationProcessor extends AbstractProcessor {
     private static final ClassName sClassContext = ClassName.get("android.content", "Context");
     private static final ClassName sClassActivity = ClassName.get("android.app", "Activity");
     private static final ClassName sClassFragment = ClassName.get("android.app", "Fragment");
-    private static final ClassName sClassSupportFragment = ClassName.get("android.support.v4.app", "Fragment");
+    private static final ClassName sClassSupportFragment = ClassName.get("androidx.fragment.app", "Fragment");
 
     private static final ClassName sClassService = ClassName.get("android.app", "Service");
     private static final ClassName sClassBundle = ClassName.get("android.os", "Bundle");

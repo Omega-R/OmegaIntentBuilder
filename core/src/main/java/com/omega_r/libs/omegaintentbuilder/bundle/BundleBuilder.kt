@@ -3,7 +3,7 @@ package com.omega_r.libs.omegaintentbuilder.bundle
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import java.io.Serializable
 import java.util.ArrayList
 

@@ -13,13 +13,13 @@ package com.omega_r.libs.omegaintentbuilder.handlers
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 /**
  * FragmentIntentHandler is a helper for start intents
  * Support startActivityForResult
  */
-class SupportFragmentIntentHandler(private val fragment: Fragment, private val createdIntent: Intent) : ContextIntentHandler(fragment.context!!, createdIntent) {
+class SupportFragmentIntentHandler(private val fragment: androidx.fragment.app.Fragment, private val createdIntent: Intent) : ContextIntentHandler(fragment.context!!, createdIntent) {
 
   /**
    * Launch an activity for which you would like a result when it finished.

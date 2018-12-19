@@ -33,7 +33,7 @@ abstract class BaseActivityBuilder(private val context: Context): IntentHandler 
     return FragmentIntentHandler(fragment, createIntent())
   }
 
-  override fun createIntentHandler(fragment: android.support.v4.app.Fragment): SupportFragmentIntentHandler {
+  override fun createIntentHandler(fragment: androidx.fragment.app.Fragment): SupportFragmentIntentHandler {
     return SupportFragmentIntentHandler(fragment, createIntent())
   }
 

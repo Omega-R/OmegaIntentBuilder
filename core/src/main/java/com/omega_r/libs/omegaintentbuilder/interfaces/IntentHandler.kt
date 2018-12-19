@@ -32,7 +32,7 @@ interface IntentHandler : IntentBuilder {
    * Returns FragmentIntentHandler (extends ContextIntentHandler) for control Intent.
    * Support startActivity, startActivityForResult, start Chooser.
    */
-  fun createIntentHandler(fragment: android.support.v4.app.Fragment): SupportFragmentIntentHandler
+  fun createIntentHandler(fragment: androidx.fragment.app.Fragment): SupportFragmentIntentHandler
 
   /**
    * Same as {@link #startActivity(Intent, Bundle)} with no options specified.

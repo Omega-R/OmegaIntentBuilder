@@ -2,7 +2,7 @@ package com.omega_r.omegaintentbuilder.service_example;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
