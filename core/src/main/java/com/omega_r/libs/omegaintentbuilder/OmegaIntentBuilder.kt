@@ -143,8 +143,8 @@ open class OmegaIntentBuilder(private val context: Context) {
   /**
    * @return MapIntentBuilder for creating intent to open Map application
    */
-  fun map(type: MapTypes): MapIntentBuilder {
-    return MapIntentBuilder(context, type)
+  fun map(vararg types: MapTypes): MapIntentBuilder {
+    return MapIntentBuilder(context, *types)
   }
 
   /**
