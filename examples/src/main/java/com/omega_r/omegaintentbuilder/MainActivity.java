@@ -162,12 +162,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void openGoogleMap() {
         OmegaIntentBuilder.from(this)
-                .map(MapTypes.GOOGLE_MAP)
+                .map(MapTypes.YANDEX_MAP, MapTypes.GOOGLE_MAP)
                 .latitude(56.6327622)
                 .longitude(47.910693)
                 .address("Omega-R")
                 .createIntentHandler()
-                .failToast("You don't have Google Map application")
+                .failToast("You don't have Map application")
                 .startActivity();
     }
 
