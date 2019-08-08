@@ -15,13 +15,13 @@ import android.content.Intent
 import android.provider.ContactsContract
 import com.omega_r.libs.omegaintentbuilder.builders.BaseActivityBuilder
 
-class ContactPickBuilder(context: Context): BaseActivityBuilder(context) {
+class ContactPickBuilder : BaseActivityBuilder() {
 
-  override fun createIntent(): Intent {
-    val intent = Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI)
-    intent.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
-    return intent
-  }
+    override fun createIntent(context: Context): Intent {
+        val intent = Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI)
+        intent.type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+        return intent
+    }
 
 
 }

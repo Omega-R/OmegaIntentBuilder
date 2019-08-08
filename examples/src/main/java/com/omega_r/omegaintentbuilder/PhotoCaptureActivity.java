@@ -30,7 +30,7 @@ public class PhotoCaptureActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .photoCapture()
                 .createIntentHandler(this)
                 .failCallback(new FailCallback() {

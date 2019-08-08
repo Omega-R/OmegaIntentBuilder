@@ -10,20 +10,18 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
-import android.content.Context
+open class FilePickerBuilder : BasePickBuilder() {
 
-open class FilePickerBuilder(context: Context): BasePickBuilder(context) {
-
-  /**
-   * Set mime type
-   *
-   * @param mimeType String
-   * @return This FilePickerBuilder for method chaining
-   */
-  fun mimeType(mimeType: String): FilePickerBuilder {
-    super.mimeType = mimeType
-    return this
-  }
+    /**
+     * Set mime type
+     *
+     * @param mimeType String
+     * @return This FilePickerBuilder for method chaining
+     */
+    fun mimeType(mimeType: String): FilePickerBuilder {
+        super.mimeType = mimeType
+        return this
+    }
 
 
 }

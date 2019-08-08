@@ -17,21 +17,12 @@ import android.net.Uri
 /**
  * BrowserBuilder class for starting web browser
  */
-class BrowserBuilder: BaseActivityBuilder {
+class BrowserBuilder (private val uri: Uri) : BaseActivityBuilder() {
 
-  private val uri: Uri
+    constructor(urlAddress: String) : this(Uri.parse(urlAddress))
 
-  constructor(context: Context, urlAddress: String) : this(context, Uri.parse(urlAddress))
-
-  constructor(context: Context, uri: Uri) : super(context) {
-    this.uri = uri
-  }
-
-  override fun createIntent(): Intent {
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = uri
-
-    return intent
-  }
+    override fun createIntent(context: Context) =  Intent(Intent.ACTION_VIEW).apply {
+        data = uri
+    }
 
 }

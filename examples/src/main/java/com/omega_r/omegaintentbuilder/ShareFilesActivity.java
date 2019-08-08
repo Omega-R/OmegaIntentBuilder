@@ -3,7 +3,7 @@ package com.omega_r.omegaintentbuilder;
 import android.os.Bundle;
 import android.view.View;
 
-import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
+//import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
@@ -20,7 +20,7 @@ import omega.com.annotations.OmegaExtraModel;
 public class ShareFilesActivity extends BaseActivity implements View.OnClickListener {
 
     @OmegaExtra
-    protected String url1;
+    protected String url1 = "https://developer.android.com/studio/images/hero_image_studio.png";
 
     @OmegaExtraModel(prefix = "model")
     Model model = new Model();
@@ -29,7 +29,7 @@ public class ShareFilesActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_files);
-        AppOmegaIntentBuilder.inject(this);
+//        AppOmegaIntentBuilder.inject(this);
         findViewById(R.id.button_share).setOnClickListener(this);
     }
 
@@ -44,12 +44,13 @@ public class ShareFilesActivity extends BaseActivity implements View.OnClickList
 
     private void downloadFiles() {
         showProgress();
-        OmegaIntentBuilder.from(this).share()
+        OmegaIntentBuilder
+                .share()
                 .emailTo("your_email_here@gmail.com")
                 .subject("Great library")
                 .filesUrls(url1)
                 .fileUrlWithMimeType(model.getUrl(), MimeTypes.IMAGE_PNG)
-                .download(new DownloadCallback() {
+                .download(this, new DownloadCallback() {
                     @Override
                     public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
                         hideProgress();

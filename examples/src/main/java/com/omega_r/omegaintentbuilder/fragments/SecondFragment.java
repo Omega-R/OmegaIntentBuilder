@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.omega_r.libs.omegafragmentbuilder.AppOmegaFragmentBuilder;
+//import com.omega_r.libs.omegafragmentbuilder.AppOmegaFragmentBuilder;
 import com.omega_r.omegaintentbuilder.R;
 
 import omega.com.annotations.OmegaExtra;
@@ -26,7 +26,7 @@ public class SecondFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppOmegaFragmentBuilder.inject(this);
+//        AppOmegaFragmentBuilder.inject(this);
     }
 
     @Override

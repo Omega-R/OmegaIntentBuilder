@@ -50,10 +50,10 @@ internal class DownloadAsyncTask<T>(
   override fun onPostExecute(result: List<Uri>) {
     super.onPostExecute(result)
       if (result.isEmpty()) {
-        downloadCallback.onDownloaded(false, intentBuilder.createIntentHandler())
+        downloadCallback.onDownloaded(false, intentBuilder.createIntentHandler(context))
       } else {
         intentBuilder.uri(result)
-        downloadCallback.onDownloaded(true, intentBuilder.createIntentHandler())
+        downloadCallback.onDownloaded(true, intentBuilder.createIntentHandler(context))
       }
   }
 

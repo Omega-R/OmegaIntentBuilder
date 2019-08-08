@@ -19,6 +19,7 @@ import android.content.Intent.*
 import android.util.AndroidRuntimeException
 import android.widget.Toast
 import androidx.annotation.StringRes
+import com.omega_r.libs.omegatypes.Text
 
 /**
  * ContextIntentHandler is a helper for start intents
@@ -30,8 +31,8 @@ open class ContextIntentHandler(private val context: Context, private val create
         private const val FLAG_GRANT_PREFIX_URI_PERMISSION = 0x00000080
     }
 
-    private var chooserTitle: String? = null
-    private var toastMessage: String? = null
+    private var chooserTitle: Text? = null
+    private var toastMessage: Text? = null
     private var failIntent: Intent? = null
     private var failCallback: FailCallback? = null
     private var failContextIntentHandler: ContextIntentHandler? = null
@@ -44,7 +45,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return This ContextIntentHandler for method chaining
      */
     fun chooserTitle(chooserTitle: CharSequence): ContextIntentHandler {
-        this.chooserTitle = chooserTitle.toString()
+        this.chooserTitle = Text.from(chooserTitle)
         return this
     }
 
@@ -55,7 +56,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return This ContextIntentHandler for method chaining
      */
     fun chooserTitle(chooserTitle: String): ContextIntentHandler {
-        this.chooserTitle = chooserTitle
+        this.chooserTitle = Text.from(chooserTitle)
         return this
     }
 
@@ -66,7 +67,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return This ContextIntentHandler for method chaining
      */
     fun chooserTitle(chooserTitle: Int): ContextIntentHandler {
-        this.chooserTitle = context.getText(chooserTitle).toString()
+        this.chooserTitle = Text.from(chooserTitle)
         return this
     }
 
@@ -74,7 +75,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      *
      * @return This Chooser title
      */
-    protected fun getChooserTitle(): String? = chooserTitle
+    protected fun getChooserTitle(): Text? = chooserTitle
 
     /**
      * Create an Intent that will launch the standard Android activity chooser,
@@ -87,7 +88,7 @@ open class ContextIntentHandler(private val context: Context, private val create
         val chooserIntent = Intent(ACTION_CHOOSER)
         chooserIntent.putExtra(EXTRA_INTENT, createdIntent)
         chooserTitle?.let {
-            chooserIntent.putExtra(EXTRA_TITLE, chooserTitle)
+            chooserIntent.putExtra(EXTRA_TITLE, it.getCharSequence(context))
         }
         var permFlags = createdIntent.flags
         permFlags = permFlags and (FLAG_GRANT_READ_URI_PERMISSION
@@ -119,7 +120,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * into a single statement.
      */
     open fun failToast(message: String): ContextIntentHandler {
-        toastMessage = message
+        toastMessage = Text.from(message)
         return this
     }
 
@@ -131,7 +132,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * into a single statement.
      */
     open fun failToast(@StringRes message: Int): ContextIntentHandler {
-        toastMessage = context.getString(message)
+        toastMessage = Text.from(message)
         return this
     }
 
@@ -195,7 +196,7 @@ open class ContextIntentHandler(private val context: Context, private val create
         try {
             context.startActivity(intent)
         } catch (exc: AndroidRuntimeException) {
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent)
         }
     }
@@ -206,8 +207,8 @@ open class ContextIntentHandler(private val context: Context, private val create
     }
 
     protected fun handleStartActivityException(exc: ActivityNotFoundException) {
-        if (!toastMessage.isNullOrBlank()) {
-            Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+        if (toastMessage != null) {
+            Toast.makeText(context, toastMessage!!.getCharSequence(context), Toast.LENGTH_SHORT).show()
         }
         failCallback?.onActivityStartError(exc)
         failIntent?.let {
@@ -215,7 +216,7 @@ open class ContextIntentHandler(private val context: Context, private val create
         }
         failContextIntentHandler?.startActivity()
 
-        if (toastMessage.isNullOrBlank() && failCallback == null
+        if (toastMessage == null && failCallback == null
                 && failIntent == null && failContextIntentHandler == null) {
             throw RuntimeException(exc)
         }
@@ -226,15 +227,11 @@ open class ContextIntentHandler(private val context: Context, private val create
     }
 
     fun getIntent(): Intent {
-        if (chooserTitle.isNullOrEmpty()) {
-            return createdIntent
-        } else {
-            return createChooserIntent()
-        }
+        return if (chooserTitle == null) createdIntent else createChooserIntent()
     }
 
     fun addFlagsClearBackStack(): ContextIntentHandler {
-        return addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        return addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_NEW_TASK)
     }
 
     /**
@@ -247,7 +244,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * into a single statement.
      */
     fun addFlags(flags: Int): ContextIntentHandler {
-        getIntent().addFlags(flags)
+        createdIntent.addFlags(flags)
         return this
     }
 
@@ -265,7 +262,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * into a single statement.
      */
     fun setFlags(flags: Int): ContextIntentHandler {
-        getIntent().flags = flags
+        createdIntent.flags = flags
         return this
     }
 

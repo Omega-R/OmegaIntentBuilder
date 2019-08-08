@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes;
@@ -14,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+//import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -94,24 +95,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void startShareFilesActivity() {
-        AppOmegaIntentBuilder.from(this)
-                .appActivities()
-                .shareFilesActivity()
-                .url1("https://developer.android.com/studio/images/hero_image_studio.png")
-                .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
-                .startActivity();
+        OmegaIntentBuilder.activity(ShareFilesActivity.class)
+                .startActivity(this);
+//        AppOmegaIntentBuilder
+//                .appActivities()
+//                .shareFilesActivity()
+//                .url1("https://developer.android.com/studio/images/hero_image_studio.png")
+//                .modelVar2("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4")
+//                .startActivity();
     }
 
     private void startCallIntent() {
-        OmegaIntentBuilder.from(this)
-                    .call("88000000008")
-                    .createIntentHandler(this)
-                    .failToast("Sorry, you don't have app for making call phone")
-                    .startActivity();
+        OmegaIntentBuilder
+                .call("88000000008")
+                .createIntentHandler(this)
+                .failToast("Sorry, you don't have app for making call phone")
+                .startActivity();
     }
 
     private void startEmailIntent() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .email()
                 .text("Hello world")
                 .emailTo("develop@omega-r.com")
@@ -127,11 +130,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void startShareIntent() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .share()
                 .emailTo("develop@omega-r.com")
-                .emailBcc("bcc1@test.com","bcc2@test.com")
-                .emailCc("cc1@test.com","cc2@test.com")
+                .emailBcc("bcc1@test.com", "bcc2@test.com")
+                .emailCc("cc1@test.com", "cc2@test.com")
                 .subject("Great library")
                 .createIntentHandler(this)
                 .chooserTitle("Choose")
@@ -139,34 +142,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void openUrl() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .web("https://omega-r.com/")
-                .createIntentHandler()
+                .createIntentHandler(this)
                 .chooserTitle("Omega-R")
                 .failToast("You don't have app for open urls")
                 .startActivity();
     }
 
     private void openSettings() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .settings()
-                .startActivity();
+                .startActivity(this);
     }
 
     private void openPlayStore() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .playStore()
                 .packageName("com.omegar.coloring")
-                .startActivity();
+                .startActivity(this);
     }
 
     private void openGoogleMap() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .map(MapTypes.YANDEX_MAP, MapTypes.GOOGLE_MAP)
                 .latitude(56.6327622)
                 .longitude(47.910693)
                 .address("Omega-R")
-                .createIntentHandler()
+                .createIntentHandler(this)
                 .failToast("You don't have Map application")
                 .startActivity();
     }
@@ -174,7 +177,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void onCalendarClicked() {
         Date startDate = new Date();
         long endDate = startDate.getTime() + TimeUnit.DAYS.toMillis(7);
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .calendar(CalendarActionTypes.INSERT_EVENT)
                 .startDate(startDate)
                 .endDate(endDate)
@@ -184,57 +187,57 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .allDay(false)
                 .organizer("develop@omega-r.com")
                 .hasAlarm(false)
-                .startActivity();
+                .startActivity(this);
     }
 
     private void onSmsClicked() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .sms("88000000008", "88888888888")
                 .message("Great library")
-                .createIntentHandler()
+                .createIntentHandler(this)
                 .startActivity();
     }
 
     private void onPhotoCaptureClicked() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .activity(PhotoCaptureActivity.class)
-                .startActivity();
+                .startActivity(this);
     }
 
     private void onCropImageClicked() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .activity(CropImageActivity.class)
-                .startActivity();
+                .startActivity(this);
     }
 
     private void onPickImageClicked() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .activity(PickImageActivity.class)
-                .startActivity();
+                .startActivity(this);
     }
 
     private void onSpeechToTextClicked() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .activity(SpeechToTextActivity.class)
-                .createIntentHandler()
+                .createIntentHandler(this)
                 .startActivity();
     }
 
     private void onExtrasToServiceClicked() {
-        AppOmegaIntentBuilder.from(this)
-                .appServices()
-                .testService()
-                .value("Great library")
-                .modelVar2("Omega-R")
-                .startService();
+//        AppOmegaIntentBuilder.from(this)
+//                .appServices()
+//                .testService()
+//                .value("Great library")
+//                .modelVar2("Omega-R")
+//                .startService();
     }
 
 
     private void onExtrasToFragmentClicked() {
-        AppOmegaIntentBuilder.from(this)
-                .appActivities()
-                .tabActivity()
-                .startActivity();
+//        AppOmegaIntentBuilder.from(this)
+//                .appActivities()
+//                .tabActivity()
+//                .startActivity();
     }
 
 }
