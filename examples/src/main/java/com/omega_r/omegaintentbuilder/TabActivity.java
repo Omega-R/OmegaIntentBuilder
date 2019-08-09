@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.omega_r.libs.omegafragmentbuilder.AppOmegaFragmentBuilder;
+//import com.omega_r.libs.omegafragmentbuilder.AppOmegaFragmentBuilder;
 import com.omega_r.omegaintentbuilder.fragments.FirstFragment;
 import com.omega_r.omegaintentbuilder.fragments.SecondFragment;
 
@@ -31,13 +31,13 @@ public class TabActivity extends AppCompatActivity {
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        private FirstFragment firstFragment = AppOmegaFragmentBuilder.firstFragment()
-                                                                     .value("First fragment")
-                                                                     .createFragment();
-
-        private SecondFragment secondFragment = AppOmegaFragmentBuilder.secondFragment()
-                                                                       .value("Second fragment")
-                                                                       .createFragment();
+//        private FirstFragment firstFragment = AppOmegaFragmentBuilder.firstFragment()
+//                                                                     .value("First fragment")
+//                                                                     .createFragment();
+//
+//        private SecondFragment secondFragment = AppOmegaFragmentBuilder.secondFragment()
+//                                                                       .value("Second fragment")
+//                                                                       .createFragment();
 
         private SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -45,7 +45,8 @@ public class TabActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return (position == 0) ? firstFragment : secondFragment;
+            return null;
+//            return (position == 0) ? firstFragment : secondFragment;
         }
 
         @Nullable

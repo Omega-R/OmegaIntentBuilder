@@ -1,7 +1,7 @@
 import org.gradle.internal.jvm.Jvm
 
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'com.github.Omega-R.OmegaIntentBuilder'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group = 'com.github.Omega-R.OmegaIntentBuilder'
 
 apply plugin: 'java-library'
 

@@ -10,7 +10,7 @@ android {
     compileSdkVersion rootProject.ext.sdkVersion
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion rootProject.ext.sdkVersion
         versionCode 1
         versionName "1.0"
@@ -35,6 +35,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.github.Omega-R:OmegaLaunchers:1.0.2'
+    api 'com.github.Omega-R.OmegaTypes:omegatypes:1.0.2'
+
     compileOnly "androidx.appcompat:appcompat:$androidX"
 }
 

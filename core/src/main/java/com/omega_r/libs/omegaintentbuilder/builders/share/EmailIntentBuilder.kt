@@ -18,15 +18,15 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 /**
  * EmailIntentBuilder is a helper for constructing {Intent#ACTION_SENDTO}
  */
-class EmailIntentBuilder internal constructor(context: Context): BaseShareBuilder<EmailIntentBuilder>(context) {
+class EmailIntentBuilder: BaseShareBuilder<EmailIntentBuilder>() {
 
   /**
    * This method could call ActivityNotFoundException
    *
    * @return Intent for email
    */
-  override fun createIntent(): Intent {
-    val intent = super.createIntent()
+  override fun createIntent(context: Context): Intent {
+    val intent = super.createIntent(context)
     intent.action = Intent.ACTION_SENDTO
     intent.data = Uri.parse("mailto:")
 

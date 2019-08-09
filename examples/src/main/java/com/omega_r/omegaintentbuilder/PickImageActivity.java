@@ -30,7 +30,7 @@ public class PickImageActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .pick()
                 .image()
                 .multiply(false)

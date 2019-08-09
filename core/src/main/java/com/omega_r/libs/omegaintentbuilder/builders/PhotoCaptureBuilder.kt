@@ -19,37 +19,34 @@ import java.io.File
 /**
  * PhotoCaptureBuilder return intent for calling standard camera application for capturing an image
  */
-class PhotoCaptureBuilder(context: Context): BaseActivityBuilder(context) {
+class PhotoCaptureBuilder() : BaseActivityBuilder() {
 
-  private var fileUri: Uri? = null
+    private var fileUri: Uri? = null
 
-  /**
-   * Set fileUri
-   *
-   * @param fileUri Uri. Full path to captured file
-   * @return This PhotoCaptureBuilder for method chaining
-   */
-  fun file(fileUri: Uri): PhotoCaptureBuilder {
-    this.fileUri = fileUri
-    return this
-  }
+    /**
+     * Set fileUri
+     *
+     * @param fileUri Uri. Full path to captured file
+     * @return This PhotoCaptureBuilder for method chaining
+     */
+    fun file(fileUri: Uri): PhotoCaptureBuilder {
+        this.fileUri = fileUri
+        return this
+    }
 
-  /**
-   * Set fileUri
-   *
-   * @param fileUri String. Full path to captured file
-   * @return This PhotoCaptureBuilder for method chaining
-   */
-  fun file(fileUri: String): PhotoCaptureBuilder {
-    this.fileUri = Uri.fromFile(File(fileUri))
-    return this
-  }
+    /**
+     * Set fileUri
+     *
+     * @param fileUri String. Full path to captured file
+     * @return This PhotoCaptureBuilder for method chaining
+     */
+    fun file(fileUri: String): PhotoCaptureBuilder {
+        this.fileUri = Uri.fromFile(File(fileUri))
+        return this
+    }
 
-  override fun createIntent(): Intent {
-    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    fileUri?.let { intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri) }
-
-    return intent
-  }
+    override fun createIntent(context: Context) = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+        fileUri?.let { putExtra(MediaStore.EXTRA_OUTPUT, fileUri) }
+    }
 
 }

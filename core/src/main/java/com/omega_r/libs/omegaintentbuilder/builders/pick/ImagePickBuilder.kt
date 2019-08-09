@@ -10,29 +10,26 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
-import android.content.Context
-import android.content.Intent
 import com.omega_r.libs.omegaintentbuilder.types.ImageTypes
-import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 
 /**
  * ImagePickBuilder is a helper for creating pick image intent
  */
-class ImagePickBuilder(context: Context): BasePickBuilder(context) {
+class ImagePickBuilder : BasePickBuilder() {
 
-  init {
-    super.mimeType = ImageTypes.IMAGE.mimeType
-  }
+    init {
+        super.mimeType = ImageTypes.IMAGE.mimeType
+    }
 
-  /**
-   * Set image mime type
-   *
-   * @param imageType ImageTypes
-   * @return This ImagePickBuilder for method chaining
-   */
-  fun imageType(imageType: ImageTypes): ImagePickBuilder {
-    super.mimeType = imageType.mimeType
-    return this
-  }
+    /**
+     * Set image mime type
+     *
+     * @param imageType ImageTypes
+     * @return This ImagePickBuilder for method chaining
+     */
+    fun imageType(imageType: ImageTypes): ImagePickBuilder {
+        super.mimeType = imageType.mimeType
+        return this
+    }
 
 }

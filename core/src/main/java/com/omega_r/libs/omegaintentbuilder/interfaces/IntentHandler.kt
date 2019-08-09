@@ -3,6 +3,7 @@ package com.omega_r.libs.omegaintentbuilder.interfaces
 import android.app.Activity
 import android.app.Fragment
 import android.content.ActivityNotFoundException
+import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.FragmentIntentHandler
@@ -14,7 +15,7 @@ interface IntentHandler : IntentBuilder {
    * Returns ContextIntentHandler for control Intent.
    * Support startActivity, start Chooser.
    */
-  fun createIntentHandler(): ContextIntentHandler
+  fun createIntentHandler(context: Context): ContextIntentHandler
 
   /**
    * Returns ActivityIntentHandler (extends ContextIntentHandler) for control Intent.
@@ -39,5 +40,5 @@ interface IntentHandler : IntentBuilder {
    *
    * @throws ActivityNotFoundException &nbsp;
    */
-  fun startActivity();
+  fun startActivity(context: Context)
 }

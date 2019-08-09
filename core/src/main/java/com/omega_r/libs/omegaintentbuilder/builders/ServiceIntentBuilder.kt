@@ -5,12 +5,11 @@ import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.interfaces.ServiceHandler
 
 class ServiceIntentBuilder<T : Service>(
-        private val context: Context,
         service: Class<T>
-) : BaseIntentBuilder<ServiceIntentBuilder<T>, T>(context, service), ServiceHandler {
+) : BaseIntentBuilder<ServiceIntentBuilder<T>, T>(service), ServiceHandler {
 
-    override fun startService() {
-        context.startService(createIntent())
+    override fun startService(context: Context) {
+        context.startService(createIntent(context))
     }
 
 }

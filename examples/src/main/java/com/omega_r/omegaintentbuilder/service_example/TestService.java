@@ -5,7 +5,7 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 import android.util.Log;
 
-import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
+//import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.omegaintentbuilder.models.Model;
 
 import omega.com.annotations.OmegaExtra;
@@ -29,7 +29,7 @@ public class TestService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        AppOmegaIntentBuilder.inject(this, intent);
+//        AppOmegaIntentBuilder.inject(this, intent);
         Log.d(TAG, value);
         Log.d(TAG, model.getUrl());
     }

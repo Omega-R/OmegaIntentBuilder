@@ -10,24 +10,23 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
-import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.types.VideoTypes
 
-class VideoPickBuilder(context: Context): BasePickBuilder(context) {
+class VideoPickBuilder : BasePickBuilder() {
 
-  init {
-    super.mimeType = VideoTypes.VIDEO.mimeType
-  }
+    init {
+        super.mimeType = VideoTypes.VIDEO.mimeType
+    }
 
-  /**
-   * Set video mime type
-   *
-   * @param videoType VideoTypes
-   * @return This VideoPickBuilder for method chaining
-   */
-  fun videoType(videoType: VideoTypes): VideoPickBuilder {
-    super.mimeType = videoType.mimeType
-    return this
-  }
+    /**
+     * Set video mime type
+     *
+     * @param videoType VideoTypes
+     * @return This VideoPickBuilder for method chaining
+     */
+    fun videoType(videoType: VideoTypes): VideoPickBuilder {
+        super.mimeType = videoType.mimeType
+        return this
+    }
 
 }

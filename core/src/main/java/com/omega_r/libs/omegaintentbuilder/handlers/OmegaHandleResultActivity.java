@@ -5,12 +5,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.annotation.Nullable;
 
 public class OmegaHandleResultActivity extends Activity {
 

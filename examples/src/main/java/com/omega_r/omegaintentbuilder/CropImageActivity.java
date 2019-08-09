@@ -45,7 +45,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void crop() {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .cropImage()
                 .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
                 .bitmap(BitmapFactory.decodeResource(getResources(), R.drawable.crop_image))
@@ -56,11 +56,11 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
 
     private void cropFromInternet() {
         showProgress();
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .cropImage()
                 .property(DEFAULT_OUTPUT_X, DEFAULT_OUTPUT_Y)
                 .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
-                .download(new DownloadCallback() {
+                .download(this, new DownloadCallback() {
                     @Override
                     public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
                         hideProgress();

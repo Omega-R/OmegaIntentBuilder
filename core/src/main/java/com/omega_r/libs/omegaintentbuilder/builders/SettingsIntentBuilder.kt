@@ -21,14 +21,16 @@ import androidx.annotation.RequiresApi
 /**
  * SettingsIntentBuilder is a helper for constructing settings intent
  */
-class SettingsIntentBuilder(private val context: Context) : BaseActivityBuilder(context) {
-
-    private var action: String = Settings.ACTION_SETTINGS
-    private val intent = Intent()
+class SettingsIntentBuilder : BaseActivityBuilder() {
 
     companion object {
         private const val PACKAGE = "package"
     }
+
+
+    private var action: String = Settings.ACTION_SETTINGS
+    private var packageName: String? = null
+    private val intent = Intent()
 
     /**
      * Activity Action: Show settings to allow configuration of Wi-Fi.
@@ -362,6 +364,7 @@ class SettingsIntentBuilder(private val context: Context) : BaseActivityBuilder(
      * Activity Action: Show NFC settings.
      * @return This SettingsIntentBuilder for method chaining
      */
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     fun nfc(): SettingsIntentBuilder {
         action = Settings.ACTION_NFC_SETTINGS
         return this
@@ -679,14 +682,20 @@ class SettingsIntentBuilder(private val context: Context) : BaseActivityBuilder(
      * Activity Category: Show application detail settings.
      * @return This SettingsIntentBuilder for method chaining
      */
-    @JvmOverloads
-    fun applicationSettingsInfo(packageName: String = context.packageName): SettingsIntentBuilder {
-        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        intent.data = Uri.fromParts(PACKAGE, packageName, null)
+    fun applicationSettingsInfo(packageName: String = ""): SettingsIntentBuilder {
+        this.packageName = packageName
         return this
     }
 
-    override fun createIntent(): Intent {
+    override fun createIntent(context: Context): Intent {
+        packageName?.let {
+            if (it.isBlank()) {
+                packageName = context.packageName
+            }
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            intent.data = Uri.fromParts(PACKAGE, packageName, null)
+        }
+
         intent.action = action
         return intent
     }

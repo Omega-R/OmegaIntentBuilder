@@ -28,10 +28,10 @@ public class SpeechToTextActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        OmegaIntentBuilder.from(this)
+        OmegaIntentBuilder
                 .speechToText()
                 .prompt("Say something")
-                .createIntentHandler()
+                .createIntentHandler(this)
                 .failToast("You don't have app for \"Speech to text\"")
                 .startActivityForResult(new ActivityResultCallback() {
                     @Override

@@ -18,49 +18,41 @@ import com.omega_r.libs.omegaintentbuilder.types.CallTypes
 /**
  * CallIntentBuilder is a helper for constructing {@link Intent#ACTION_DIAL}
  */
-class CallIntentBuilder (private val context: Context,
-                         private var phoneNumber: String): BaseActivityBuilder(context) {
+class CallIntentBuilder(phoneNumber: String) : BaseActivityBuilder() {
 
-  private var callType = CallTypes.SYSTEM_CALL
+    private val phoneNumber: String = phoneNumber.replace(regex, "")
 
-  companion object {
-    private const val PHONE_SCHEME = "tel:";
-    private const val SKYPE_SCHEME = "skype:";
-    val regex = Regex("[^0-9]")
-  }
+    private var callType = CallTypes.SYSTEM_CALL
 
-  init {
-    phoneNumber = phoneNumber.replace(regex, "")
-  }
-
-  fun type(callType: CallTypes): CallIntentBuilder {
-    this.callType = callType
-    return this
-  }
-
-  /**
-   * This method could call ActivityNotFoundException
-   *
-   * @return Intent for calling
-   */
-  override fun createIntent(): Intent {
-    val intent = Intent()
-    intent.data = Uri.parse(PHONE_SCHEME + phoneNumber)
-
-    if (callType == CallTypes.SYSTEM_CALL) {
-      intent.action = Intent.ACTION_DIAL
-    } else {
-      intent.action = Intent.ACTION_VIEW
-      when(callType) {
-        CallTypes.VIBER -> {
-          intent.setClassName("com.viber.voip", "com.viber.voip.WelcomeActivity")
-        }
-        CallTypes.SKYPE -> {
-          intent.data = Uri.parse(SKYPE_SCHEME + phoneNumber + "?call")
-        }
-      }
+    companion object {
+        private const val PHONE_SCHEME = "tel:";
+        private const val SKYPE_SCHEME = "skype:";
+        val regex = Regex("[^0-9]")
     }
-    return intent
-  }
+
+    fun type(callType: CallTypes): CallIntentBuilder {
+        this.callType = callType
+        return this
+    }
+
+    /**
+     * This method could call ActivityNotFoundException
+     *
+     * @return Intent for calling
+     */
+    override fun createIntent(context: Context) = Intent().apply {
+        data = Uri.parse(PHONE_SCHEME + phoneNumber)
+        action = when (callType) {
+            CallTypes.SYSTEM_CALL -> Intent.ACTION_DIAL
+            CallTypes.VIBER -> {
+                setClassName("com.viber.voip", "com.viber.voip.WelcomeActivity")
+                Intent.ACTION_VIEW
+            }
+            CallTypes.SKYPE -> {
+                data = Uri.parse("$SKYPE_SCHEME$phoneNumber?call")
+                Intent.ACTION_VIEW
+            }
+        }
+    }
 
 }

@@ -1,9 +1,9 @@
 package com.omega_r.libs.omegaintentbuilder.interfaces
 
-import com.omega_r.libs.omegaintentbuilder.interfaces.IntentBuilder
+import android.content.Context
 
 interface ServiceHandler : IntentBuilder {
 
-  fun startService()
+    fun startService(context: Context)
 
 }

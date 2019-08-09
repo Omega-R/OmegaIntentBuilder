@@ -22,7 +22,7 @@ import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
 /**
  * MapIntentBuilder is a helper for open Maps applications
  */
-class MapIntentBuilder(val context: Context, private vararg var types: MapTypes) : BaseActivityBuilder(context) {
+class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder() {
 
     private var latitude: Double? = null
     private var longitude: Double? = null
@@ -84,7 +84,7 @@ class MapIntentBuilder(val context: Context, private vararg var types: MapTypes)
         return this
     }
 
-    override fun createIntent(): Intent {
+    override fun createIntent(context: Context): Intent {
         val uri: Uri = getFormattedUri(0)
         val intent = Intent(Intent.ACTION_VIEW, uri)
 
@@ -138,35 +138,35 @@ class MapIntentBuilder(val context: Context, private vararg var types: MapTypes)
         return Uri.parse(sb.toString())
     }
 
-    override fun createIntentHandler(): ContextIntentHandler {
-        val failIntentHandlers = createFailIntentHandler()
+    override fun createIntentHandler(context: Context): ContextIntentHandler {
+        val failIntentHandlers = createFailIntentHandler(context)
         if (failIntentHandlers.isEmpty()) {
-            return super.createIntentHandler()
+            return super.createIntentHandler(context)
         } else {
-            return WrapperIntentHandler(context, createIntent(), failIntentHandlers.last(), failIntentHandlers.first())
+            return WrapperIntentHandler(context, createIntent(context), failIntentHandlers.last(), failIntentHandlers.first())
         }
 
     }
 
-    private fun createFailIntentHandler(): List<ContextIntentHandler> {
+    private fun createFailIntentHandler(context: Context): List<ContextIntentHandler> {
         val result = ArrayList<ContextIntentHandler>(types.size)
 
-        var prevIntentHandler : ContextIntentHandler? = null
+        var prevIntentHandler: ContextIntentHandler? = null
 
         for (index in 1 until types.size) {
-            val intentHandler = OmegaIntentBuilder.from(context)
+            val intentHandler = OmegaIntentBuilder
                     .map(types[index])
-                    .createIntentHandler()
+                    .createIntentHandler(context)
             result += intentHandler
             prevIntentHandler?.failIntentHandler(intentHandler)
             prevIntentHandler = intentHandler
         }
 
         if (failtype != null) {
-            val lastHandler =  OmegaIntentBuilder.from(context)
+            val lastHandler = OmegaIntentBuilder
                     .playStore()
                     .packageName(failtype!!.packageName)
-                    .createIntentHandler()
+                    .createIntentHandler(context)
             result += lastHandler
             prevIntentHandler?.failIntentHandler(lastHandler)
 
@@ -176,9 +176,9 @@ class MapIntentBuilder(val context: Context, private vararg var types: MapTypes)
     }
 
     private class WrapperIntentHandler(context: Context, createdIntent: Intent,
-                               private val handler: ContextIntentHandler,
-                               failIntentHandler: ContextIntentHandler?
-    ): ContextIntentHandler(context, createdIntent) {
+                                       private val handler: ContextIntentHandler,
+                                       failIntentHandler: ContextIntentHandler?
+    ) : ContextIntentHandler(context, createdIntent) {
 
         init {
             super.failIntentHandler(failIntentHandler)
