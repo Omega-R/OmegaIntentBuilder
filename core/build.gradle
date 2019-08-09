@@ -35,7 +35,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'com.github.Omega-R:OmegaLaunchers:1.0.1'
+    api 'com.github.Omega-R:OmegaLaunchers:ef6c71e'
     api 'com.github.Omega-R.OmegaTypes:omegatypes:1.0.1'
 
     compileOnly "androidx.appcompat:appcompat:$androidX"
