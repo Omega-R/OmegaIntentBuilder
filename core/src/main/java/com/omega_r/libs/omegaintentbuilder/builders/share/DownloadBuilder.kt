@@ -15,7 +15,8 @@ import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadAsyncTask
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback
-import com.omega_r.libs.omegaintentbuilder.models.FileInfo
+import com.omega_r.libs.omegaintentbuilder.models.RemoteFileInfo
+import com.omega_r.libs.omegatypes.Image
 
 /**
  * DownloadBuilder is a helper for download files from internet and add it to createdIntent
@@ -23,7 +24,8 @@ import com.omega_r.libs.omegaintentbuilder.models.FileInfo
  */
 class DownloadBuilder<T>(private val intentBuilder: T) where T : BaseUriBuilder, T : Download<BaseUriBuilder> {
 
-    val fileInfoSet: MutableSet<FileInfo> = mutableSetOf()
+    private val fileInfoSet = mutableSetOf<RemoteFileInfo>()
+
 
     /**
      * Add a array of url addresses to download.
@@ -31,9 +33,8 @@ class DownloadBuilder<T>(private val intentBuilder: T) where T : BaseUriBuilder,
      * @param urlAddresses Array of String addresses to download and share
      * @return This DownloadBuilder for method chaining
      */
-    fun filesUrls(vararg urlAddresses: String): DownloadBuilder<T> {
-        urlAddresses.forEach { fileInfoSet.put(it) }
-        return this
+    fun filesUrls(vararg urlAddresses: String) = apply {
+        fileInfoSet += urlAddresses.map { RemoteFileInfo(it) }
     }
 
     /**
@@ -45,8 +46,20 @@ class DownloadBuilder<T>(private val intentBuilder: T) where T : BaseUriBuilder,
      */
     @JvmOverloads
     fun fileUrlWithMimeType(urlAddress: String, mimeType: String? = null): DownloadBuilder<T> {
-        fileInfoSet.put(urlAddress, mimeType)
+        fileInfoSet += RemoteFileInfo(urlAddress, mimeType)
         return this
+    }
+
+    fun images(images: Array<out Image>) = apply {
+        fileInfoSet += images.map { RemoteFileInfo(image = it) }
+    }
+
+    fun images(image: Image) = apply {
+        fileInfoSet += RemoteFileInfo(image = image)
+    }
+
+    fun image(image: Image, name: String? = null, mimeType: String? = null) = apply {
+        fileInfoSet += RemoteFileInfo(image = image, mimeType = mimeType, originalName = name)
     }
 
     /**
@@ -56,9 +69,8 @@ class DownloadBuilder<T>(private val intentBuilder: T) where T : BaseUriBuilder,
      * @param name String - Your own file name with type ("example.mp3")
      * @return This DownloadBuilder for method chaining
      */
-    fun fileUrlWithName(urlAddress: String, name: String): DownloadBuilder<T> {
-        fileInfoSet.put(urlAddress, null, name)
-        return this
+    fun fileUrlWithName(urlAddress: String, name: String) = apply {
+        fileInfoSet += RemoteFileInfo(urlAddress, null, name)
     }
 
     /**
@@ -67,13 +79,8 @@ class DownloadBuilder<T>(private val intentBuilder: T) where T : BaseUriBuilder,
      * @param collection Collection of String addresses to download and share
      * @return This DownloadBuilder for method chaining
      */
-    fun filesUrls(collection: Collection<String>): DownloadBuilder<T> {
-        collection.forEach { fileInfoSet.put(it) }
-        return this
-    }
-
-    private fun MutableSet<FileInfo>.put(urlAddress: String, mimeType: String? = null, name: String? = null) {
-        this.add(FileInfo(urlAddress, mimeType, name))
+    fun filesUrls(collection: Collection<String>) = apply {
+        fileInfoSet += collection.map { RemoteFileInfo(it) }
     }
 
     /**
@@ -87,8 +94,9 @@ class DownloadBuilder<T>(private val intentBuilder: T) where T : BaseUriBuilder,
             callback.onDownloaded(true, intentBuilder.createIntentHandler(context))
             return
         }
-        val downloader = DownloadAsyncTask(context, intentBuilder, intentBuilder.getLocalFilesDir(context), callback)
-        downloader.execute(fileInfoSet)
+
+        DownloadAsyncTask(context, intentBuilder, intentBuilder.getLocalFilesDir(context), callback)
+                .execute(fileInfoSet)
     }
 
 

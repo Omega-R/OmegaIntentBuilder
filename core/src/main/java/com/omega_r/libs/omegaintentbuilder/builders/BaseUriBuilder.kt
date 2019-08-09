@@ -15,7 +15,9 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.builders.share.DownloadBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
+import com.omega_r.libs.omegaintentbuilder.models.RemoteFileInfo
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
+import com.omega_r.libs.omegatypes.Image
 import java.io.File
 import java.io.FileOutputStream
 
@@ -24,7 +26,7 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
     private val uriSet: MutableSet<Uri> = mutableSetOf()
     private val fileSet: MutableSet<File> = mutableSetOf()
 
-    private val downloadBuilder = DownloadBuilder(this)
+    private val downloadBuilder by lazy { DownloadBuilder(this) }
     private var bitmapIndex = 0
     private var localFilesDir: File? = null
 
@@ -98,6 +100,15 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
      */
     fun fileUrlWithName(urlAddress: String, name: String): DownloadBuilder<BaseUriBuilder> {
         return downloadBuilder.fileUrlWithName(urlAddress, name)
+    }
+
+    fun images(vararg image: Image): DownloadBuilder<BaseUriBuilder> {
+        return downloadBuilder.images(image)
+    }
+
+    @JvmOverloads
+    fun image(image: Image, name: String? = null, mimeType: String? = null): DownloadBuilder<BaseUriBuilder> {
+        return downloadBuilder.image(image, name, mimeType)
     }
 
     /**

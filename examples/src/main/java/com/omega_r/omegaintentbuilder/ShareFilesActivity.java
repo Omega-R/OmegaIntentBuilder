@@ -8,6 +8,10 @@ import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes;
+import com.omega_r.libs.omegatypes.Image;
+import com.omega_r.libs.omegatypes.ImageKt;
+import com.omega_r.libs.omegatypes.UrlImageExtensionsKt;
+import com.omega_r.libs.omegatypes.glide.GlideImage;
 import com.omega_r.omegaintentbuilder.models.Model;
 
 import org.jetbrains.annotations.NotNull;
@@ -48,8 +52,9 @@ public class ShareFilesActivity extends BaseActivity implements View.OnClickList
                 .share()
                 .emailTo("your_email_here@gmail.com")
                 .subject("Great library")
-                .filesUrls(url1)
-                .fileUrlWithMimeType(model.getUrl(), MimeTypes.IMAGE_PNG)
+                .image(Image.from(R.mipmap.ic_launcher), null, MimeTypes.IMAGE_PNG)
+//                .filesUrls(url1)
+//                .fileUrlWithMimeType(model.getUrl(), MimeTypes.IMAGE_PNG)
                 .download(this, new DownloadCallback() {
                     @Override
                     public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
