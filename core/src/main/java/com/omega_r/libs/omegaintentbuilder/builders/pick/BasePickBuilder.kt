@@ -20,7 +20,7 @@ import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 /**
  * BasePickBuilder is a helper for creating pick file intent
  */
-open class BasePickBuilder() : BaseActivityBuilder() {
+open class BasePickBuilder : BaseActivityBuilder() {
 
     private var allowMultiply = false
     protected var mimeType: String = MimeTypes.ANY

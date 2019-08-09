@@ -136,6 +136,7 @@ class SpeechToTextBuilder() : BaseActivityBuilder() {
      * @param secure Boolean
      * @return This SpeechToTextBuilder for method chaining
      */
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     fun secure(secure: Boolean): SpeechToTextBuilder {
         this.secure = secure
         return this
@@ -188,7 +189,9 @@ class SpeechToTextBuilder() : BaseActivityBuilder() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, preferOffline)
         }
-        intent.putExtra(RecognizerIntent.EXTRA_SECURE, secure)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            intent.putExtra(RecognizerIntent.EXTRA_SECURE, secure)
+        }
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, partialResults)
         onlyReturnLanguagePreference?.let { intent.putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, it) }
 

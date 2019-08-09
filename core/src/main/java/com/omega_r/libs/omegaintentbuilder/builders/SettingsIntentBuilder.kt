@@ -364,6 +364,7 @@ class SettingsIntentBuilder : BaseActivityBuilder() {
      * Activity Action: Show NFC settings.
      * @return This SettingsIntentBuilder for method chaining
      */
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
     fun nfc(): SettingsIntentBuilder {
         action = Settings.ACTION_NFC_SETTINGS
         return this

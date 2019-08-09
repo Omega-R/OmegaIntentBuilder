@@ -10,13 +10,12 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
-import android.content.Context
 import com.omega_r.libs.omegaintentbuilder.types.AudioTypes
 
 class AudioPickBuilder: BasePickBuilder() {
 
   init {
-    super.mimeType = AudioTypes.AUDIO.mimeType
+      super.mimeType = AudioTypes.AUDIO.mimeType
   }
 
 

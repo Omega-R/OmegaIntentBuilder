@@ -449,7 +449,7 @@ open class BaseIntentBuilder<out S, T>(private val classT: Class<T>) {
      * prefix, for example the app com.android.contacts would use names
      * like "com.android.contacts.ShowAll".
      *
-     * @param extras The Bundle of extras to add to this createdIntent.
+     * @param value The Bundle of extras to add to this createdIntent.
      */
     fun putExtras(value: Bundle): S {
         extras.putAll(value)
@@ -459,7 +459,7 @@ open class BaseIntentBuilder<out S, T>(private val classT: Class<T>) {
     /**
      * Copy all extras in 'src' in to this createdIntent.
      *
-     * @param src Contains the extras to copy.
+     * @param value Contains the extras to copy.
      */
     fun putExtras(value: Intent): S {
         extras.putAll(value.extras)
@@ -470,7 +470,7 @@ open class BaseIntentBuilder<out S, T>(private val classT: Class<T>) {
      * Completely replace the extras in the Intent with the extras in the
      * given Intent.
      *
-     * @param src The exact extras contained in this Intent are copied
+     * @param value The exact extras contained in this Intent are copied
      * into the target createdIntent, replacing any that were previously there.
      */
     fun replaceExtras(value: Intent): S {
@@ -491,7 +491,7 @@ open class BaseIntentBuilder<out S, T>(private val classT: Class<T>) {
      * Completely replace the extras in the Intent with the given Bundle of
      * extras.
      *
-     * @param extras The new set of extras in the Intent, or null to erase
+     * @param value The new set of extras in the Intent, or null to erase
      * all extras.
      * @return Returns the same BaseIntentBuilder<T> object, for chaining multiple calls
      * into a single statement.
