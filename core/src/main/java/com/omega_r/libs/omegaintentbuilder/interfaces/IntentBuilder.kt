@@ -29,6 +29,6 @@ interface IntentBuilder {
     /**
      * Returns created Launcher.
      */
-    fun createLauncher(): Launcher = IntentBuilderLauncher(this)
+    fun createLauncher() = IntentBuilderLauncher(this)
 
 }
