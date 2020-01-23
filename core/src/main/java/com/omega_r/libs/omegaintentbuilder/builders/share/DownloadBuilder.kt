@@ -16,7 +16,7 @@ import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadAsyncTask
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback
 import com.omega_r.libs.omegaintentbuilder.models.RemoteFileInfo
-import com.omega_r.libs.omegatypes.Image
+import com.omega_r.libs.omegatypes.image.Image
 
 /**
  * DownloadBuilder is a helper for download files from internet and add it to createdIntent
