@@ -13,33 +13,20 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.app.Activity
 import android.app.Fragment
 import android.content.Context
-import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
-import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
-import com.omega_r.libs.omegaintentbuilder.handlers.FragmentIntentHandler
-import com.omega_r.libs.omegaintentbuilder.handlers.SupportFragmentIntentHandler
+import com.omega_r.libs.omegaintentbuilder.handlers.*
 import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandlerBuilder
 
-abstract class BaseActivityBuilder : IntentHandler {
+abstract class BaseActivityBuilder : IntentHandlerBuilder {
 
-    override fun createIntentHandler(context: Context): ContextIntentHandler {
-        return ContextIntentHandler(context, createIntent(context))
-    }
+    override fun createIntentHandler(context: Context): IntentHandler = ContextIntentHandler(context, createIntent(context))
 
-    override fun createIntentHandler(activity: Activity): ActivityIntentHandler {
-        return ActivityIntentHandler(activity, createIntent(activity))
-    }
+    override fun createIntentHandler(activity: Activity): IntentHandler = ActivityIntentHandler(activity, createIntent(activity))
 
-    override fun createIntentHandler(fragment: Fragment): FragmentIntentHandler {
-        return FragmentIntentHandler(fragment, createIntent(fragment.activity!!))
-    }
+    override fun createIntentHandler(fragment: Fragment): IntentHandler =
+            FragmentIntentHandler(fragment, createIntent(fragment.activity!!))
 
-    override fun createIntentHandler(fragment: androidx.fragment.app.Fragment): SupportFragmentIntentHandler {
-        return SupportFragmentIntentHandler(fragment, createIntent(fragment.activity!!))
-    }
-
-    override fun startActivity(context: Context) {
-        createIntentHandler(context)
-                .startActivity()
-    }
+    override fun createIntentHandler(fragment: androidx.fragment.app.Fragment): IntentHandler =
+            SupportFragmentIntentHandler(fragment, createIntent(fragment.activity!!))
 
 }

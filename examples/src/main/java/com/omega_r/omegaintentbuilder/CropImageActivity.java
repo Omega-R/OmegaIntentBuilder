@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler;
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes;
 
 import org.jetbrains.annotations.NotNull;
@@ -62,7 +63,7 @@ public class CropImageActivity extends BaseActivity implements View.OnClickListe
                 .fileUrlWithMimeType("https://avatars1.githubusercontent.com/u/28600571?s=200&v=4", MimeTypes.IMAGE_PNG)
                 .download(this, new DownloadCallback() {
                     @Override
-                    public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
+                    public void onDownloaded(boolean success, @NotNull IntentHandler contextIntentHandler) {
                         hideProgress();
                         startActivityForResult(contextIntentHandler.getIntent(), REQUEST_CODE);
                     }

@@ -10,12 +10,17 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders
 
+import android.app.Activity
+import android.app.Fragment
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
 
@@ -138,24 +143,40 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         return Uri.parse(sb.toString())
     }
 
-    override fun createIntentHandler(context: Context): ContextIntentHandler {
-        val failIntentHandlers = createFailIntentHandler(context)
-        if (failIntentHandlers.isEmpty()) {
-            return super.createIntentHandler(context)
-        } else {
-            return WrapperIntentHandler(context, createIntent(context), failIntentHandlers.last(), failIntentHandlers.first())
-        }
-
+    override fun createIntentHandler(activity: Activity): IntentHandler {
+        return createFailIntentHandler(activity) ?: super.createIntentHandler(activity)
     }
 
-    private fun createFailIntentHandler(context: Context): List<ContextIntentHandler> {
-        val result = ArrayList<ContextIntentHandler>(types.size)
+    override fun createIntentHandler(fragment: Fragment): IntentHandler {
+        return createFailIntentHandler(fragment.activity) ?: super.createIntentHandler(fragment)
+    }
 
-        var prevIntentHandler: ContextIntentHandler? = null
+    override fun createIntentHandler(fragment: androidx.fragment.app.Fragment): IntentHandler {
+        return fragment.context?.let { createFailIntentHandler(it) }  ?: super.createIntentHandler(fragment)
+    }
+
+    override fun createIntentHandler(context: Context): IntentHandler {
+        return createFailIntentHandler(context) ?: super.createIntentHandler(context)
+    }
+
+    private fun createFailIntentHandler(context: Context): WrapperIntentHandler? {
+        val list = createFailIntentHandlers(context)
+        return if (list.isEmpty()) null else WrapperIntentHandler(context, createIntent(context), list.last(), list.first())
+    }
+
+    private fun createFailIntentHandlers(context: Context): List<IntentHandler> {
+        val result = ArrayList<IntentHandler>(types.size)
+
+        var prevIntentHandler: IntentHandler? = null
 
         for (index in 1 until types.size) {
             val intentHandler = OmegaIntentBuilder
                     .map(types[index])
+                    .also {
+                        it.address = address
+                        it.latitude = latitude
+                        it.longitude = longitude
+                    }
                     .createIntentHandler(context)
             result += intentHandler
             prevIntentHandler?.failIntentHandler(intentHandler)
@@ -175,10 +196,15 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         return result
     }
 
-    private class WrapperIntentHandler(context: Context, createdIntent: Intent,
-                                       private val handler: ContextIntentHandler,
-                                       failIntentHandler: ContextIntentHandler?
-    ) : ContextIntentHandler(context, createdIntent) {
+    private class WrapperIntentHandler(
+            context: Context,
+            createdIntent: Intent,
+            private val handler: IntentHandler,
+            failIntentHandler: IntentHandler?
+    ) : ContextIntentHandler(
+            context,
+            createdIntent
+    ) {
 
         init {
             super.failIntentHandler(failIntentHandler)
@@ -204,11 +230,56 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
             return this
         }
 
-        override fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ContextIntentHandler {
+        override fun failIntentHandler(failIntentHandler: IntentHandler?): IntentHandler {
             handler.failIntentHandler(failIntentHandler)
             return this
         }
 
+        override fun chooserTitle(chooserTitle: CharSequence): IntentHandler {
+            handler.chooserTitle(chooserTitle)
+            return this
+        }
+
+        override fun chooserTitle(chooserTitle: String): IntentHandler {
+            handler.chooserTitle(chooserTitle)
+            return this
+        }
+
+        override fun chooserTitle(chooserTitle: Int): IntentHandler {
+            handler.chooserTitle(chooserTitle)
+            return this
+        }
+
+        override fun startActivity() {
+            handler.startActivity()
+        }
+
+        override fun startActivityForResult(requestCode: Int, options: Bundle?) {
+            handler.startActivityForResult(requestCode, options)
+        }
+
+        override fun startActivityForResult(callback: ActivityResultCallback) {
+            handler.startActivityForResult(callback)
+        }
+
+        override fun getIntent(): Intent {
+            return handler.getIntent()
+        }
+
+        override fun addFlagsClearBackStack(): IntentHandler {
+            handler.addFlagsClearBackStack()
+            return this
+        }
+
+        override fun addFlags(flags: Int): IntentHandler {
+            handler.addFlags(flags)
+            return this
+        }
+
+        override fun setFlags(flags: Int): IntentHandler {
+            handler.setFlags(flags)
+            return this
+        }
     }
 
 }

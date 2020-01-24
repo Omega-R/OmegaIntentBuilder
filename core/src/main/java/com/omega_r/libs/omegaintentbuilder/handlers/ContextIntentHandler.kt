@@ -16,15 +16,21 @@ import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.*
+import android.os.Bundle
 import android.util.AndroidRuntimeException
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
 import com.omega_r.libs.omegatypes.Text
 
 /**
  * ContextIntentHandler is a helper for start intents
  */
-open class ContextIntentHandler(private val context: Context, private val createdIntent: Intent) {
+open class ContextIntentHandler(
+        private val context: Context,
+        private val createdIntent: Intent
+) : IntentHandler {
 
     companion object {
         private const val FLAG_GRANT_PERSISTABLE_URI_PERMISSION = 0x00000040
@@ -35,7 +41,7 @@ open class ContextIntentHandler(private val context: Context, private val create
     private var toastMessage: Text? = null
     private var failIntent: Intent? = null
     private var failCallback: FailCallback? = null
-    private var failContextIntentHandler: ContextIntentHandler? = null
+    private var failIntentHandler: IntentHandler? = null
     private var activityResultCallback: ActivityResultCallback? = null
 
     /**
@@ -44,7 +50,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @param title Title CharSequence
      * @return This ContextIntentHandler for method chaining
      */
-    fun chooserTitle(chooserTitle: CharSequence): ContextIntentHandler {
+    override fun chooserTitle(chooserTitle: CharSequence): IntentHandler {
         this.chooserTitle = Text.from(chooserTitle)
         return this
     }
@@ -55,7 +61,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @param title Title String
      * @return This ContextIntentHandler for method chaining
      */
-    fun chooserTitle(chooserTitle: String): ContextIntentHandler {
+    override fun chooserTitle(chooserTitle: String): IntentHandler {
         this.chooserTitle = Text.from(chooserTitle)
         return this
     }
@@ -66,7 +72,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @param title Title @StringRes Int
      * @return This ContextIntentHandler for method chaining
      */
-    fun chooserTitle(chooserTitle: Int): ContextIntentHandler {
+    override fun chooserTitle(chooserTitle: Int): IntentHandler {
         this.chooserTitle = Text.from(chooserTitle)
         return this
     }
@@ -119,7 +125,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return Returns the same ContextIntentHandler object, for chaining multiple calls
      * into a single statement.
      */
-    open fun failToast(message: String): ContextIntentHandler {
+    override fun failToast(message: String): IntentHandler {
         toastMessage = Text.from(message)
         return this
     }
@@ -131,7 +137,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return Returns the same ContextIntentHandler object, for chaining multiple calls
      * into a single statement.
      */
-    open fun failToast(@StringRes message: Int): ContextIntentHandler {
+    override fun failToast(@StringRes message: Int): IntentHandler {
         toastMessage = Text.from(message)
         return this
     }
@@ -144,7 +150,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return Returns the same ContextIntentHandler object, for chaining multiple calls
      * into a single statement.
      */
-    open fun failIntent(failIntent: Intent): ContextIntentHandler {
+    override fun failIntent(failIntent: Intent): IntentHandler {
         this.failIntent = failIntent
         return this
     }
@@ -157,7 +163,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return Returns the same ContextIntentHandler object, for chaining multiple calls
      * into a single statement.
      */
-    open fun failCallback(failCallback: FailCallback): ContextIntentHandler {
+    override fun failCallback(failCallback: FailCallback): IntentHandler {
         this.failCallback = failCallback
         return this
     }
@@ -171,8 +177,8 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return Returns the same ContextIntentHandler object, for chaining multiple calls
      * into a single statement.
      */
-    open fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ContextIntentHandler {
-        failContextIntentHandler = failIntentHandler
+    override fun failIntentHandler(failIntentHandler: IntentHandler?): IntentHandler {
+        this.failIntentHandler = failIntentHandler
         return this
     }
 
@@ -182,26 +188,33 @@ open class ContextIntentHandler(private val context: Context, private val create
      *
      * @throws ActivityNotFoundException
      */
-    fun startActivity() {
-        val intent = getIntent()
+    override fun startActivity() {
         try {
-            startActivity(intent)
+            startActivity(getIntent())
+        } catch (exc: ActivityNotFoundException) {
+            handleStartActivityException(exc)
+        }
+    }
+
+    override fun startActivityForResult(requestCode: Int, options: Bundle?) {
+        try {
+            startActivity(getIntent(), options)
         } catch (exc: ActivityNotFoundException) {
             handleStartActivityException(exc)
         }
     }
 
     @Throws(ActivityNotFoundException::class)
-    private fun startActivity(intent: Intent) {
+    private fun startActivity(intent: Intent, options: Bundle? = null) {
         try {
-            context.startActivity(intent)
+            ContextCompat.startActivity(context, intent, options)
         } catch (exc: AndroidRuntimeException) {
-            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent)
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+            ContextCompat.startActivity(context, intent, options)
         }
     }
 
-    fun startActivityForResult(callback: ActivityResultCallback) {
+    override fun startActivityForResult(callback: ActivityResultCallback) {
         activityResultCallback = callback
         OmegaHandleResultActivity.start(context, this)
     }
@@ -214,10 +227,10 @@ open class ContextIntentHandler(private val context: Context, private val create
         failIntent?.let {
             context.startActivity(failIntent)
         }
-        failContextIntentHandler?.startActivity()
+        failIntentHandler?.startActivity()
 
         if (toastMessage == null && failCallback == null
-                && failIntent == null && failContextIntentHandler == null) {
+                && failIntent == null && failIntentHandler == null) {
             throw RuntimeException(exc)
         }
     }
@@ -226,11 +239,11 @@ open class ContextIntentHandler(private val context: Context, private val create
         activityResultCallback?.onActivityResult(resultCode, data)
     }
 
-    fun getIntent(): Intent {
+    override fun getIntent(): Intent {
         return if (chooserTitle == null) createdIntent else createChooserIntent()
     }
 
-    fun addFlagsClearBackStack(): ContextIntentHandler {
+    override fun addFlagsClearBackStack(): IntentHandler {
         return addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_NEW_TASK)
     }
 
@@ -243,7 +256,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return Returns the same ContextIntentHandler object, for chaining multiple calls
      * into a single statement.
      */
-    fun addFlags(flags: Int): ContextIntentHandler {
+    override fun addFlags(flags: Int): IntentHandler {
         createdIntent.addFlags(flags)
         return this
     }
@@ -261,7 +274,7 @@ open class ContextIntentHandler(private val context: Context, private val create
      * @return Returns the same ContextIntentHandler object, for chaining multiple calls
      * into a single statement.
      */
-    fun setFlags(flags: Int): ContextIntentHandler {
+    override fun setFlags(flags: Int): IntentHandler {
         createdIntent.flags = flags
         return this
     }

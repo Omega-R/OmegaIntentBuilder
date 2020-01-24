@@ -10,13 +10,13 @@
  */
 package com.omega_r.libs.omegaintentbuilder.downloader
 
-import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
 
 /**
  * DownloadCallback it is a interface to controll download state
  */
 interface DownloadCallback {
 
-  fun onDownloaded(success: Boolean, contextIntentHandler: ContextIntentHandler)
+  fun onDownloaded(success: Boolean, intentHandler: IntentHandler)
 
 }
