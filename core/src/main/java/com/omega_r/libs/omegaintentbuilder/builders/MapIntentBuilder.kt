@@ -23,6 +23,8 @@ import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback
 import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
+import com.omega_r.libs.omegaintentbuilder.types.MapViewTypes
+import com.omega_r.libs.omegaintentbuilder.types.MapViewTypes.*
 
 /**
  * MapIntentBuilder is a helper for open Maps applications
@@ -33,6 +35,8 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
     private var longitude: Double? = null
     private var address: String? = null
     private var failtype: MapTypes? = null
+    private var viewType: MapViewTypes? = null
+    private var zoom: Int? = null
 
     init {
         if (types.isEmpty()) types = MapTypes.values()
@@ -89,58 +93,109 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         return this
     }
 
+    fun zoom(zoom: Int): MapIntentBuilder {
+        if (zoom >= 0) this.zoom = zoom
+        return this
+    }
+
+    fun viewType(viewType: MapViewTypes): MapIntentBuilder {
+        this.viewType = viewType
+        return this
+    }
+
     override fun createIntent(context: Context): Intent {
-        val uri: Uri = getFormattedUri(0)
+        // We take first because next type will be handled in WrapperIntentHandler
+        val mapType = types.first()
+        val uri: Uri = getFormattedUri(mapType)
         val intent = Intent(Intent.ACTION_VIEW, uri)
 
-        when (types[0]) {
-            GOOGLE_MAP -> intent.setPackage(GOOGLE_MAP.packageName)
-            YANDEX_MAP -> intent.setPackage(YANDEX_MAP.packageName)
-            KAKAO_MAP -> intent.setPackage(KAKAO_MAP.packageName)
-            NAVER_MAP -> intent.setPackage(NAVER_MAP.packageName)
-        }
+        when (mapType) {
+            GOOGLE_MAP -> GOOGLE_MAP.packageName
+            YANDEX_MAP -> YANDEX_MAP.packageName
+            KAKAO_MAP -> KAKAO_MAP.packageName
+            NAVER_MAP -> NAVER_MAP.packageName
+        }.also { intent.setPackage(it) }
 
         return intent
     }
 
-    private fun getFormattedUri(index: Int): Uri {
+    private fun getFormattedUri(mapType: MapTypes): Uri {
         val sb = StringBuilder()
-        when (types[index]) {
-            GOOGLE_MAP -> {
-                sb.append("geo:")
-                if (latitude != null && longitude != null) {
-                    sb.append(latitude, ",", longitude)
-                }
-                if (address != null) {
-                    sb.append("?q=", Uri.encode(address))
-                }
-            }
-            YANDEX_MAP -> {
-                sb.append("yandexmaps://", YANDEX_MAP.packageName, "/?pt=")
-                if (latitude != null && longitude != null) {
-                    sb.append(longitude, ",", latitude)
-                }
-                if (address != null) {
-                    sb.append("&text=", address)
-                }
-            }
-            KAKAO_MAP -> {
-                sb.append("daummaps://look?p=")
-                if (latitude != null && longitude != null) {
-                    sb.append(latitude, ",", longitude)
-                }
-            }
-            NAVER_MAP -> {
-                sb.append("geo:")
-                if (latitude != null && longitude != null) {
-                    sb.append(latitude, ",", longitude)
-                }
-                if (address != null) {
-                    sb.append("?q=", Uri.encode(address))
-                }
-            }
+        when(mapType) {
+            GOOGLE_MAP -> formulateGoogleUri(sb)
+            YANDEX_MAP -> formulateYandexMapUri(sb)
+            KAKAO_MAP -> formulateKakaoMapUri(sb)
+            NAVER_MAP -> formulateNaverMapUri(sb)
         }
         return Uri.parse(sb.toString())
+    }
+
+    private fun formulateGoogleUri(sb: StringBuilder) {
+        val viewType = when (viewType) {
+            MAP -> "m"
+            SATELLITE -> "k"
+            HYBRID -> "h"
+            TERRAIN -> "p"
+            GOOGLE_EARTH -> "e"
+            else -> null
+        }
+
+        if (viewType == null) {
+            sb.append("geo:")
+            if (latitude != null && longitude != null) {
+                sb.append(latitude, ",", longitude)
+            }
+            address?.let { sb.append("?q=", Uri.encode(address)) }
+        } else {
+            sb.append("http://maps.google.com/maps?")
+                    .append("t=$viewType")
+            address?.let { sb.append("&q=", Uri.encode(address)) }
+            if (latitude != null && longitude != null) {
+                sb.append("&loc:")
+                        .append(latitude, "+", longitude)
+            }
+        }
+    }
+
+    private fun formulateYandexMapUri(sb: StringBuilder) {
+        sb.append("yandexmaps://", "maps.yandex.ru/?")
+        if (latitude != null && longitude != null) {
+            sb.append("pt=")
+                    .append(longitude, ",", latitude)
+        }
+        val viewType = when (viewType) {
+            MAP -> "map"
+            SATELLITE -> "sat"
+            HYBRID -> "skl"
+            OPEN_MAP -> "pmap"
+            else -> null
+        }
+        viewType?.let { sb.append("&l=", viewType) }
+        zoom?.let { sb.append("&z=", zoom) }
+        address?.let { sb.append("&text=", Uri.encode(address)) }
+    }
+
+    private fun formulateNaverMapUri(sb: StringBuilder) {
+        sb.append("nmap://")
+        if (address == null) sb.append("map?") else sb.append("place?")
+        latitude?.let { sb.append("lat=$latitude") }
+        longitude?.let { sb.append("&lng=$longitude") }
+        zoom?.let { sb.append("&zoom=$zoom") }
+        address?.let { sb.append("&name=", Uri.encode(address)) }
+    }
+
+    private fun formulateKakaoMapUri(sb: StringBuilder) {
+        sb.append("daummaps://")
+        if (address == null) {
+            sb.append("look?")
+        } else {
+            sb.append("search?")
+                    .append("q=", address, "&")
+        }
+        if (latitude != null && longitude != null) {
+            sb.append("p=")
+                    .append(latitude, ",", longitude)
+        }
     }
 
     override fun createIntentHandler(activity: Activity): IntentHandler {
@@ -152,7 +207,7 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
     }
 
     override fun createIntentHandler(fragment: androidx.fragment.app.Fragment): IntentHandler {
-        return fragment.context?.let { createFailIntentHandler(it) }  ?: super.createIntentHandler(fragment)
+        return fragment.context?.let { createFailIntentHandler(it) } ?: super.createIntentHandler(fragment)
     }
 
     override fun createIntentHandler(context: Context): IntentHandler {
@@ -176,6 +231,8 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
                         it.address = address
                         it.latitude = latitude
                         it.longitude = longitude
+                        it.zoom = zoom
+                        it.viewType = viewType
                     }
                     .createIntentHandler(context)
             result += intentHandler
@@ -248,22 +305,6 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         override fun chooserTitle(chooserTitle: Int): IntentHandler {
             handler.chooserTitle(chooserTitle)
             return this
-        }
-
-        override fun startActivity() {
-            handler.startActivity()
-        }
-
-        override fun startActivityForResult(requestCode: Int, options: Bundle?) {
-            handler.startActivityForResult(requestCode, options)
-        }
-
-        override fun startActivityForResult(callback: ActivityResultCallback) {
-            handler.startActivityForResult(callback)
-        }
-
-        override fun getIntent(): Intent {
-            return handler.getIntent()
         }
 
         override fun addFlagsClearBackStack(): IntentHandler {
