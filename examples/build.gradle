@@ -43,6 +43,7 @@ dependencies {
 
     api project(':core')
     api project(':annotations')
+    kapt project(':processor')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
