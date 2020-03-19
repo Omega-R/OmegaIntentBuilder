@@ -188,7 +188,7 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
         return uriSet.first()
     }
 
-    protected fun getUriSet(context: Context): Set<Uri> {
+    fun getUriSet(context: Context): Set<Uri> {
         val uriSet = mutableSetOf<Uri>()
         uriSet.addAll(this.uriSet)
         uriSet.addAll(fileSet.map { toUri(context, it) })
