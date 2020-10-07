@@ -104,8 +104,8 @@
             android:id="@+id/button_crop_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ButtonStyle"
-            android:text="@string/crop_image"/>
+            android:text="@string/crop_image"
+            android:theme="@style/ButtonStyle" />
 
         <Button
             android:id="@+id/button_pick_image"
@@ -138,6 +138,13 @@
             android:layout_height="wrap_content"
             android:theme="@style/ButtonStyle"
             android:text="@string/fragment_extra"/>
+
+        <Button
+            android:id="@+id/button_search_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/search_web"/>
 
     </LinearLayout>
 
