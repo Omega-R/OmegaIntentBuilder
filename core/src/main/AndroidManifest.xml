@@ -2,25 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.omega_r.libs.omegaintentbuilder">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
 
     <application>
         <provider
             android:name="com.omega_r.libs.omegaintentbuilder.providers.FileProvider"
             android:authorities="${applicationId}.${omegaSuffixAuthority}"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
 
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/omega_file_paths"/>
+                android:resource="@xml/omega_file_paths" />
 
         </provider>
 
-        <activity android:name=".handlers.OmegaHandleResultActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+        <activity
+            android:name=".handlers.OmegaHandleResultActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
     </application>
 
 </manifest>
