@@ -135,4 +135,10 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun speechToText() = SpeechToTextBuilder()
 
+    /**
+     * @return AlarmIntentBuilder
+     */
+    @JvmStatic
+    fun createTimer() = TimerIntentBuilder()
+
 }
