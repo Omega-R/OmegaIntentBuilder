@@ -135,4 +135,10 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun speechToText() = SpeechToTextBuilder()
 
+    /**
+     * @return InsertContactIntentBuilder
+     */
+    @JvmStatic
+    fun insertContact() = InsertContactIntentBuilder()
+
 }

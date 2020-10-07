@@ -38,6 +38,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_speech_to_text).setOnClickListener(this);
         findViewById(R.id.button_service_extra).setOnClickListener(this);
         findViewById(R.id.button_fragment_extra).setOnClickListener(this);
+        findViewById(R.id.button_insert_contact).setOnClickListener(this);
     }
 
     @Override
@@ -90,6 +91,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_fragment_extra:
                 onExtrasToFragmentClicked();
+                break;
+            case R.id.button_insert_contact:
+                onInsertContactClicked();
                 break;
         }
     }
@@ -239,5 +243,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                .tabActivity()
 //                .startActivity();
     }
+
+    private void onInsertContactClicked() {
+        OmegaIntentBuilder
+                .insertContact()
+                .name("John")
+                .fullMode("fullMode")
+                .phoneticName("phoneticName")
+                .company("company")
+                .jobTitle("jobTitle")
+                .notes("notes")
+                .phone("88000000008")
+                .phoneType("Mobile")
+                .phoneIsPrimary(true)
+                .secondaryPhone("88000001008")
+                .secondaryPhoneType("Home")
+                .tertiaryPhone("888888888")
+                .tertiaryPhoneType("Work")
+                .email("develop@omega-r.com")
+                .emailType("Home")
+                .emailIsPrimary(false)
+                .secondaryEmail("secondaryEmail")
+                .secondaryEmailType("Work")
+                .tertiaryEmail("tertiaryEmail")
+                .tertiaryEmailType("Home")
+                .postal("postal")
+                .postalType("Home")
+                .postalIsPrimary(true)
+                .imHandle("imHandle")
+                .imProtocol("imProtocol")
+                .imIsPrimary(false)
+                .createIntentHandler(this)
+                .startActivity();
+    }
+
 
 }

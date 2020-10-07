@@ -139,6 +139,13 @@
             android:theme="@style/ButtonStyle"
             android:text="@string/fragment_extra"/>
 
+        <Button
+            android:id="@+id/button_insert_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/insert_contact"/>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
