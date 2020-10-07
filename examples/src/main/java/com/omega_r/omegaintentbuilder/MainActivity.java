@@ -7,7 +7,9 @@ import android.widget.Toast;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes;
+import com.omega_r.libs.omegaintentbuilder.types.EmailAddressType;
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
+import com.omega_r.libs.omegaintentbuilder.types.PhoneType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -248,34 +250,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         OmegaIntentBuilder
                 .insertContact()
                 .name("John")
-                .fullMode("fullMode")
+                .fullMode()
                 .phoneticName("phoneticName")
                 .company("company")
                 .jobTitle("jobTitle")
                 .notes("notes")
                 .phone("88000000008")
-                .phoneType("Mobile")
-                .phoneIsPrimary(true)
+                .phoneType(PhoneType.TYPE_HOME)
+                .phoneIsPrimary()
                 .secondaryPhone("88000001008")
-                .secondaryPhoneType("Home")
+                .secondaryPhoneType(PhoneType.TYPE_HOME)
                 .tertiaryPhone("888888888")
-                .tertiaryPhoneType("Work")
+                .tertiaryPhoneType(PhoneType.TYPE_WORK_MOBILE)
                 .email("develop@omega-r.com")
-                .emailType("Home")
-                .emailIsPrimary(false)
+                .emailType(EmailAddressType.TYPE_HOME)
+                .emailIsPrimary()
                 .secondaryEmail("secondaryEmail")
-                .secondaryEmailType("Work")
+                .secondaryEmailType(EmailAddressType.TYPE_HOME)
                 .tertiaryEmail("tertiaryEmail")
-                .tertiaryEmailType("Home")
+                .tertiaryEmailType(EmailAddressType.TYPE_OTHER)
                 .postal("postal")
                 .postalType("Home")
-                .postalIsPrimary(true)
-                .imHandle("imHandle")
-                .imProtocol("imProtocol")
-                .imIsPrimary(false)
+                .postalIsPrimary()
                 .createIntentHandler(this)
                 .startActivity();
     }
-
 
 }
