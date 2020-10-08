@@ -15,18 +15,24 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     private var notes: String? = null
     private var phone: String? = null
     private var phoneType: PhoneType? = null
+    private var customPhoneType: String? = null
     private var phoneIsPrimary = false
     private var secondaryPhone: String? = null
     private var secondaryPhoneType: PhoneType? = null
+    private var customSecondaryPhoneType: String? = null
     private var tertiaryPhone: String? = null
     private var tertiaryPhoneType: PhoneType? = null
+    private var customTertiaryPhoneType: String? = null
     private var email: String? = null
     private var emailType: EmailAddressType? = null
+    private var customEmailType: String? = null
     private var emailIsPrimary = false
     private var secondaryEmail: String? = null
     private var secondaryEmailType: EmailAddressType? = null
+    private var customSecondaryEmailType: String? = null
     private var tertiaryEmail: String? = null
     private var tertiaryEmailType: EmailAddressType? = null
+    private var customTertiaryEmailType: String? = null
     private var postal: String? = null
     private var postalType: String? = null
     private var postalIsPrimary = false
@@ -123,6 +129,18 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     }
 
     /**
+     * Set the field for the contact phone number type.
+     * <P>Type: Either an String value to create custom type
+     *
+     * @param customPhoneType String
+     * @return This InsertContactIntentBuilder for method chaining
+     */
+    fun phoneType(customPhoneType: String): InsertContactIntentBuilder {
+        this.customPhoneType = customPhoneType
+        return this
+    }
+
+    /**
      * Set the field for the phone isprimary flag.
      * <P>Type: boolean</P>
      *
@@ -159,6 +177,18 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     }
 
     /**
+     * Set the field for the contact phone number type.
+     * Type: Either an String value to create custom type
+     *
+     * @param customSecondaryPhoneType String
+     * @return This InsertContactIntentBuilder for method chaining
+     */
+    fun secondaryPhoneType(customSecondaryPhoneType: String): InsertContactIntentBuilder {
+        this.customSecondaryPhoneType = customSecondaryPhoneType
+        return this
+    }
+
+    /**
      * Set the field for the tertiary contact phone number.
      *
      * @param tertiaryPhone String
@@ -184,6 +214,18 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     }
 
     /**
+     * Set the field for the contact phone number type.
+     * Type: Either an String value to create custom type
+     *
+     * @param customTertiaryPhoneType String
+     * @return This InsertContactIntentBuilder for method chaining
+     */
+    fun tertiaryPhoneType(customTertiaryPhoneType: String): InsertContactIntentBuilder {
+        this.customTertiaryPhoneType = customTertiaryPhoneType
+        return this
+    }
+
+    /**
      * Set the field for the contact email address.
      *
      * @param email String
@@ -205,6 +247,18 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      */
     fun emailType(emailType: EmailAddressType): InsertContactIntentBuilder {
         this.emailType = emailType
+        return this
+    }
+
+    /**
+     * Set the field for the contact email type.
+     * Type: Either a String for custom type
+     *
+     * @param customEmailType String
+     * @return This InsertContactIntentBuilder for method chaining
+     */
+    fun emailType(customEmailType: String): InsertContactIntentBuilder {
+        this.customEmailType = customEmailType
         return this
     }
 
@@ -244,6 +298,18 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     }
 
     /**
+     * Set the field for the contact email type.
+     * Type: Either a String for custom type
+     *
+     * @param customSecondaryEmailType String
+     * @return This InsertContactIntentBuilder for method chaining
+     */
+    fun secondaryEmailType(customSecondaryEmailType: String): InsertContactIntentBuilder {
+        this.customSecondaryEmailType = customSecondaryEmailType
+        return this
+    }
+
+    /**
      * Set the field for the contact tertiary email address.
      *
      * @param tertiaryEmail String
@@ -265,6 +331,18 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      */
     fun tertiaryEmailType(tertiaryEmailType: EmailAddressType): InsertContactIntentBuilder {
         this.tertiaryEmailType = tertiaryEmailType
+        return this
+    }
+
+    /**
+     * Set the field for the contact email type.
+     * Type: Either a String for custom type
+     *
+     * @param customSecondaryEmailType String
+     * @return This InsertContactIntentBuilder for method chaining
+     */
+    fun tertiaryEmailType(customTertiaryEmailType: String): InsertContactIntentBuilder {
+        this.customTertiaryEmailType = customTertiaryEmailType
         return this
     }
 
@@ -306,89 +384,120 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
             type = ContactsContract.Contacts.CONTENT_TYPE
 
             name?.let {
-                putExtra(ContactsContract.Intents.Insert.NAME, name)
+                putExtra(ContactsContract.Intents.Insert.NAME, it)
             }
 
-            putExtra(ContactsContract.Intents.Insert.FULL_MODE, fullMode)
+            if (fullMode) {
+                putExtra(ContactsContract.Intents.Insert.FULL_MODE, fullMode)
+            }
 
             phoneticName?.let {
-                putExtra(ContactsContract.Intents.Insert.PHONETIC_NAME, phoneticName)
+                putExtra(ContactsContract.Intents.Insert.PHONETIC_NAME, it)
             }
 
             company?.let {
-                putExtra(ContactsContract.Intents.Insert.COMPANY, company)
+                putExtra(ContactsContract.Intents.Insert.COMPANY, it)
             }
 
             jobTitle?.let {
-                putExtra(ContactsContract.Intents.Insert.JOB_TITLE, jobTitle)
+                putExtra(ContactsContract.Intents.Insert.JOB_TITLE, it)
             }
 
             notes?.let {
-                putExtra(ContactsContract.Intents.Insert.NOTES, notes)
+                putExtra(ContactsContract.Intents.Insert.NOTES, it)
             }
 
             phone?.let {
-                putExtra(ContactsContract.Intents.Insert.PHONE, phone)
+                putExtra(ContactsContract.Intents.Insert.PHONE, it)
             }
 
             phoneType?.let {
-                putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, phoneType!!.type)
+                putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, it.type)
+            } ?: run {
+                customPhoneType?.let {
+                    putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, it)
+                }
             }
 
-            putExtra(ContactsContract.Intents.Insert.PHONE_ISPRIMARY, phoneIsPrimary)
-
+            if (phoneIsPrimary) {
+                putExtra(ContactsContract.Intents.Insert.PHONE_ISPRIMARY, phoneIsPrimary)
+            }
 
             secondaryPhone?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE, secondaryPhone)
+                putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE, it)
             }
 
             secondaryPhoneType?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, secondaryPhoneType!!.type)
+                putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, it.type)
+            } ?: run {
+                customSecondaryPhoneType?.let {
+                    putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, it)
+                }
             }
 
             tertiaryPhone?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE, tertiaryPhone)
+                putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE, it)
             }
 
             tertiaryPhoneType?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE, tertiaryPhoneType!!.type)
+                putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE, it.type)
+            } ?: run {
+                customTertiaryPhoneType?.let {
+                    putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE, it)
+                }
             }
 
             email?.let {
-                putExtra(ContactsContract.Intents.Insert.EMAIL, email)
+                putExtra(ContactsContract.Intents.Insert.EMAIL, it)
             }
 
             emailType?.let {
-                putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, emailType!!.type)
+                putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, it.type)
+            } ?: run {
+                customEmailType?.let {
+                    putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, it)
+                }
             }
 
-            putExtra(ContactsContract.Intents.Insert.EMAIL_ISPRIMARY, emailIsPrimary)
+            if (emailIsPrimary) {
+                putExtra(ContactsContract.Intents.Insert.EMAIL_ISPRIMARY, emailIsPrimary)
+            }
 
             secondaryEmail?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL, secondaryEmail)
+                putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL, it)
             }
 
             secondaryEmailType?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL_TYPE, secondaryEmailType!!.type)
+                putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL_TYPE, it.type)
+            } ?: run {
+                customSecondaryEmailType?.let {
+                    putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL_TYPE, it)
+                }
             }
 
             tertiaryEmail?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL, tertiaryEmail)
+                putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL, it)
             }
 
             tertiaryEmailType?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL_TYPE, tertiaryEmailType!!.type)
+                putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL_TYPE, it.type)
+            } ?: run {
+                customTertiaryEmailType?.let {
+                    putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL_TYPE, it)
+                }
             }
 
             postal?.let {
-                putExtra(ContactsContract.Intents.Insert.POSTAL, postal)
+                putExtra(ContactsContract.Intents.Insert.POSTAL, it)
             }
 
             postalType?.let {
-                putExtra(ContactsContract.Intents.Insert.POSTAL_TYPE, postalType)
+                putExtra(ContactsContract.Intents.Insert.POSTAL_TYPE, it)
             }
 
-            putExtra(ContactsContract.Intents.Insert.POSTAL_ISPRIMARY, postalIsPrimary)
+            if (postalIsPrimary) {
+                putExtra(ContactsContract.Intents.Insert.POSTAL_ISPRIMARY, postalIsPrimary)
+            }
 
         }
     }
