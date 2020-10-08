@@ -92,6 +92,8 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
 
     /**
      *  Bundle extra value: Indicates no ringtone should be played.
+     *
+     *  @return This AlarmIntentBuilder for method chaining
      */
     fun ringtoneSilent(): AlarmIntentBuilder {
         ringtoneSilent = true
@@ -127,6 +129,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
             if (ringtoneSilent) {
                 putExtra(AlarmClock.VALUE_RINGTONE_SILENT, ringtoneSilent)//it is boolean??
             }
+
         }
     }
 
