@@ -1,8 +1,11 @@
 package com.omega_r.omegaintentbuilder;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
@@ -244,6 +247,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                .startActivity();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void onCreateAlarmClicked() {
         OmegaIntentBuilder
                 .createAlarm()

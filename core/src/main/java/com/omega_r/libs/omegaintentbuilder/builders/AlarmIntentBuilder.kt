@@ -2,7 +2,7 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
-import android.provider.AlarmClock
+import android.provider.AlarmClock.*
 
 class AlarmIntentBuilder : BaseActivityBuilder() {
     private var message: String? = null
@@ -101,33 +101,33 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
     }
 
     override fun createIntent(context: Context): Intent {
-        return Intent(AlarmClock.ACTION_SET_ALARM).apply {
+        return Intent(ACTION_SET_ALARM).apply {
             message?.let {
-                putExtra(AlarmClock.EXTRA_MESSAGE, it)
+                putExtra(EXTRA_MESSAGE, it)
             }
 
             hour?.let {
-                putExtra(AlarmClock.EXTRA_HOUR, it)
+                putExtra(EXTRA_HOUR, it)
             }
 
             minutes?.let {
-                putExtra(AlarmClock.EXTRA_MINUTES, it)
+                putExtra(EXTRA_MINUTES, it)
             }
 
             ringtone?.let {
-                putExtra(AlarmClock.EXTRA_RINGTONE, it)
+                putExtra(EXTRA_RINGTONE, it)
             }
 
             if (skipUI) {
-                putExtra(AlarmClock.EXTRA_SKIP_UI, skipUI)
+                putExtra(EXTRA_SKIP_UI, skipUI)
             }
 
             if (vibrate) {
-                putExtra(AlarmClock.EXTRA_VIBRATE, vibrate)//or true?
+                putExtra(EXTRA_VIBRATE, vibrate)//or true?
             }
 
             if (ringtoneSilent) {
-                putExtra(AlarmClock.VALUE_RINGTONE_SILENT, ringtoneSilent)//it is boolean??
+                putExtra(VALUE_RINGTONE_SILENT, ringtoneSilent)//it is boolean??
             }
 
         }
