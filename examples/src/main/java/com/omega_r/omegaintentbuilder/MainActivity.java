@@ -263,6 +263,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .createAlarm()
                 .message("It's your alarm")
                 .hour(15)
+                .vibrate()
                 .minutes(23)
                 .startActivity(this);
     }

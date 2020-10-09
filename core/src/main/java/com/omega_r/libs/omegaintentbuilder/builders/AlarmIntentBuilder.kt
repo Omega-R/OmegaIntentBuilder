@@ -85,6 +85,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      *
      * @return This AlarmIntentBuilder for method chaining
      */
+    @JvmOverloads
     fun vibrate(vibrate: Boolean = true): AlarmIntentBuilder {
         this.vibrate = vibrate
         return this
