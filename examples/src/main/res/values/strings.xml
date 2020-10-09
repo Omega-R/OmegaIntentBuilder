@@ -23,4 +23,5 @@
     <string name="fragment_extra">Extras to Fragment</string>
     <string name="create_timer">Create Timer</string>
     <string name="insert_contact">Insert Contact</string>
+    <string name="search_web">Search Web</string>
 </resources>
