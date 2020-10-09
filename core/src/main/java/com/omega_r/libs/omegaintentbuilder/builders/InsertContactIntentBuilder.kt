@@ -125,6 +125,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun phoneType(phoneType: PhoneType): InsertContactIntentBuilder {
+        customPhoneType = null
         this.phoneType = phoneType
         return this
     }
@@ -137,6 +138,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun phoneType(customPhoneType: String): InsertContactIntentBuilder {
+        phoneType = null
         this.customPhoneType = customPhoneType
         return this
     }
@@ -173,6 +175,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun secondaryPhoneType(secondaryPhoneType: PhoneType): InsertContactIntentBuilder {
+        customSecondaryPhoneType = null
         this.secondaryPhoneType = secondaryPhoneType
         return this
     }
@@ -185,6 +188,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun secondaryPhoneType(customSecondaryPhoneType: String): InsertContactIntentBuilder {
+        secondaryPhoneType = null
         this.customSecondaryPhoneType = customSecondaryPhoneType
         return this
     }
@@ -210,6 +214,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun tertiaryPhoneType(tertiaryPhoneType: PhoneType): InsertContactIntentBuilder {
+        customTertiaryPhoneType = null
         this.tertiaryPhoneType = tertiaryPhoneType
         return this
     }
@@ -222,6 +227,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun tertiaryPhoneType(customTertiaryPhoneType: String): InsertContactIntentBuilder {
+        tertiaryPhoneType = null
         this.customTertiaryPhoneType = customTertiaryPhoneType
         return this
     }
@@ -247,6 +253,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun emailType(emailType: EmailAddressType): InsertContactIntentBuilder {
+        customEmailType = null
         this.emailType = emailType
         return this
     }
@@ -259,6 +266,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun emailType(customEmailType: String): InsertContactIntentBuilder {
+        emailType = null
         this.customEmailType = customEmailType
         return this
     }
@@ -294,6 +302,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun secondaryEmailType(secondaryEmailType: EmailAddressType): InsertContactIntentBuilder {
+        customSecondaryEmailType = null
         this.secondaryEmailType = secondaryEmailType
         return this
     }
@@ -306,6 +315,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun secondaryEmailType(customSecondaryEmailType: String): InsertContactIntentBuilder {
+        secondaryEmailType = null
         this.customSecondaryEmailType = customSecondaryEmailType
         return this
     }
@@ -331,6 +341,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun tertiaryEmailType(tertiaryEmailType: EmailAddressType): InsertContactIntentBuilder {
+        customTertiaryEmailType = null
         this.tertiaryEmailType = tertiaryEmailType
         return this
     }
@@ -343,6 +354,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun tertiaryEmailType(customTertiaryEmailType: String): InsertContactIntentBuilder {
+        tertiaryEmailType = null
         this.customTertiaryEmailType = customTertiaryEmailType
         return this
     }
@@ -420,9 +432,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
                 }
             }
 
-            if (phoneIsPrimary) {
-                putExtra(PHONE_ISPRIMARY, phoneIsPrimary)
-            }
+            putExtra(PHONE_ISPRIMARY, phoneIsPrimary)
 
             secondaryPhone?.let {
                 putExtra(SECONDARY_PHONE, it)
@@ -459,10 +469,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
                     putExtra(EMAIL_TYPE, it)
                 }
             }
-
-            if (emailIsPrimary) {
-                putExtra(EMAIL_ISPRIMARY, emailIsPrimary)
-            }
+            putExtra(EMAIL_ISPRIMARY, emailIsPrimary)
 
             secondaryEmail?.let {
                 putExtra(SECONDARY_EMAIL, it)
@@ -496,9 +503,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
                 putExtra(POSTAL_TYPE, it)
             }
 
-            if (postalIsPrimary) {
-                putExtra(POSTAL_ISPRIMARY, postalIsPrimary)
-            }
+            putExtra(POSTAL_ISPRIMARY, postalIsPrimary)
 
         }
     }
