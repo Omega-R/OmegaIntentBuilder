@@ -57,7 +57,7 @@ class TimerIntentBuilder : BaseActivityBuilder() {
                 putExtra(EXTRA_LENGTH, it)
             }
 
-            seconds?.let {
+            skipUI?.let {
                 putExtra(EXTRA_SKIP_UI, it)
             }
 
