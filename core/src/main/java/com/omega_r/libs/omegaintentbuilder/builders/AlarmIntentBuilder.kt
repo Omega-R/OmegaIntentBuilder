@@ -10,7 +10,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
     private var minutes: Int? = null
     private var ringtone: String? = null
     private var skipUI: Boolean = false
-    private var vibrate: Boolean = false
+    private var vibrate: Boolean? = null
     private var ringtoneSilent: Boolean = false
 
     /**
@@ -85,8 +85,8 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      *
      * @return This AlarmIntentBuilder for method chaining
      */
-    fun vibrate(): AlarmIntentBuilder {
-        vibrate = true
+    fun vibrate(vibrate: Boolean = true): AlarmIntentBuilder {
+        this.vibrate = vibrate
         return this
     }
 
@@ -122,12 +122,12 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
                 putExtra(EXTRA_SKIP_UI, skipUI)
             }
 
-            if (vibrate) {
-                putExtra(EXTRA_VIBRATE, vibrate)//or true?
+            vibrate?.let {
+                putExtra(EXTRA_VIBRATE, it)
             }
 
             if (ringtoneSilent) {
-                putExtra(VALUE_RINGTONE_SILENT, ringtoneSilent)//it is boolean??
+                putExtra(VALUE_RINGTONE_SILENT, ringtoneSilent)
             }
 
         }
