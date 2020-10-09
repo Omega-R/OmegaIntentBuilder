@@ -469,6 +469,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
                     putExtra(EMAIL_TYPE, it)
                 }
             }
+
             putExtra(EMAIL_ISPRIMARY, emailIsPrimary)
 
             secondaryEmail?.let {
