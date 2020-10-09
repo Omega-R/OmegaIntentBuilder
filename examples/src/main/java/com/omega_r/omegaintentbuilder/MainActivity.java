@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_service_extra).setOnClickListener(this);
         findViewById(R.id.button_fragment_extra).setOnClickListener(this);
         findViewById(R.id.button_insert_contact).setOnClickListener(this);
+        findViewById(R.id.button_search_web).setOnClickListener(this);
     }
 
     @Override
@@ -96,6 +97,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_insert_contact:
                 onInsertContactClicked();
+                break;
+            case R.id.button_search_web:
+                onSearchWebClicked();
                 break;
         }
     }
@@ -274,6 +278,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .postalIsPrimary(true)
                 .createIntentHandler(this)
                 .startActivity();
+    }
+
+    private void onSearchWebClicked() {
+        OmegaIntentBuilder
+                .searchWeb()
+                .query("How much does an elephant weigh")
+                .startActivity(this);
     }
 
 }

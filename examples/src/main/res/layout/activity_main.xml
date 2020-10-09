@@ -140,6 +140,13 @@
             android:text="@string/fragment_extra"/>
 
         <Button
+            android:id="@+id/button_search_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/search_web"/>
+
+        <Button
             android:id="@+id/button_insert_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

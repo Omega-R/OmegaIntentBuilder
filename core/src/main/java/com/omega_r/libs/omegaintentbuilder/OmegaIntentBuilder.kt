@@ -141,4 +141,10 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun insertContact() = InsertContactIntentBuilder()
 
+    /**
+     * @return SearchWebIntentBuilder
+     */
+    @JvmStatic
+    fun searchWeb() = SearchWebIntentBuilder()
+
 }
