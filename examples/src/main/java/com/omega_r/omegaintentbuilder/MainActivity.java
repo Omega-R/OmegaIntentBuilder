@@ -38,7 +38,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_speech_to_text).setOnClickListener(this);
         findViewById(R.id.button_service_extra).setOnClickListener(this);
         findViewById(R.id.button_fragment_extra).setOnClickListener(this);
-        findViewById(R.id.button_search_web).setOnClickListener(this);
     }
 
     @Override
@@ -91,9 +90,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_fragment_extra:
                 onExtrasToFragmentClicked();
-                break;
-            case R.id.button_search_web:
-                onSearchWebClicked();
                 break;
         }
     }
@@ -242,13 +238,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                .appActivities()
 //                .tabActivity()
 //                .startActivity();
-    }
-
-    private void onSearchWebClicked() {
-        OmegaIntentBuilder
-                .searchWeb()
-                .query("How much does an elephant weigh")
-                .startActivity(this);
     }
 
 }
