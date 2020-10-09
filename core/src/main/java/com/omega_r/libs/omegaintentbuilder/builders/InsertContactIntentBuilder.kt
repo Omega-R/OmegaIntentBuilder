@@ -3,6 +3,7 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.provider.ContactsContract
+import android.provider.ContactsContract.Intents.Insert.*
 import com.omega_r.libs.omegaintentbuilder.types.EmailAddressType
 import com.omega_r.libs.omegaintentbuilder.types.PhoneType
 
@@ -338,7 +339,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * Set the field for the contact email type.
      * Type: Either a String for custom type
      *
-     * @param customSecondaryEmailType String
+     * @param customTertiaryEmailType String
      * @return This InsertContactIntentBuilder for method chaining
      */
     fun tertiaryEmailType(customTertiaryEmailType: String): InsertContactIntentBuilder {
@@ -384,119 +385,119 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
             type = ContactsContract.Contacts.CONTENT_TYPE
 
             name?.let {
-                putExtra(ContactsContract.Intents.Insert.NAME, it)
+                putExtra(NAME, it)
             }
 
             if (fullMode) {
-                putExtra(ContactsContract.Intents.Insert.FULL_MODE, fullMode)
+                putExtra(FULL_MODE, fullMode)
             }
 
             phoneticName?.let {
-                putExtra(ContactsContract.Intents.Insert.PHONETIC_NAME, it)
+                putExtra(PHONETIC_NAME, it)
             }
 
             company?.let {
-                putExtra(ContactsContract.Intents.Insert.COMPANY, it)
+                putExtra(COMPANY, it)
             }
 
             jobTitle?.let {
-                putExtra(ContactsContract.Intents.Insert.JOB_TITLE, it)
+                putExtra(JOB_TITLE, it)
             }
 
             notes?.let {
-                putExtra(ContactsContract.Intents.Insert.NOTES, it)
+                putExtra(NOTES, it)
             }
 
             phone?.let {
-                putExtra(ContactsContract.Intents.Insert.PHONE, it)
+                putExtra(PHONE, it)
             }
 
             phoneType?.let {
-                putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, it.type)
+                putExtra(PHONE_TYPE, it.type)
             } ?: run {
                 customPhoneType?.let {
-                    putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, it)
+                    putExtra(PHONE_TYPE, it)
                 }
             }
 
             if (phoneIsPrimary) {
-                putExtra(ContactsContract.Intents.Insert.PHONE_ISPRIMARY, phoneIsPrimary)
+                putExtra(PHONE_ISPRIMARY, phoneIsPrimary)
             }
 
             secondaryPhone?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE, it)
+                putExtra(SECONDARY_PHONE, it)
             }
 
             secondaryPhoneType?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, it.type)
+                putExtra(SECONDARY_PHONE_TYPE, it.type)
             } ?: run {
                 customSecondaryPhoneType?.let {
-                    putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, it)
+                    putExtra(SECONDARY_PHONE_TYPE, it)
                 }
             }
 
             tertiaryPhone?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE, it)
+                putExtra(TERTIARY_PHONE, it)
             }
 
             tertiaryPhoneType?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE, it.type)
+                putExtra(TERTIARY_PHONE_TYPE, it.type)
             } ?: run {
                 customTertiaryPhoneType?.let {
-                    putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE, it)
+                    putExtra(TERTIARY_PHONE_TYPE, it)
                 }
             }
 
             email?.let {
-                putExtra(ContactsContract.Intents.Insert.EMAIL, it)
+                putExtra(EMAIL, it)
             }
 
             emailType?.let {
-                putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, it.type)
+                putExtra(EMAIL_TYPE, it.type)
             } ?: run {
                 customEmailType?.let {
-                    putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, it)
+                    putExtra(EMAIL_TYPE, it)
                 }
             }
 
             if (emailIsPrimary) {
-                putExtra(ContactsContract.Intents.Insert.EMAIL_ISPRIMARY, emailIsPrimary)
+                putExtra(EMAIL_ISPRIMARY, emailIsPrimary)
             }
 
             secondaryEmail?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL, it)
+                putExtra(SECONDARY_EMAIL, it)
             }
 
             secondaryEmailType?.let {
-                putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL_TYPE, it.type)
+                putExtra(SECONDARY_EMAIL_TYPE, it.type)
             } ?: run {
                 customSecondaryEmailType?.let {
-                    putExtra(ContactsContract.Intents.Insert.SECONDARY_EMAIL_TYPE, it)
+                    putExtra(SECONDARY_EMAIL_TYPE, it)
                 }
             }
 
             tertiaryEmail?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL, it)
+                putExtra(TERTIARY_EMAIL, it)
             }
 
             tertiaryEmailType?.let {
-                putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL_TYPE, it.type)
+                putExtra(TERTIARY_EMAIL_TYPE, it.type)
             } ?: run {
                 customTertiaryEmailType?.let {
-                    putExtra(ContactsContract.Intents.Insert.TERTIARY_EMAIL_TYPE, it)
+                    putExtra(TERTIARY_EMAIL_TYPE, it)
                 }
             }
 
             postal?.let {
-                putExtra(ContactsContract.Intents.Insert.POSTAL, it)
+                putExtra(POSTAL, it)
             }
 
             postalType?.let {
-                putExtra(ContactsContract.Intents.Insert.POSTAL_TYPE, it)
+                putExtra(POSTAL_TYPE, it)
             }
 
             if (postalIsPrimary) {
-                putExtra(ContactsContract.Intents.Insert.POSTAL_ISPRIMARY, postalIsPrimary)
+                putExtra(POSTAL_ISPRIMARY, postalIsPrimary)
             }
 
         }
