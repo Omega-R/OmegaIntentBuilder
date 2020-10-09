@@ -14,8 +14,6 @@ package com.omega_r.libs.omegaintentbuilder
 import android.app.Activity
 import android.app.Service
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.pick.PickBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
@@ -136,6 +134,12 @@ object OmegaIntentBuilder {
      */
     @JvmStatic
     fun speechToText() = SpeechToTextBuilder()
+
+    /**
+     * @return InsertContactIntentBuilder
+     */
+    @JvmStatic
+    fun insertContact() = InsertContactIntentBuilder()
 
     /**
      * @return AlarmIntentBuilder

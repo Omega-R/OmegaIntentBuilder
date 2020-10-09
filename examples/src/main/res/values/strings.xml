@@ -22,4 +22,5 @@
     <string name="title_activity_tab">TabActivity</string>
     <string name="fragment_extra">Extras to Fragment</string>
     <string name="create_timer">Create Timer</string>
+    <string name="insert_contact">Insert Contact</string>
 </resources>

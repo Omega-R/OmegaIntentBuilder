@@ -20,10 +20,10 @@ import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 /**
  * BasePickBuilder is a helper for creating pick file intent
  */
-open class BasePickBuilder : BaseActivityBuilder() {
+open class BasePickBuilder(private val defaultMimeType: String = MimeTypes.ANY) : BaseActivityBuilder() {
 
     private var allowMultiply = false
-    protected var mimeType: String = MimeTypes.ANY
+    private val mimeTypes = mutableSetOf(defaultMimeType)
 
     /**
      * Extra used to indicate that an intent can allow the user to select and
@@ -40,10 +40,35 @@ open class BasePickBuilder : BaseActivityBuilder() {
         return this
     }
 
+    open fun mimeType(mimeType: String): BasePickBuilder {
+        mimeTypes.clear()
+        mimeTypes += mimeType
+        return this
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    open fun mimeTypes(vararg mimeType: String): BasePickBuilder {
+        mimeTypes.clear()
+        mimeTypes.addAll(mimeType)
+        return this
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    open fun mimeTypes(mimeTypes: Collection<String>): BasePickBuilder {
+        this.mimeTypes.clear()
+        this.mimeTypes.addAll(mimeTypes)
+        return this
+    }
+
     override fun createIntent(context: Context): Intent {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        intent.type = mimeType
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT || mimeTypes.size <= 1) {
+            intent.type = mimeTypes.firstOrNull() ?: defaultMimeType
+        } else {
+            intent.type = defaultMimeType
+            intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes.toTypedArray())
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiply)
         }

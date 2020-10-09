@@ -62,7 +62,6 @@ public class AnnotationProcessor extends AbstractProcessor {
 
     private static final ClassName sClassBaseBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.builders", "BaseActivityBuilder");
     private static final ClassName sClassBaseServiceBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.builders", "BaseServiceBuilder");
-    private static final ClassName sClassOmegaIntentBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder", "OmegaIntentBuilder");
     private static final ClassName sClassBundleBuilder = ClassName.get("com.omega_r.libs.omegaintentbuilder.bundle", "BundleBuilder");
 
     private static final String PACKAGE_NAME = "com.omega_r.libs.omegaintentbuilder";
@@ -71,7 +70,6 @@ public class AnnotationProcessor extends AbstractProcessor {
     private static final String APP_SERVICE_INTENT_BUILDER = "AppServiceIntentBuilder";
     private static final String APP_OMEGA_INTENT_BUILDER = "AppOmegaIntentBuilder";
     private static final String APP_OMEGA_FRAGMENT_BUILDER = "AppOmegaFragmentBuilder";
-    private static final ClassName sClassAppOmegaIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_OMEGA_INTENT_BUILDER);
     private static final ClassName sClassAppActivityIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_ACTIVITY_INTENT_BUILDER);
     private static final ClassName sClassAppServiceIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_SERVICE_INTENT_BUILDER);
 
@@ -113,14 +111,14 @@ public class AnnotationProcessor extends AbstractProcessor {
             TypeSpec activityIntentBuilder = TypeSpec.classBuilder(APP_ACTIVITY_INTENT_BUILDER)
                     .addModifiers(Modifier.PUBLIC)
                     .addField(sClassContext, "context", Modifier.PRIVATE, Modifier.FINAL)
-                    .addMethod(generateClassConstructorMethod(true, false).build())
+                    .addMethod(generateClassConstructorMethod(true).build())
                     .addMethods(activityBuildersList)
                     .build();
 
             TypeSpec serviceIntentBuilder = TypeSpec.classBuilder(APP_SERVICE_INTENT_BUILDER)
                     .addModifiers(Modifier.PUBLIC)
                     .addField(sClassContext, "context", Modifier.PRIVATE, Modifier.FINAL)
-                    .addMethod(generateClassConstructorMethod(true, false).build())
+                    .addMethod(generateClassConstructorMethod(true).build())
                     .addMethods(serviceBuildersList)
                     .build();
 
@@ -139,23 +137,16 @@ public class AnnotationProcessor extends AbstractProcessor {
     private void generateAppOmegaIntentBuilder() throws IOException {
         TypeSpec omegaIntentBuilder = TypeSpec.classBuilder(APP_OMEGA_INTENT_BUILDER)
                 .addModifiers(Modifier.PUBLIC)
-                .superclass(sClassOmegaIntentBuilder)
-                .addMethod(generateClassConstructorMethod(true, true).build())
-                .addField(sClassContext, "context", Modifier.PRIVATE, Modifier.FINAL)
-                .addMethod(MethodSpec.methodBuilder("from")
-                        .returns(sClassAppOmegaIntentBuilderClass)
-                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                        .addParameter(sClassContext, "context")
-                        .addStatement("return new $T(context)", sClassAppOmegaIntentBuilderClass)
-                        .build())
                 .addMethod(MethodSpec.methodBuilder("appActivities")
                         .returns(sClassAppActivityIntentBuilderClass)
-                        .addModifiers(Modifier.PUBLIC)
+                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                        .addParameter(sClassContext, "context")
                         .addStatement("return new $T(context)", sClassAppActivityIntentBuilderClass)
                         .build())
                 .addMethod(MethodSpec.methodBuilder("appServices")
                         .returns(sClassAppServiceIntentBuilderClass)
-                        .addModifiers(Modifier.PUBLIC)
+                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                        .addParameter(sClassContext, "context")
                         .addStatement("return new $T(context)", sClassAppServiceIntentBuilderClass)
                         .build())
                 .addMethod(MethodSpec.methodBuilder("inject")
@@ -276,7 +267,7 @@ public class AnnotationProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(superClass)
                 .addField(sClassIntent, "intent", Modifier.PRIVATE, Modifier.FINAL)
-                .addMethod(generateClassConstructorMethod(false, true)
+                .addMethod(generateClassConstructorMethod(false)
                         .addStatement("intent = new Intent(context, $T.class)", elementClassName)
                         .build())
                 .addMethod(generateCreateIntentMethod(elementClassName))
@@ -378,24 +369,20 @@ public class AnnotationProcessor extends AbstractProcessor {
         return builder.build();
     }
 
-    private MethodSpec.Builder generateClassConstructorMethod(boolean withContextField, boolean withSuper) {
+    private MethodSpec.Builder generateClassConstructorMethod(boolean withContextField) {
         MethodSpec.Builder builder = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(sClassContext, "context");
-        if (withSuper) {
-            builder.addStatement("super(context)");
-        }
-        if (withContextField) {
-            builder.addStatement("this.$N = $N", "context", "context");
-        }
+        if (withContextField) builder.addStatement("this.$N = $N", "context", "context");
         return builder;
     }
 
     private MethodSpec generateCreateIntentMethod(ClassName className) {
         return MethodSpec.methodBuilder("createIntent")
-                .returns(sClassIntent)
-                .addStatement("return intent", className)
                 .addModifiers(Modifier.PUBLIC)
+                .addParameter(sClassContext, "context")
+                .addStatement("return intent", className)
+                .returns(sClassIntent)
                 .build();
     }
 

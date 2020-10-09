@@ -9,9 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
-import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
-
-import org.jetbrains.annotations.Nullable;
+import com.omega_r.libs.omegaintentbuilder.types.ImageTypes;
 
 import java.io.IOException;
 
@@ -33,6 +31,7 @@ public class PickImageActivity extends BaseActivity implements View.OnClickListe
         OmegaIntentBuilder
                 .pick()
                 .image()
+                .imageTypes(ImageTypes.IMAGE_JPEG, ImageTypes.IMAGE_PNG)
                 .multiply(false)
                 .createIntentHandler(this)
                 .startActivityForResult(REQUEST_CODE);
