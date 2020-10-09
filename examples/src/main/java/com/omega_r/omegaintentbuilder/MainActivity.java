@@ -7,7 +7,9 @@ import android.widget.Toast;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes;
+import com.omega_r.libs.omegaintentbuilder.types.EmailAddressType;
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
+import com.omega_r.libs.omegaintentbuilder.types.PhoneType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,6 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_create_alarm).setOnClickListener(this);
         findViewById(R.id.button_insert_contact).setOnClickListener(this);
         findViewById(R.id.button_search_web).setOnClickListener(this);
+        findViewById(R.id.button_create_timer).setOnClickListener(this);
     }
 
     @Override
@@ -102,6 +105,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_create_alarm:
                 onCreateAlarmClicked();
+                break;
+            case R.id.button_create_timer:
+                onCreateTimerClicked();
                 break;
         }
     }
@@ -252,7 +258,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                .startActivity();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void onCreateAlarmClicked() {
         OmegaIntentBuilder
                 .createAlarm()
