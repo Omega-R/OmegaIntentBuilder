@@ -287,4 +287,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .startActivity(this);
     }
 
+    private void onCreateTimerClicked() {
+        OmegaIntentBuilder
+                .createTimer()
+                .message("It's your timer")
+                .seconds(5)
+                .startActivity(this);
+    }
+
 }
