@@ -17,7 +17,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     private var phone: String? = null
     private var phoneType: PhoneType? = null
     private var customPhoneType: String? = null
-    private var phoneIsPrimary = false
+    private var phoneIsPrimary: Boolean? = null
     private var secondaryPhone: String? = null
     private var secondaryPhoneType: PhoneType? = null
     private var customSecondaryPhoneType: String? = null
@@ -27,7 +27,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     private var email: String? = null
     private var emailType: EmailAddressType? = null
     private var customEmailType: String? = null
-    private var emailIsPrimary = false
+    private var emailIsPrimary: Boolean? = null
     private var secondaryEmail: String? = null
     private var secondaryEmailType: EmailAddressType? = null
     private var customSecondaryEmailType: String? = null
@@ -36,7 +36,7 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     private var customTertiaryEmailType: String? = null
     private var postal: String? = null
     private var postalType: String? = null
-    private var postalIsPrimary = false
+    private var postalIsPrimary: Boolean? = null
 
     /**
      * Set the extra field for the contact name.
@@ -147,10 +147,11 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
      * Set the field for the phone isprimary flag.
      * <P>Type: boolean</P>
      *
+     * @param phoneIsPrimary Boolean
      * @return This InsertContactIntentBuilder for method chaining
      */
-    fun phoneIsPrimary(): InsertContactIntentBuilder {
-        this.phoneIsPrimary = true
+    fun phoneIsPrimary(phoneIsPrimary: Boolean): InsertContactIntentBuilder {
+        this.phoneIsPrimary = phoneIsPrimary
         return this
     }
 
@@ -274,10 +275,11 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     /**
      * Set the field for the email isprimary flag.
      *
+     * @param emailIsPrimary Boolean
      * @return This InsertContactIntentBuilder for method chaining
      */
-    fun emailIsPrimary(): InsertContactIntentBuilder {
-        this.emailIsPrimary = true
+    fun emailIsPrimary(emailIsPrimary: Boolean): InsertContactIntentBuilder {
+        this.emailIsPrimary = emailIsPrimary
         return this
     }
 
@@ -385,10 +387,11 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     /**
      * Set the extra field for the postal isprimary flag.
      *
+     * @param postalIsPrimary Boolean
      * @return This InsertContactIntentBuilder for method chaining
      */
-    fun postalIsPrimary(): InsertContactIntentBuilder {
-        this.postalIsPrimary = true
+    fun postalIsPrimary(postalIsPrimary: Boolean): InsertContactIntentBuilder {
+        this.postalIsPrimary = postalIsPrimary
         return this
     }
 
@@ -432,7 +435,9 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
                 }
             }
 
-            putExtra(PHONE_ISPRIMARY, phoneIsPrimary)
+            phoneIsPrimary?.let {
+                putExtra(PHONE_ISPRIMARY, it)
+            }
 
             secondaryPhone?.let {
                 putExtra(SECONDARY_PHONE, it)
@@ -470,7 +475,9 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
                 }
             }
 
-            putExtra(EMAIL_ISPRIMARY, emailIsPrimary)
+            emailIsPrimary?.let {
+                putExtra(EMAIL_ISPRIMARY, it)
+            }
 
             secondaryEmail?.let {
                 putExtra(SECONDARY_EMAIL, it)
@@ -504,7 +511,9 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
                 putExtra(POSTAL_TYPE, it)
             }
 
-            putExtra(POSTAL_ISPRIMARY, postalIsPrimary)
+            postalIsPrimary?.let {
+                putExtra(POSTAL_ISPRIMARY, it)
+            }
 
         }
     }
