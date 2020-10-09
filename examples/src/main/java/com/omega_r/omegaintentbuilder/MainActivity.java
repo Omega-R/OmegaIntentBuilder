@@ -40,8 +40,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_speech_to_text).setOnClickListener(this);
         findViewById(R.id.button_service_extra).setOnClickListener(this);
         findViewById(R.id.button_fragment_extra).setOnClickListener(this);
+        findViewById(R.id.button_create_alarm).setOnClickListener(this);
         findViewById(R.id.button_insert_contact).setOnClickListener(this);
         findViewById(R.id.button_search_web).setOnClickListener(this);
+        findViewById(R.id.button_create_timer).setOnClickListener(this);
     }
 
     @Override
@@ -100,6 +102,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_search_web:
                 onSearchWebClicked();
+                break;
+            case R.id.button_create_alarm:
+                onCreateAlarmClicked();
+                break;
+            case R.id.button_create_timer:
+                onCreateTimerClicked();
                 break;
         }
     }
@@ -248,6 +256,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                .appActivities()
 //                .tabActivity()
 //                .startActivity();
+    }
+
+    private void onCreateAlarmClicked() {
+        OmegaIntentBuilder
+                .createAlarm()
+                .message("It's your alarm")
+                .hour(15)
+                .vibrate()
+                .minutes(23)
+                .startActivity(this);
     }
 
     private void onInsertContactClicked() {

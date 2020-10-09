@@ -156,4 +156,11 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun searchWeb() = SearchWebIntentBuilder()
 
+    /**
+     * @return AlarmIntentBuilder
+     */
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    fun createAlarm() = AlarmIntentBuilder()
+
 }

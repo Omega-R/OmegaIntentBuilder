@@ -21,6 +21,7 @@
     <string name="service_extra">Extras to Service</string>
     <string name="title_activity_tab">TabActivity</string>
     <string name="fragment_extra">Extras to Fragment</string>
+    <string name="create_alarm">Create Alarm</string>
     <string name="create_timer">Create Timer</string>
     <string name="insert_contact">Insert Contact</string>
     <string name="search_web">Search Web</string>
