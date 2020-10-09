@@ -138,6 +138,25 @@ object OmegaIntentBuilder {
     fun speechToText() = SpeechToTextBuilder()
 
     /**
+     * @return InsertContactIntentBuilder
+     */
+    @JvmStatic
+    fun insertContact() = InsertContactIntentBuilder()
+
+    /**
+     * @return AlarmIntentBuilder
+     */
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    fun createTimer() = TimerIntentBuilder()
+
+    /**
+     * @return SearchWebIntentBuilder
+     */
+    @JvmStatic
+    fun searchWeb() = SearchWebIntentBuilder()
+
+    /**
      * @return AlarmIntentBuilder
      */
     @JvmStatic

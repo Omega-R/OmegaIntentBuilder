@@ -1,7 +1,7 @@
 import org.gradle.internal.jvm.Jvm
 
-//apply plugin: 'com.github.dcendents.android-maven'
-//group = 'com.github.Omega-R.OmegaIntentBuilder'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.Omega-R.OmegaIntentBuilder'
 
 apply plugin: 'java-library'
 
@@ -10,6 +10,7 @@ dependencies {
     api files(Jvm.current().getToolsJar())
 
     implementation "com.squareup:javapoet:$javapoet"
-    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    implementation 'com.google.auto.service:auto-service:1.0-rc6'
+    implementation 'com.google.auto.service:auto-service-annotations:1.0-rc6'
     implementation project(':annotations')
 }

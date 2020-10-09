@@ -17,7 +17,7 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.DownloadBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.models.RemoteFileInfo
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
-import com.omega_r.libs.omegatypes.Image
+import com.omega_r.libs.omegatypes.image.Image
 import java.io.File
 import java.io.FileOutputStream
 
@@ -147,7 +147,7 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
     }
 
     private fun toUri(context: Context, file: File): Uri {
-        val cacheFile = File(localFilesDir, file.name)
+        val cacheFile = File(getLocalFilesDir(context), file.name)
         file.copyTo(cacheFile, overwrite = true)
         return FileProvider.getLocalFileUri(context, cacheFile)
     }
@@ -188,7 +188,7 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
         return uriSet.first()
     }
 
-    protected fun getUriSet(context: Context): Set<Uri> {
+    fun getUriSet(context: Context): Set<Uri> {
         val uriSet = mutableSetOf<Uri>()
         uriSet.addAll(this.uriSet)
         uriSet.addAll(fileSet.map { toUri(context, it) })

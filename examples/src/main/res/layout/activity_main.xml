@@ -146,6 +146,27 @@
             android:theme="@style/ButtonStyle"
             android:text="@string/create_alarm"/>
 
+        <Button
+            android:id="@+id/button_search_web"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/search_web"/>
+
+        <Button
+            android:id="@+id/button_insert_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/insert_contact"/>
+
+        <Button
+            android:id="@+id/button_create_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/create_timer"/>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

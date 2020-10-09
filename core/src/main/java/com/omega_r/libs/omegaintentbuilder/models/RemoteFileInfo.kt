@@ -6,7 +6,9 @@ import android.util.Log
 import android.webkit.MimeTypeMap
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
-import com.omega_r.libs.omegatypes.Image
+import com.omega_r.libs.omegatypes.image.Image
+import com.omega_r.libs.omegatypes.image.getStream
+import kotlinx.coroutines.runBlocking
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -46,8 +48,7 @@ class RemoteFileInfo(
                 }
             }
             image != null -> {
-                image.getStream(context, getCompressFormat(), 100)
-                        .use(receiver)
+                runBlocking { image.getStream(context, getCompressFormat(), 100).use(receiver) }
             }
             else -> null
         }
