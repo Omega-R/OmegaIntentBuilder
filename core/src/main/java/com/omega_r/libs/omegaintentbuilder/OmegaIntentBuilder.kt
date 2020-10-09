@@ -136,6 +136,12 @@ object OmegaIntentBuilder {
     fun speechToText() = SpeechToTextBuilder()
 
     /**
+     * @return InsertContactIntentBuilder
+     */
+    @JvmStatic
+    fun insertContact() = InsertContactIntentBuilder()
+
+    /**
      * @return SearchWebIntentBuilder
      */
     @JvmStatic
