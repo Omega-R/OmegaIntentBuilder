@@ -2,7 +2,7 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
-import android.provider.AlarmClock
+import android.provider.AlarmClock.*
 
 class TimerIntentBuilder : BaseActivityBuilder() {
     private var message: String? = null
@@ -48,23 +48,19 @@ class TimerIntentBuilder : BaseActivityBuilder() {
     }
 
     override fun createIntent(context: Context): Intent {
-        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            Intent(AlarmClock.ACTION_SET_TIMER).apply {
-                message?.let {
-                    putExtra(AlarmClock.EXTRA_MESSAGE, it)
-                }
-
-                seconds?.let {
-                    putExtra(AlarmClock.EXTRA_LENGTH, it)
-                }
-
-                seconds?.let {
-                    putExtra(AlarmClock.EXTRA_SKIP_UI, it)
-                }
-
+        return Intent(ACTION_SET_TIMER).apply {
+            message?.let {
+                putExtra(EXTRA_MESSAGE, it)
             }
-        } else {
-            TODO("VERSION.SDK_INT < KITKAT")
+
+            seconds?.let {
+                putExtra(EXTRA_LENGTH, it)
+            }
+
+            seconds?.let {
+                putExtra(EXTRA_SKIP_UI, it)
+            }
+
         }
     }
 

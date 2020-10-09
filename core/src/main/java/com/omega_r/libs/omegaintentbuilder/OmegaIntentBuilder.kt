@@ -14,6 +14,8 @@ package com.omega_r.libs.omegaintentbuilder
 import android.app.Activity
 import android.app.Service
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.pick.PickBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
@@ -139,6 +141,7 @@ object OmegaIntentBuilder {
      * @return AlarmIntentBuilder
      */
     @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun createTimer() = TimerIntentBuilder()
 
 }
