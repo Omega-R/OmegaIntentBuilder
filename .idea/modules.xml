@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-OmegaIntentBuilder.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-OmegaIntentBuilder.iml" group="OmegaIntentBuilder" />
       <module fileurl="file://$PROJECT_DIR$/OmegaIntentBuilder.iml" filepath="$PROJECT_DIR$/OmegaIntentBuilder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/examples/OmegaIntentBuilder-examples.iml" filepath="$PROJECT_DIR$/.idea/modules/examples/OmegaIntentBuilder-examples.iml" group="OmegaIntentBuilder/examples" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/processor/OmegaIntentBuilder-processor.iml" filepath="$PROJECT_DIR$/.idea/modules/processor/OmegaIntentBuilder-processor.iml" group="OmegaIntentBuilder/processor" />
       <module fileurl="file://$PROJECT_DIR$/annotations/annotations.iml" filepath="$PROJECT_DIR$/annotations/annotations.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/app.iml" filepath="$PROJECT_DIR$/examples/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/com.github.Omega-R-core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/com.github.Omega-R-core.iml" group="OmegaIntentBuilder/core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/annotations/com.github.Omega-R.OmegaIntentBuilder-annotations.iml" filepath="$PROJECT_DIR$/.idea/modules/annotations/com.github.Omega-R.OmegaIntentBuilder-annotations.iml" group="OmegaIntentBuilder/annotations" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/examples.iml" filepath="$PROJECT_DIR$/examples/examples.iml" />
       <module fileurl="file://$PROJECT_DIR$/omegaintentbuilder_compiler/omegaintentbuilder_annotated.iml" filepath="$PROJECT_DIR$/omegaintentbuilder_compiler/omegaintentbuilder_annotated.iml" />
