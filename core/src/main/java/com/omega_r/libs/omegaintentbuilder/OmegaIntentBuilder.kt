@@ -135,10 +135,4 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun speechToText() = SpeechToTextBuilder()
 
-    /**
-     * @return SearchWebIntentBuilder
-     */
-    @JvmStatic
-    fun searchWeb() = SearchWebIntentBuilder()
-
 }
