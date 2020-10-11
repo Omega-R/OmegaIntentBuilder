@@ -163,4 +163,9 @@ object OmegaIntentBuilder {
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun createAlarm() = AlarmIntentBuilder()
 
+    /**
+     * @return DismissAlarmIntentBuilder
+     */
+    @JvmStatic
+    fun dismissAlarm() = DismissAlarmIntentBuilder()
 }
