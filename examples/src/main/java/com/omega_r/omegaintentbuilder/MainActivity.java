@@ -1,10 +1,14 @@
 package com.omega_r.omegaintentbuilder;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes;
 import com.omega_r.libs.omegaintentbuilder.types.EmailAddressType;
@@ -44,6 +48,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_insert_contact).setOnClickListener(this);
         findViewById(R.id.button_search_web).setOnClickListener(this);
         findViewById(R.id.button_create_timer).setOnClickListener(this);
+        findViewById(R.id.button_select_contact).setOnClickListener(this);
     }
 
     @Override
@@ -108,6 +113,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_create_timer:
                 onCreateTimerClicked();
+                break;
+            case R.id.button_select_contact:
+                onSelectContactClicked();
                 break;
         }
     }
@@ -313,4 +321,26 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .startActivity(this);
     }
 
+    private void onSelectContactClicked() {
+        OmegaIntentBuilder
+                .selectContact()
+                .createIntentHandler(this)
+                .failCallback(new FailCallback() {
+                    @Override
+                    public void onActivityStartError(@NotNull Exception exc) {
+                        Toast.makeText(MainActivity.this, exc.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .startActivityForResult(new ActivityResultCallback() {
+                    @Override
+                    public void onActivityResult(int resultCode, @NotNull Intent data) {
+                        if (resultCode == RESULT_OK) {
+                            Uri contactUri = data.getData();
+                            // Do something with the selected contact at contactUri
+                        }
+                    }
+                });
+
+
+    }
 }

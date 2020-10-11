@@ -163,4 +163,10 @@ object OmegaIntentBuilder {
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun createAlarm() = AlarmIntentBuilder()
 
+    /**
+     * @return Se
+     */
+    @JvmStatic
+    fun selectContact() = SelectContactIntentBuilder()
+
 }

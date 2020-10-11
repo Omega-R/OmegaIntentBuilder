@@ -166,6 +166,12 @@
             android:layout_height="wrap_content"
             android:theme="@style/ButtonStyle"
             android:text="@string/create_timer"/>
+        <Button
+            android:id="@+id/button_select_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/select_contact"/>
 
     </LinearLayout>
 

@@ -25,4 +25,5 @@
     <string name="create_timer">Create Timer</string>
     <string name="insert_contact">Insert Contact</string>
     <string name="search_web">Search Web</string>
+    <string name="select_contact">Selecte COntact</string>
 </resources>
