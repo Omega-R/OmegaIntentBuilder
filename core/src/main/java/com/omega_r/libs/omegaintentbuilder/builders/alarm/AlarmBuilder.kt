@@ -17,7 +17,7 @@ object AlarmBuilder {
     fun dismiss() = DismissAlarmIntentBuilder()
 
     /**
-     * @return DismissAlarmIntentBuilder for creating intent to dismiss alarm
+     * @return ShowAlarmsIntentBuilder for creating intent to show alarm
      */
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun show() = ShowAlarmsIntentBuilder()
