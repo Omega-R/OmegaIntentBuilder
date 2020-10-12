@@ -29,4 +29,5 @@
     <string name="show_alarms">Show Alarms</string>
     <string name="open_camera_to_record">Open Camera To Record</string>
     <string name="record_video">Record Video</string>
+    <string name="dismiss_alarm">Dismiss Alarm</string>
 </resources>

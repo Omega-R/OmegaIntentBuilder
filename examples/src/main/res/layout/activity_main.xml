@@ -187,6 +187,13 @@
             android:theme="@style/ButtonStyle"
             android:text="@string/record_video"/>
 
+        <Button
+            android:id="@+id/button_dismiss_alarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ButtonStyle"
+            android:text="@string/dismiss_alarm"/>
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

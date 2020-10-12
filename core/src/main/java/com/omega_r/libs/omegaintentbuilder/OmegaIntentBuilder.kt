@@ -17,12 +17,12 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.builders.*
+import com.omega_r.libs.omegaintentbuilder.builders.alarm.AlarmBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.pick.PickBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
-import com.omega_r.libs.omegaintentbuilder.types.ShowType
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
@@ -158,28 +158,14 @@ object OmegaIntentBuilder {
     fun searchWeb() = SearchWebIntentBuilder()
 
     /**
-     * @return AlarmIntentBuilder
-     */
-    @JvmStatic
-    @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun createAlarm() = AlarmIntentBuilder()
-
-    /**
-     * @return ShowAlarmsTimersIntentBuilder
-     */
-    @JvmStatic
-    fun showTimers() = ShowAlarmsTimersIntentBuilder(ShowType.TIMERS)
-
-    /**
-     * @return ShowAlarmsTimersIntentBuilder
-     */
-    @JvmStatic
-    fun showAlarms() = ShowAlarmsTimersIntentBuilder(ShowType.ALARMS)
-
-    /**
      * @return VideoRecordBuilder
      */
     @JvmStatic
     fun recordVideo() = VideoRecordBuilder()
 
+    /**
+     * @return VideoRecordBuilder
+     */
+    @JvmStatic
+    fun alarm() = AlarmBuilder
 }
