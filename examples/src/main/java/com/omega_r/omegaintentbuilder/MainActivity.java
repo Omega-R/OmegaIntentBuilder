@@ -320,6 +320,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void onDismissAlarmClicked() {
         OmegaIntentBuilder
                 .dismissAlarm()
+                //BY LABEL
+                //.label("It's your alarm")
+                //or BY TIME
+                //.hour(0)
+                //.minute(0)
+                //.isPM(true)
+                //or DISMISS NEXT
+                //.next()
+                //or SEARCH ALL
                 .startActivity(this);
     }
 
