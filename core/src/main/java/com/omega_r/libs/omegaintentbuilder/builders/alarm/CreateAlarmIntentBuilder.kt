@@ -1,10 +1,13 @@
-package com.omega_r.libs.omegaintentbuilder.builders
+package com.omega_r.libs.omegaintentbuilder.builders.alarm
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.provider.AlarmClock.*
+import androidx.annotation.RequiresApi
+import com.omega_r.libs.omegaintentbuilder.builders.BaseActivityBuilder
 
-class AlarmIntentBuilder : BaseActivityBuilder() {
+class CreateAlarmIntentBuilder : BaseActivityBuilder() {
     private var message: String? = null
     private var hour: Int? = null
     private var minutes: Int? = null
@@ -22,7 +25,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      * @param message String
      * @return This AlarmIntentBuilder for method chaining
      */
-    fun message(message: String): AlarmIntentBuilder {
+    fun message(message: String): CreateAlarmIntentBuilder {
         this.message = message
         return this
     }
@@ -36,7 +39,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      * @param hour String
      * @return This AlarmIntentBuilder for method chaining
      */
-    fun hour(hour: Int): AlarmIntentBuilder {
+    fun hour(hour: Int): CreateAlarmIntentBuilder {
         this.hour = hour
         return this
     }
@@ -47,7 +50,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      * @param minutes String
      * @return This AlarmIntentBuilder for method chaining
      */
-    fun minutes(minutes: Int): AlarmIntentBuilder {
+    fun minutes(minutes: Int): CreateAlarmIntentBuilder {
         this.minutes = minutes
         return this
     }
@@ -62,7 +65,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      * @param ringtone String
      * @return This AlarmIntentBuilder for method chaining
      */
-    fun ringtone(ringtone: String): AlarmIntentBuilder {
+    fun ringtone(ringtone: String): CreateAlarmIntentBuilder {
         this.ringtone = ringtone
         return this
     }
@@ -73,7 +76,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      *
      * @return This AlarmIntentBuilder for method chaining
      */
-    fun skipUI(): AlarmIntentBuilder {
+    fun skipUI(): CreateAlarmIntentBuilder {
         skipUI = true
         return this
     }
@@ -86,7 +89,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      * @return This AlarmIntentBuilder for method chaining
      */
     @JvmOverloads
-    fun vibrate(vibrate: Boolean = true): AlarmIntentBuilder {
+    fun vibrate(vibrate: Boolean = true): CreateAlarmIntentBuilder {
         this.vibrate = vibrate
         return this
     }
@@ -96,7 +99,7 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
      *
      *  @return This AlarmIntentBuilder for method chaining
      */
-    fun ringtoneSilent(): AlarmIntentBuilder {
+    fun ringtoneSilent(): CreateAlarmIntentBuilder {
         ringtoneSilent = true
         return this
     }

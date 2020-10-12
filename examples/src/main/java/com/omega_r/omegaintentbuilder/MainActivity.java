@@ -276,7 +276,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void onCreateAlarmClicked() {
         OmegaIntentBuilder
-                .createAlarm()
+                .alarm()
+                .create()
                 .message("It's your alarm")
                 .hour(15)
                 .vibrate()
@@ -330,14 +331,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void onShowTimersClicked() {
-        OmegaIntentBuilder
+      /*  OmegaIntentBuilder
                 .showTimers()
-                .startActivity(this);
+                .startActivity(this);*/
     }
 
     private void onShowAlarmsClicked() {
         OmegaIntentBuilder
-                .showAlarms()
+                .alarm()
+                .show()
                 .startActivity(this);
     }
 
@@ -349,7 +351,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void onDismissAlarmClicked() {
         OmegaIntentBuilder
-                .dismissAlarm()
+                .alarm()
+                .dismiss()
                 //BY LABEL
                 //.label("It's your alarm")
                 //or BY TIME

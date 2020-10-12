@@ -1,8 +1,9 @@
-package com.omega_r.libs.omegaintentbuilder.builders
+package com.omega_r.libs.omegaintentbuilder.builders.alarm
 
 import android.content.Context
 import android.content.Intent
 import android.provider.AlarmClock.*
+import com.omega_r.libs.omegaintentbuilder.builders.BaseActivityBuilder
 
 class DismissAlarmIntentBuilder : BaseActivityBuilder() {
 
