@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_create_timer).setOnClickListener(this);
         findViewById(R.id.button_show_timers).setOnClickListener(this);
         findViewById(R.id.button_show_alarms).setOnClickListener(this);
+        findViewById(R.id.button_record_video).setOnClickListener(this);
     }
 
     @Override
@@ -116,6 +117,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_show_alarms:
                 onShowAlarmsClicked();
+                break;
+            case R.id.button_record_video:
+                onRecordVideoClicked();
                 break;
         }
     }
@@ -330,6 +334,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void onShowAlarmsClicked() {
         OmegaIntentBuilder
                 .showAlarms()
+                .startActivity(this);
+    }
+
+    private void onRecordVideoClicked() {
+        OmegaIntentBuilder
+                .activity(VideoRecordActivity.class)
                 .startActivity(this);
     }
 

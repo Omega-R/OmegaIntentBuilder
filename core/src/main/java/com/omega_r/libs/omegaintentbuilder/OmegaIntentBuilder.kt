@@ -176,4 +176,10 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun showAlarms() = ShowAlarmsTimersIntentBuilder(ShowType.ALARMS)
 
+    /**
+     * @return VideoRecordBuilder
+     */
+    @JvmStatic
+    fun recordVideo() = VideoRecordBuilder()
+
 }
