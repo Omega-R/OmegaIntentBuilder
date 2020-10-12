@@ -167,5 +167,6 @@ object OmegaIntentBuilder {
      * @return DismissAlarmIntentBuilder
      */
     @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.M)
     fun dismissAlarm() = DismissAlarmIntentBuilder()
 }
