@@ -167,6 +167,7 @@ object OmegaIntentBuilder {
      * @return DismissTimerIntentBuilder
      */
     @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.P)
     fun dismissTimer() = DismissTimerIntentBuilder()
 
 }

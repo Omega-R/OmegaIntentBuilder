@@ -8,10 +8,11 @@ import android.provider.AlarmClock.EXTRA_SKIP_UI
 import androidx.annotation.RequiresApi
 
 class DismissTimerIntentBuilder: BaseActivityBuilder() {
-    @RequiresApi(Build.VERSION_CODES.P)
+
     override fun createIntent(context: Context): Intent {
         return Intent(ACTION_DISMISS_TIMER).apply {
             putExtra(EXTRA_SKIP_UI, false)
         }
     }
+
 }
