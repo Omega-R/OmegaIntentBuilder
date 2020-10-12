@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_insert_contact).setOnClickListener(this);
         findViewById(R.id.button_search_web).setOnClickListener(this);
         findViewById(R.id.button_create_timer).setOnClickListener(this);
+        findViewById(R.id.button_dismiss_timer).setOnClickListener(this);
     }
 
     @Override
@@ -108,6 +109,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.button_create_timer:
                 onCreateTimerClicked();
+                break;
+            case R.id.button_dismiss_timer:
+                onDismissTimerClicked();
                 break;
         }
     }
@@ -310,6 +314,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .createTimer()
                 .message("It's your timer")
                 .seconds(5)
+                .startActivity(this);
+    }
+
+    private void onDismissTimerClicked() {
+        OmegaIntentBuilder
+                .dismissTimer()
                 .startActivity(this);
     }
 
