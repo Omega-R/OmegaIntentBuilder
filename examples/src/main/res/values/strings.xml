@@ -25,5 +25,9 @@
     <string name="create_timer">Create Timer</string>
     <string name="insert_contact">Insert Contact</string>
     <string name="search_web">Search Web</string>
+    <string name="show_timers">Show Timers</string>
+    <string name="show_alarms">Show Alarms</string>
+    <string name="open_camera_to_record">Open Camera To Record</string>
+    <string name="record_video">Record Video</string>
     <string name="dismiss_alarm">Dismiss Alarm</string>
 </resources>
