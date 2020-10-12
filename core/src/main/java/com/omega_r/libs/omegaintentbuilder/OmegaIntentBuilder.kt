@@ -22,6 +22,7 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
+import com.omega_r.libs.omegaintentbuilder.types.ShowType
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
