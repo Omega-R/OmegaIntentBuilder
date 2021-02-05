@@ -42,6 +42,9 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun share() = ShareIntentBuilder()
 
+    @JvmStatic
+    fun view() = ViewIntentBuilder()
+
     /**
      * @return ShareIntentBuilder for creating email Intent
      */
