@@ -54,8 +54,7 @@ class SupportFragmentIntentHandler(private val fragment: androidx.fragment.app.F
      *
      * @see #startActivity
      */
-    @JvmOverloads
-    fun startActivityForResult(requestCode: Int, options: Bundle? = null) {
+    override fun startActivityForResult(requestCode: Int, options: Bundle?) {
         try {
             if (getChooserTitle()?.isEmpty() != false) {
                 if (options == null) {
@@ -75,28 +74,4 @@ class SupportFragmentIntentHandler(private val fragment: androidx.fragment.app.F
         }
     }
 
-    override fun failToast(message: String): SupportFragmentIntentHandler {
-        super.failToast(message)
-        return this
-    }
-
-    override fun failToast(message: Int): SupportFragmentIntentHandler {
-        super.failToast(message)
-        return this
-    }
-
-    override fun failCallback(failCallback: FailCallback): SupportFragmentIntentHandler {
-        super.failCallback(failCallback)
-        return this
-    }
-
-    override fun failIntent(failIntent: Intent): SupportFragmentIntentHandler {
-        super.failIntent(failIntent)
-        return this
-    }
-
-    override fun failIntentHandler(failIntentHandler: ContextIntentHandler?): SupportFragmentIntentHandler {
-        super.failIntentHandler(failIntentHandler)
-        return this
-    }
 }

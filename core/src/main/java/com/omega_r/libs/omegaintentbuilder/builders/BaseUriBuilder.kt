@@ -15,7 +15,6 @@ import android.graphics.Bitmap
 import android.net.Uri
 import com.omega_r.libs.omegaintentbuilder.builders.share.DownloadBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
-import com.omega_r.libs.omegaintentbuilder.models.RemoteFileInfo
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
 import com.omega_r.libs.omegatypes.image.Image
 import java.io.File

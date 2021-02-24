@@ -1,44 +1,33 @@
 package com.omega_r.libs.omegaintentbuilder.interfaces
 
-import android.app.Activity
-import android.app.Fragment
-import android.content.ActivityNotFoundException
-import android.content.Context
-import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
-import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
-import com.omega_r.libs.omegaintentbuilder.handlers.FragmentIntentHandler
-import com.omega_r.libs.omegaintentbuilder.handlers.SupportFragmentIntentHandler
+import android.content.Intent
+import androidx.annotation.StringRes
+import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback
 
-interface IntentHandler : IntentBuilder {
+interface IntentHandler : ActivityStarter {
 
-  /**
-   * Returns ContextIntentHandler for control Intent.
-   * Support startActivity, start Chooser.
-   */
-  fun createIntentHandler(context: Context): ContextIntentHandler
+    fun chooserTitle(chooserTitle: CharSequence): IntentHandler
 
-  /**
-   * Returns ActivityIntentHandler (extends ContextIntentHandler) for control Intent.
-   * Support startActivity, startActivityForResult, start Chooser.
-   */
-  fun createIntentHandler(activity: Activity): ActivityIntentHandler
+    fun chooserTitle(chooserTitle: String): IntentHandler
 
-  /**
-   * Returns FragmentIntentHandler (extends ContextIntentHandler) for control Intent.
-   * Support startActivity, startActivityForResult, start Chooser.
-   */
-  fun createIntentHandler(fragment: Fragment): FragmentIntentHandler
+    fun chooserTitle(chooserTitle: Int): IntentHandler
 
-  /**
-   * Returns FragmentIntentHandler (extends ContextIntentHandler) for control Intent.
-   * Support startActivity, startActivityForResult, start Chooser.
-   */
-  fun createIntentHandler(fragment: androidx.fragment.app.Fragment): SupportFragmentIntentHandler
+    fun failToast(message: String): IntentHandler
 
-  /**
-   * Same as {@link #startActivity(Intent, Bundle)} with no options specified.
-   *
-   * @throws ActivityNotFoundException &nbsp;
-   */
-  fun startActivity(context: Context)
+    fun failToast(@StringRes message: Int): IntentHandler
+
+    fun failIntent(failIntent: Intent): IntentHandler
+
+    fun failCallback(failCallback: FailCallback): IntentHandler
+
+    fun failIntentHandler(failIntentHandler: IntentHandler?): IntentHandler
+
+    fun getIntent(): Intent
+
+    fun addFlagsClearBackStack(): IntentHandler
+
+    fun addFlags(flags: Int): IntentHandler
+
+    fun setFlags(flags: Int): IntentHandler
+
 }

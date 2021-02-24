@@ -10,14 +10,21 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders
 
+import android.app.Activity
+import android.app.Fragment
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
+import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
+import com.omega_r.libs.omegaintentbuilder.types.MapViewTypes
+import com.omega_r.libs.omegaintentbuilder.types.MapViewTypes.*
 
 /**
  * MapIntentBuilder is a helper for open Maps applications
@@ -28,6 +35,8 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
     private var longitude: Double? = null
     private var address: String? = null
     private var failtype: MapTypes? = null
+    private var viewType: MapViewTypes? = null
+    private var zoom: Int? = null
 
     init {
         if (types.isEmpty()) types = MapTypes.values()
@@ -84,78 +93,147 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         return this
     }
 
+    fun zoom(zoom: Int): MapIntentBuilder {
+        if (zoom >= 0) this.zoom = zoom
+        return this
+    }
+
+    fun viewType(viewType: MapViewTypes): MapIntentBuilder {
+        this.viewType = viewType
+        return this
+    }
+
     override fun createIntent(context: Context): Intent {
-        val uri: Uri = getFormattedUri(0)
+        // We take first because next type will be handled in WrapperIntentHandler
+        val mapType = types.first()
+        val uri: Uri = getFormattedUri(mapType)
         val intent = Intent(Intent.ACTION_VIEW, uri)
 
-        when (types[0]) {
-            GOOGLE_MAP -> intent.setPackage(GOOGLE_MAP.packageName)
-            YANDEX_MAP -> intent.setPackage(YANDEX_MAP.packageName)
-            KAKAO_MAP -> intent.setPackage(KAKAO_MAP.packageName)
-            NAVER_MAP -> intent.setPackage(NAVER_MAP.packageName)
-        }
+        when (mapType) {
+            GOOGLE_MAP -> GOOGLE_MAP.packageName
+            YANDEX_MAP -> YANDEX_MAP.packageName
+            KAKAO_MAP -> KAKAO_MAP.packageName
+            NAVER_MAP -> NAVER_MAP.packageName
+        }.also { intent.setPackage(it) }
 
         return intent
     }
 
-    private fun getFormattedUri(index: Int): Uri {
+    private fun getFormattedUri(mapType: MapTypes): Uri {
         val sb = StringBuilder()
-        when (types[index]) {
-            GOOGLE_MAP -> {
-                sb.append("geo:")
-                if (latitude != null && longitude != null) {
-                    sb.append(latitude, ",", longitude)
-                }
-                if (address != null) {
-                    sb.append("?q=", Uri.encode(address))
-                }
-            }
-            YANDEX_MAP -> {
-                sb.append("yandexmaps://", YANDEX_MAP.packageName, "/?pt=")
-                if (latitude != null && longitude != null) {
-                    sb.append(longitude, ",", latitude)
-                }
-                if (address != null) {
-                    sb.append("&text=", address)
-                }
-            }
-            KAKAO_MAP -> {
-                sb.append("daummaps://look?p=")
-                if (latitude != null && longitude != null) {
-                    sb.append(latitude, ",", longitude)
-                }
-            }
-            NAVER_MAP -> {
-                sb.append("geo:")
-                if (latitude != null && longitude != null) {
-                    sb.append(latitude, ",", longitude)
-                }
-                if (address != null) {
-                    sb.append("?q=", Uri.encode(address))
-                }
-            }
+        when(mapType) {
+            GOOGLE_MAP -> formulateGoogleUri(sb)
+            YANDEX_MAP -> formulateYandexMapUri(sb)
+            KAKAO_MAP -> formulateKakaoMapUri(sb)
+            NAVER_MAP -> formulateNaverMapUri(sb)
         }
         return Uri.parse(sb.toString())
     }
 
-    override fun createIntentHandler(context: Context): ContextIntentHandler {
-        val failIntentHandlers = createFailIntentHandler(context)
-        if (failIntentHandlers.isEmpty()) {
-            return super.createIntentHandler(context)
-        } else {
-            return WrapperIntentHandler(context, createIntent(context), failIntentHandlers.last(), failIntentHandlers.first())
+    private fun formulateGoogleUri(sb: StringBuilder) {
+        val viewType = when (viewType) {
+            MAP -> "m"
+            SATELLITE -> "k"
+            HYBRID -> "h"
+            TERRAIN -> "p"
+            GOOGLE_EARTH -> "e"
+            else -> null
         }
 
+        if (viewType == null) {
+            sb.append("geo:")
+            if (latitude != null && longitude != null) {
+                sb.append(latitude, ",", longitude)
+            }
+            address?.let { sb.append("?q=", Uri.encode(address)) }
+        } else {
+            sb.append("http://maps.google.com/maps?")
+                    .append("t=$viewType")
+            address?.let { sb.append("&q=", Uri.encode(address)) }
+            if (latitude != null && longitude != null) {
+                sb.append("&loc:")
+                        .append(latitude, "+", longitude)
+            }
+        }
     }
 
-    private fun createFailIntentHandler(context: Context): List<ContextIntentHandler> {
-        val result = ArrayList<ContextIntentHandler>(types.size)
+    private fun formulateYandexMapUri(sb: StringBuilder) {
+        sb.append("yandexmaps://", "maps.yandex.ru/?")
+        if (latitude != null && longitude != null) {
+            sb.append("pt=")
+                    .append(longitude, ",", latitude)
+        }
+        val viewType = when (viewType) {
+            MAP -> "map"
+            SATELLITE -> "sat"
+            HYBRID -> "skl"
+            OPEN_MAP -> "pmap"
+            else -> null
+        }
+        viewType?.let { sb.append("&l=", viewType) }
+        zoom?.let { sb.append("&z=", zoom) }
+        address?.let { sb.append("&text=", Uri.encode(address)) }
+    }
 
-        var prevIntentHandler: ContextIntentHandler? = null
+    private fun formulateNaverMapUri(sb: StringBuilder) {
+        sb.append("nmap://")
+        if (address == null) sb.append("map?") else sb.append("place?")
+        latitude?.let { sb.append("lat=$latitude") }
+        longitude?.let { sb.append("&lng=$longitude") }
+        zoom?.let { sb.append("&zoom=$zoom") }
+        address?.let { sb.append("&name=", Uri.encode(address)) }
+    }
+
+    private fun formulateKakaoMapUri(sb: StringBuilder) {
+        sb.append("daummaps://")
+        if (address == null) {
+            sb.append("look?")
+        } else {
+            sb.append("search?")
+                    .append("q=", address, "&")
+        }
+        if (latitude != null && longitude != null) {
+            sb.append("p=")
+                    .append(latitude, ",", longitude)
+        }
+    }
+
+    override fun createIntentHandler(activity: Activity): IntentHandler {
+        return createFailIntentHandler(activity) ?: super.createIntentHandler(activity)
+    }
+
+    override fun createIntentHandler(fragment: Fragment): IntentHandler {
+        return createFailIntentHandler(fragment.activity) ?: super.createIntentHandler(fragment)
+    }
+
+    override fun createIntentHandler(fragment: androidx.fragment.app.Fragment): IntentHandler {
+        return fragment.context?.let { createFailIntentHandler(it) } ?: super.createIntentHandler(fragment)
+    }
+
+    override fun createIntentHandler(context: Context): IntentHandler {
+        return createFailIntentHandler(context) ?: super.createIntentHandler(context)
+    }
+
+    private fun createFailIntentHandler(context: Context): WrapperIntentHandler? {
+        val list = createFailIntentHandlers(context)
+        return if (list.isEmpty()) null else WrapperIntentHandler(context, createIntent(context), list.last(), list.first())
+    }
+
+    private fun createFailIntentHandlers(context: Context): List<IntentHandler> {
+        val result = ArrayList<IntentHandler>(types.size)
+
+        var prevIntentHandler: IntentHandler? = null
 
         for (index in 1 until types.size) {
             val intentHandler = OmegaIntentBuilder
                     .map(types[index])
+                    .also {
+                        it.address = address
+                        it.latitude = latitude
+                        it.longitude = longitude
+                        it.zoom = zoom
+                        it.viewType = viewType
+                    }
                     .createIntentHandler(context)
             result += intentHandler
             prevIntentHandler?.failIntentHandler(intentHandler)
@@ -175,10 +253,15 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         return result
     }
 
-    private class WrapperIntentHandler(context: Context, createdIntent: Intent,
-                                       private val handler: ContextIntentHandler,
-                                       failIntentHandler: ContextIntentHandler?
-    ) : ContextIntentHandler(context, createdIntent) {
+    private class WrapperIntentHandler(
+            context: Context,
+            createdIntent: Intent,
+            private val handler: IntentHandler,
+            failIntentHandler: IntentHandler?
+    ) : ContextIntentHandler(
+            context,
+            createdIntent
+    ) {
 
         init {
             super.failIntentHandler(failIntentHandler)
@@ -204,11 +287,40 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
             return this
         }
 
-        override fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ContextIntentHandler {
+        override fun failIntentHandler(failIntentHandler: IntentHandler?): IntentHandler {
             handler.failIntentHandler(failIntentHandler)
             return this
         }
 
+        override fun chooserTitle(chooserTitle: CharSequence): IntentHandler {
+            handler.chooserTitle(chooserTitle)
+            return this
+        }
+
+        override fun chooserTitle(chooserTitle: String): IntentHandler {
+            handler.chooserTitle(chooserTitle)
+            return this
+        }
+
+        override fun chooserTitle(chooserTitle: Int): IntentHandler {
+            handler.chooserTitle(chooserTitle)
+            return this
+        }
+
+        override fun addFlagsClearBackStack(): IntentHandler {
+            handler.addFlagsClearBackStack()
+            return this
+        }
+
+        override fun addFlags(flags: Int): IntentHandler {
+            handler.addFlags(flags)
+            return this
+        }
+
+        override fun setFlags(flags: Int): IntentHandler {
+            handler.setFlags(flags)
+            return this
+        }
     }
 
 }

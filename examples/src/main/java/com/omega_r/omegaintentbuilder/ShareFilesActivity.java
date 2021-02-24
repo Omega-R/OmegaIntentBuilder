@@ -3,10 +3,9 @@ package com.omega_r.omegaintentbuilder;
 import android.os.Bundle;
 import android.view.View;
 
-import com.omega_r.libs.omegaintentbuilder.AppOmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.downloader.DownloadCallback;
-import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler;
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler;
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes;
 import com.omega_r.libs.omegatypes.image.Image;
 import com.omega_r.libs.omegatypes.image.ResourceImageKt;
@@ -55,7 +54,7 @@ public class ShareFilesActivity extends BaseActivity implements View.OnClickList
 //                .fileUrlWithMimeType(model.getUrl(), MimeTypes.IMAGE_PNG)
                 .download(this, new DownloadCallback() {
                     @Override
-                    public void onDownloaded(boolean success, @NotNull ContextIntentHandler contextIntentHandler) {
+                    public void onDownloaded(boolean success, @NotNull IntentHandler contextIntentHandler) {
                         hideProgress();
                         contextIntentHandler.startActivity();
                     }
