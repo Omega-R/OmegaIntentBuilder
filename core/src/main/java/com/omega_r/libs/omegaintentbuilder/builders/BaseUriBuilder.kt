@@ -24,9 +24,9 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
 
     private val uriSet: MutableSet<Uri> = mutableSetOf()
     private val fileSet: MutableSet<File> = mutableSetOf()
+    private val bitmapSet: MutableSet<Bitmap> = mutableSetOf()
 
     private val downloadBuilder by lazy { DownloadBuilder(this) }
-    private var bitmapIndex = 0
     private var localFilesDir: File? = null
 
     companion object {
@@ -156,31 +156,31 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
      * @return BaseUriBuilder for method chaining
      */
     fun bitmap(vararg bitmaps: Bitmap): BaseUriBuilder {
-        bitmaps.forEach { bitmap ->
-            fileSet.add(bitmap.toFile(bitmapIndex))
-            bitmapIndex++
-        }
+        bitmapSet.addAll(bitmaps)
         return this
     }
 
-    private fun Bitmap.toFile(fileIndex: Int): File {
-        return File(localFilesDir, DEFAULT_IMAGE_FILE_NAME + fileIndex + DEFAULT_IMAGE_FILE_TYPE).apply {
-            val fileOutputStream = FileOutputStream(this)
-            compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-            fileOutputStream.close()
+    private fun Bitmap.toFile(context: Context, fileIndex: Int): File {
+        return File(getLocalFilesDir(context), DEFAULT_IMAGE_FILE_NAME + fileIndex + DEFAULT_IMAGE_FILE_TYPE).apply {
+            FileOutputStream(this).use {
+                compress(Bitmap.CompressFormat.JPEG, 90, it)
+            }
         }
     }
 
     private fun Bitmap.toUri(context: Context, fileIndex: Int): Uri {
-        return FileProvider.getLocalFileUri(context, toFile(fileIndex))
+        return FileProvider.getLocalFileUri(context, toFile(context, fileIndex))
     }
 
-    protected fun getFileOrUriSetSize(): Int = uriSet.size + fileSet.size
+    protected fun getFileOrUriSetSize(): Int = uriSet.size + fileSet.size + bitmapSet.size
 
     protected fun getFirstUri(context: Context): Uri {
         if (uriSet.isEmpty()) {
             if (fileSet.isEmpty()) {
-                throw IllegalStateException("Uri list is empty")
+                if (bitmapSet.isEmpty()) {
+                    throw IllegalStateException("Uri list is empty")
+                }
+                return bitmapSet.first().toUri(context, 0)
             }
             return toUri(context, fileSet.first())
         }
@@ -191,6 +191,7 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
         val uriSet = mutableSetOf<Uri>()
         uriSet.addAll(this.uriSet)
         uriSet.addAll(fileSet.map { toUri(context, it) })
+        uriSet.addAll(bitmapSet.mapIndexed { index, bitmap -> bitmap.toUri(context, index) })
         return uriSet
     }
 
