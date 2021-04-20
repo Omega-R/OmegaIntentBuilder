@@ -121,6 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.button_record_video:
                 onRecordVideoClicked();
                 break;
+
         }
     }
 
