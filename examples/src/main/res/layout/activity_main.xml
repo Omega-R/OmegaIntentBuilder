@@ -103,8 +103,8 @@
             android:id="@+id/button_crop_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/crop_image"
-            android:theme="@style/ButtonStyle" />
+            android:theme="@style/ButtonStyle"
+            android:text="@string/crop_image"/>
 
         <Button
             android:id="@+id/button_pick_image"
