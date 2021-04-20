@@ -56,8 +56,7 @@ class ActivityIntentHandler(private val activity: Activity, private val createdI
      *
      * @see #startActivity
      */
-    @JvmOverloads
-    fun startActivityForResult(requestCode: Int, options: Bundle? = null) {
+    override fun startActivityForResult(requestCode: Int, options: Bundle?) {
         try {
             if (getChooserTitle()?.isEmpty() != false) {
                 if (options == null) {
@@ -77,28 +76,4 @@ class ActivityIntentHandler(private val activity: Activity, private val createdI
         }
     }
 
-    override fun failToast(message: String): ActivityIntentHandler {
-        super.failToast(message)
-        return this
-    }
-
-    override fun failToast(message: Int): ActivityIntentHandler {
-        super.failToast(message)
-        return this
-    }
-
-    override fun failCallback(failCallback: FailCallback): ActivityIntentHandler {
-        super.failCallback(failCallback)
-        return this
-    }
-
-    override fun failIntent(failIntent: Intent): ActivityIntentHandler {
-        super.failIntent(failIntent)
-        return this
-    }
-
-    override fun failIntentHandler(failIntentHandler: ContextIntentHandler?): ActivityIntentHandler {
-        super.failIntentHandler(failIntentHandler)
-        return this
-    }
 }

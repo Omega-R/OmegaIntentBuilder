@@ -7,7 +7,9 @@ import android.widget.Toast;
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder;
 import com.omega_r.libs.omegaintentbuilder.handlers.FailCallback;
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes;
+import com.omega_r.libs.omegaintentbuilder.types.EmailAddressType;
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes;
+import com.omega_r.libs.omegaintentbuilder.types.PhoneType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,6 +40,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.button_speech_to_text).setOnClickListener(this);
         findViewById(R.id.button_service_extra).setOnClickListener(this);
         findViewById(R.id.button_fragment_extra).setOnClickListener(this);
+        findViewById(R.id.button_create_alarm).setOnClickListener(this);
+        findViewById(R.id.button_insert_contact).setOnClickListener(this);
+        findViewById(R.id.button_search_web).setOnClickListener(this);
+        findViewById(R.id.button_create_timer).setOnClickListener(this);
+        findViewById(R.id.button_show_timers).setOnClickListener(this);
+        findViewById(R.id.button_show_alarms).setOnClickListener(this);
+        findViewById(R.id.button_record_video).setOnClickListener(this);
     }
 
     @Override
@@ -91,6 +100,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.button_fragment_extra:
                 onExtrasToFragmentClicked();
                 break;
+            case R.id.button_insert_contact:
+                onInsertContactClicked();
+                break;
+            case R.id.button_search_web:
+                onSearchWebClicked();
+                break;
+            case R.id.button_create_alarm:
+                onCreateAlarmClicked();
+                break;
+            case R.id.button_create_timer:
+                onCreateTimerClicked();
+                break;
+            case R.id.button_show_timers:
+                onShowTimersClicked();
+                break;
+            case R.id.button_show_alarms:
+                onShowAlarmsClicked();
+                break;
+            case R.id.button_record_video:
+                onRecordVideoClicked();
+                break;
+
         }
     }
 
@@ -238,6 +269,79 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //                .appActivities()
 //                .tabActivity()
 //                .startActivity();
+    }
+
+    private void onCreateAlarmClicked() {
+        OmegaIntentBuilder
+                .createAlarm()
+                .message("It's your alarm")
+                .hour(15)
+                .vibrate()
+                .minutes(23)
+                .startActivity(this);
+    }
+
+    private void onInsertContactClicked() {
+        OmegaIntentBuilder
+                .insertContact()
+                .name("John")
+                .fullMode()
+                .phoneticName("phoneticName")
+                .company("company")
+                .jobTitle("jobTitle")
+                .notes("notes")
+                .phone("88000000008")
+                .phoneType(PhoneType.TYPE_HOME)
+                .phoneIsPrimary(true)
+                .secondaryPhone("88000001008")
+                .secondaryPhoneType("YOUR_CUSTOM_TYPE")
+                .tertiaryPhone("888888888")
+                .tertiaryPhoneType(PhoneType.TYPE_WORK_MOBILE)
+                .email("develop@omega-r.com")
+                .emailType(EmailAddressType.TYPE_HOME)
+                .emailIsPrimary(false)
+                .secondaryEmail("secondaryEmail")
+                .secondaryEmailType(EmailAddressType.TYPE_WORK)
+                .tertiaryEmail("tertiaryEmail")
+                .tertiaryEmailType("YOUR_CUSTOM_EMAIL_TYPE")
+                .postal("postal")
+                .postalType("Home")
+                .postalIsPrimary(true)
+                .createIntentHandler(this)
+                .startActivity();
+    }
+
+    private void onSearchWebClicked() {
+        OmegaIntentBuilder
+                .searchWeb()
+                .query("How much does an elephant weigh")
+                .startActivity(this);
+    }
+
+    private void onCreateTimerClicked() {
+        OmegaIntentBuilder
+                .createTimer()
+                .message("It's your timer")
+                .seconds(5)
+                .startActivity(this);
+    }
+
+    private void onShowTimersClicked() {
+        OmegaIntentBuilder
+                .showTimers()
+                .startActivity(this);
+    }
+
+    private void onShowAlarmsClicked() {
+        OmegaIntentBuilder
+                .showAlarms()
+                .startActivity(this);
+    }
+
+    private void onRecordVideoClicked() {
+        OmegaIntentBuilder
+                .activity(VideoRecordActivity.class)
+                .startActivity(this);
     }
 
 }

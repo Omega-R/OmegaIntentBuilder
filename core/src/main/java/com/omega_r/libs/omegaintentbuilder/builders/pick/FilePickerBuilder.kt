@@ -10,18 +10,4 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
-open class FilePickerBuilder : BasePickBuilder() {
-
-    /**
-     * Set mime type
-     *
-     * @param mimeType String
-     * @return This FilePickerBuilder for method chaining
-     */
-    fun mimeType(mimeType: String): FilePickerBuilder {
-        super.mimeType = mimeType
-        return this
-    }
-
-
-}
+open class FilePickerBuilder : BasePickBuilder()

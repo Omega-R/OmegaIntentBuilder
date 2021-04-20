@@ -17,11 +17,11 @@ import com.omega_r.libs.omegaintentbuilder.handlers.ActivityIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.FragmentIntentHandler
 import com.omega_r.libs.omegaintentbuilder.handlers.SupportFragmentIntentHandler
-import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandler
+import com.omega_r.libs.omegaintentbuilder.interfaces.IntentHandlerBuilder
 
 class ActivityIntentBuilder<T : Activity>(
         activity: Class<T>
-) : BaseIntentBuilder<ActivityIntentBuilder<T>, T>(activity), IntentHandler {
+) : BaseIntentBuilder<ActivityIntentBuilder<T>, T>(activity), IntentHandlerBuilder {
 
     override fun createIntentHandler(context: Context): ContextIntentHandler {
         return ContextIntentHandler(context, createIntent(context))
@@ -37,11 +37,6 @@ class ActivityIntentBuilder<T : Activity>(
 
     override fun createIntentHandler(fragment: androidx.fragment.app.Fragment): SupportFragmentIntentHandler {
         return SupportFragmentIntentHandler(fragment, createIntent(fragment.activity!!))
-    }
-
-    override fun startActivity(context: Context) {
-        createIntentHandler(context)
-                .startActivity()
     }
 
 }

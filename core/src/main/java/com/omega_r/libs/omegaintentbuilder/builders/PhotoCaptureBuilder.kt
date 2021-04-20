@@ -47,6 +47,8 @@ class PhotoCaptureBuilder() : BaseActivityBuilder() {
 
     override fun createIntent(context: Context) = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
         fileUri?.let { putExtra(MediaStore.EXTRA_OUTPUT, fileUri) }
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
     }
 
 }

@@ -10,16 +10,14 @@
  */
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.types.ImageTypes
 
 /**
  * ImagePickBuilder is a helper for creating pick image intent
  */
-class ImagePickBuilder : BasePickBuilder() {
-
-    init {
-        super.mimeType = ImageTypes.IMAGE.mimeType
-    }
+class ImagePickBuilder : BasePickBuilder(ImageTypes.IMAGE.mimeType) {
 
     /**
      * Set image mime type
@@ -28,7 +26,19 @@ class ImagePickBuilder : BasePickBuilder() {
      * @return This ImagePickBuilder for method chaining
      */
     fun imageType(imageType: ImageTypes): ImagePickBuilder {
-        super.mimeType = imageType.mimeType
+        mimeType(imageType.mimeType)
+        return this
+    }
+
+    /**
+     * Set image mime types
+     *
+     * @param imageType ImageTypes
+     * @return This ImagePickBuilder for method chaining
+     */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    fun imageTypes(vararg imageType: ImageTypes): ImagePickBuilder {
+        mimeTypes(imageType.map { it.mimeType })
         return this
     }
 

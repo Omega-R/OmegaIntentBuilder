@@ -14,12 +14,15 @@ package com.omega_r.libs.omegaintentbuilder
 import android.app.Activity
 import android.app.Service
 import android.net.Uri
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.builders.*
 import com.omega_r.libs.omegaintentbuilder.builders.pick.PickBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.EmailIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
+import com.omega_r.libs.omegaintentbuilder.types.ShowType
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
@@ -38,6 +41,9 @@ object OmegaIntentBuilder {
      */
     @JvmStatic
     fun share() = ShareIntentBuilder()
+
+    @JvmStatic
+    fun view() = ViewIntentBuilder()
 
     /**
      * @return ShareIntentBuilder for creating email Intent
@@ -134,5 +140,49 @@ object OmegaIntentBuilder {
      */
     @JvmStatic
     fun speechToText() = SpeechToTextBuilder()
+
+    /**
+     * @return InsertContactIntentBuilder
+     */
+    @JvmStatic
+    fun insertContact() = InsertContactIntentBuilder()
+
+    /**
+     * @return AlarmIntentBuilder
+     */
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    fun createTimer() = TimerIntentBuilder()
+
+    /**
+     * @return SearchWebIntentBuilder
+     */
+    @JvmStatic
+    fun searchWeb() = SearchWebIntentBuilder()
+
+    /**
+     * @return AlarmIntentBuilder
+     */
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
+    fun createAlarm() = AlarmIntentBuilder()
+
+    /**
+     * @return ShowAlarmsTimersIntentBuilder
+     */
+    @JvmStatic
+    fun showTimers() = ShowAlarmsTimersIntentBuilder(ShowType.TIMERS)
+
+    /**
+     * @return ShowAlarmsTimersIntentBuilder
+     */
+    @JvmStatic
+    fun showAlarms() = ShowAlarmsTimersIntentBuilder(ShowType.ALARMS)
+
+    /**
+     * @return VideoRecordBuilder
+     */
+    @JvmStatic
+    fun recordVideo() = VideoRecordBuilder()
 
 }
