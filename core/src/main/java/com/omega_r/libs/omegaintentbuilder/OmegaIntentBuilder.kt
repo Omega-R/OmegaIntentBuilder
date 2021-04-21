@@ -154,11 +154,6 @@ object OmegaIntentBuilder {
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun createTimer() = TimerIntentBuilder()
 
-    /**
-     * @return SearchWebIntentBuilder
-     */
-    @JvmStatic
-    fun searchWeb() = SearchWebIntentBuilder()
 
     /**
      * @return AlarmIntentBuilder
