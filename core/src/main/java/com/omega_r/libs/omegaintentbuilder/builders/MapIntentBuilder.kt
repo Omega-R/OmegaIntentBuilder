@@ -16,6 +16,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import com.omega_r.libs.omegaintentbuilder.IntentBuilderLauncher
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.handlers.ActivityResultCallback
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
@@ -37,6 +38,8 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
     private var failtype: MapTypes? = null
     private var viewType: MapViewTypes? = null
     private var zoom: Int? = null
+    private var startLatitude: Double? = null
+    private var startLongitude: Double? = null
 
     init {
         if (types.isEmpty()) types = MapTypes.values()
@@ -85,6 +88,20 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
      */
     fun address(address: String): MapIntentBuilder {
         this.address = address
+        return this
+    }
+
+    /**
+     * Set that app should navigate to certain location, for some of map apps should pass current location
+     *
+     * @param address String
+     * @return This MapIntentBuilder for method chaining
+     */
+    fun navigate(startLatitude: Double, startLongitude: Double, latitude: Double, longitude: Double): MapIntentBuilder {
+        this.latitude = latitude
+        this.longitude = longitude
+        this.startLatitude = startLatitude
+        this.startLongitude = startLongitude
         return this
     }
 
@@ -140,39 +157,55 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
             else -> null
         }
 
-        if (viewType == null) {
-            sb.append("geo:")
-            if (latitude != null && longitude != null) {
-                sb.append(latitude, ",", longitude)
-            }
-            address?.let { sb.append("?q=", Uri.encode(address)) }
+        if(startLatitude != null && startLongitude != null) {
+            sb.append("google.navigation:q=", latitude, ",", longitude)
         } else {
-            sb.append("http://maps.google.com/maps?")
+            if (viewType == null) {
+                sb.append("geo:")
+                if (latitude != null && longitude != null) {
+                    sb.append(latitude, ",", longitude)
+                }
+                address?.let {
+                    sb.append("?q=", Uri.encode(address))
+                } ?: if (latitude != null && longitude != null) {
+                    sb.append("?q=", latitude, ",", longitude)
+                }
+            } else {
+                sb.append("http://maps.google.com/maps?")
                     .append("t=$viewType")
-            address?.let { sb.append("&q=", Uri.encode(address)) }
-            if (latitude != null && longitude != null) {
-                sb.append("&loc:")
+                address?.let {
+                    sb.append("?q=", Uri.encode(address))
+                } ?: if (latitude != null && longitude != null) {
+                    sb.append("?q=", latitude, ",", longitude)
+                }
+                if (latitude != null && longitude != null) {
+                    sb.append("&loc:")
                         .append(latitude, "+", longitude)
+                }
             }
         }
     }
 
     private fun formulateYandexMapUri(sb: StringBuilder) {
         sb.append("yandexmaps://", "maps.yandex.ru/?")
-        if (latitude != null && longitude != null) {
-            sb.append("pt=")
+        if(startLongitude != null && startLatitude != null) {
+            sb.append("rtext=", startLatitude, ",", startLongitude, "~",latitude, ",", longitude)
+        } else {
+            if (latitude != null && longitude != null) {
+                sb.append("pt=")
                     .append(longitude, ",", latitude)
+            }
+            val viewType = when (viewType) {
+                MAP -> "map"
+                SATELLITE -> "sat"
+                HYBRID -> "skl"
+                OPEN_MAP -> "pmap"
+                else -> null
+            }
+            viewType?.let { sb.append("&l=", viewType) }
+            zoom?.let { sb.append("&z=", zoom) }
+            address?.let { sb.append("&text=", Uri.encode(address)) }
         }
-        val viewType = when (viewType) {
-            MAP -> "map"
-            SATELLITE -> "sat"
-            HYBRID -> "skl"
-            OPEN_MAP -> "pmap"
-            else -> null
-        }
-        viewType?.let { sb.append("&l=", viewType) }
-        zoom?.let { sb.append("&z=", zoom) }
-        address?.let { sb.append("&text=", Uri.encode(address)) }
     }
 
     private fun formulateNaverMapUri(sb: StringBuilder) {
@@ -196,6 +229,10 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
             sb.append("p=")
                     .append(latitude, ",", longitude)
         }
+    }
+
+    override fun createLauncher(): IntentBuilderLauncher {
+        return super.createLauncher()
     }
 
     override fun createIntentHandler(activity: Activity): IntentHandler {
