@@ -92,7 +92,7 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
      * @param address String
      * @return This MapIntentBuilder for method chaining
      */
-    fun navigate(startLatitude: Double, startLongitude: Double, latitude: Double, longitude: Double): MapIntentBuilder {
+    fun navigate(startLatitude: Double?, startLongitude: Double?, latitude: Double?, longitude: Double?): MapIntentBuilder {
         this.latitude = latitude
         this.longitude = longitude
         this.startLatitude = startLatitude
