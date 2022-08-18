@@ -92,7 +92,7 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
      * @param address String
      * @return This MapIntentBuilder for method chaining
      */
-    fun navigate(startLatitude: Double, startLongitude: Double, latitude: Double, longitude: Double): MapIntentBuilder {
+    fun navigate(startLatitude: Double?, startLongitude: Double?, latitude: Double?, longitude: Double?): MapIntentBuilder {
         this.latitude = latitude
         this.longitude = longitude
         this.startLatitude = startLatitude
@@ -179,7 +179,7 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
 
         if (startLatitude != null && startLongitude != null) {
             if (isDrivingModeEnabled) sb.append("google.navigation:q=", latitude, ",", longitude)
-            else sb.append("/saddr=${startLatitude},${startLongitude}&addr=${latitude},${longitude}")
+            else sb.append("http://maps.google.com/maps?saddr=${startLatitude},${startLongitude}&daddr=${latitude},${longitude}")
         } else {
             if (viewType == null) {
                 sb.append("geo:")
