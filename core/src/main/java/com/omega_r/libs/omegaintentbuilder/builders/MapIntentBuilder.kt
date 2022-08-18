@@ -292,6 +292,8 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
                     it.address = address
                     it.latitude = latitude
                     it.longitude = longitude
+                    it.startLatitude = startLatitude
+                    it.startLongitude = startLongitude
                     it.zoom = zoom
                     it.viewType = viewType
                 }
