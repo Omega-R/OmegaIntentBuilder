@@ -186,9 +186,11 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
 
         if (startLatitude != null && startLongitude != null) {
             if (isDrivingModeEnabled) sb.append("google.navigation:q=", latitude, ",", longitude)
-            else if (isPositioningEnabled) sb.append("http://maps.google.com/maps?daddr=", latitude, ",", longitude)
             else sb.append("http://maps.google.com/maps?saddr=${startLatitude},${startLongitude}&daddr=${latitude},${longitude}")
-        } else {
+        } else if (isPositioningEnabled && latitude != null && longitude != null) {
+            sb.append("http://maps.google.com/maps?daddr=", latitude, ",", longitude)
+        }
+        else {
             if (viewType == null) {
                 sb.append("geo:")
                 if (latitude != null && longitude != null) {
