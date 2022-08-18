@@ -116,12 +116,14 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         return this
     }
 
-    fun enableDrivingMode() {
+    fun enableDrivingMode(): MapIntentBuilder {
         isDrivingModeEnabled = true
+        return this
     }
 
-    fun enablePositioning() {
+    fun enablePositioning(): MapIntentBuilder {
         isPositioningEnabled = true
+        return this
     }
 
     override fun createIntent(context: Context) =
