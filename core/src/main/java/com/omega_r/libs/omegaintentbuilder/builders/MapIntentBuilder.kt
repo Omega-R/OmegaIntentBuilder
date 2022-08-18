@@ -39,6 +39,7 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
     private var startLatitude: Double? = null
     private var startLongitude: Double? = null
     private var isDrivingModeEnabled: Boolean = false
+    private var isPositioningEnabled: Boolean = false
 
     /**
      * Set a latitude.
@@ -119,6 +120,10 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         isDrivingModeEnabled = true
     }
 
+    fun enablePositioning() {
+        isPositioningEnabled = true
+    }
+
     override fun createIntent(context: Context) =
         if (types.isEmpty()) {
             Intent(Intent.ACTION_VIEW, undefinedMapUri())
@@ -179,6 +184,7 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
 
         if (startLatitude != null && startLongitude != null) {
             if (isDrivingModeEnabled) sb.append("google.navigation:q=", latitude, ",", longitude)
+            else if (isPositioningEnabled) sb.append("http://maps.google.com/maps?daddr=", latitude, ",", longitude)
             else sb.append("http://maps.google.com/maps?saddr=${startLatitude},${startLongitude}&daddr=${latitude},${longitude}")
         } else {
             if (viewType == null) {
@@ -207,6 +213,8 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         sb.append("yandexmaps://", "maps.yandex.ru/?")
         if (startLongitude != null && startLatitude != null) {
             sb.append("rtext=", startLatitude, ",", startLongitude, "~", latitude, ",", longitude)
+        } else if (isPositioningEnabled) {
+              sb.append("rtext=~", latitude, ",", longitude)
         } else {
             if (latitude != null && longitude != null) {
                 sb.append("pt=")
@@ -296,6 +304,7 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
                     it.startLongitude = startLongitude
                     it.zoom = zoom
                     it.viewType = viewType
+                    it.isPositioningEnabled = isPositioningEnabled
                 }
                 .createIntentHandler(context)
             result += intentHandler
