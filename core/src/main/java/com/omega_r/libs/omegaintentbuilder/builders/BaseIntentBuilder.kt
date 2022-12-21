@@ -3,14 +3,23 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcel
 import android.os.Parcelable
+import android.os.Parcelable.Creator
 import java.io.Serializable
 
 @Suppress("UNCHECKED_CAST")
-open class BaseIntentBuilder<out S, T>(private val classT: Class<T>) {
+abstract class BaseIntentBuilder<out S, T>(
+    private val classT: Class<T>,
+    private val extras: Bundle = Bundle(),
+    private var flags: Int = 0,
+) : Parcelable {
 
-    private val extras = Bundle()
-    private var flags: Int = 0
+    constructor(parcel: Parcel) : this(
+        parcel.readSerializable() as Class<T>,
+        parcel.readBundle(Bundle::class.java.classLoader) ?: Bundle(),
+        parcel.readInt()
+    )
 
     /**
      * Add extended data to the createdIntent.  The name must include a package
@@ -537,6 +546,12 @@ open class BaseIntentBuilder<out S, T>(private val classT: Class<T>) {
     fun createIntent(context: Context) = Intent(context, classT).apply {
         putExtras(this@BaseIntentBuilder.extras)
         flags = this@BaseIntentBuilder.flags
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeSerializable(classT)
+        parcel.writeBundle(extras)
+        parcel.writeInt(flags)
     }
 
 }

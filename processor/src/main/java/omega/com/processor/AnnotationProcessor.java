@@ -7,6 +7,7 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -72,6 +73,10 @@ public class AnnotationProcessor extends AbstractProcessor {
     private static final String APP_OMEGA_FRAGMENT_BUILDER = "AppOmegaFragmentBuilder";
     private static final ClassName sClassAppActivityIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_ACTIVITY_INTENT_BUILDER);
     private static final ClassName sClassAppServiceIntentBuilderClass = ClassName.get(PACKAGE_NAME, APP_SERVICE_INTENT_BUILDER);
+
+    private static final ClassName sParcelClass = ClassName.get("android.os", "Parcel");
+    private static final ClassName sParcelCreatorClass = ClassName.get("android.os", "Parcel.Creator");
+
 
     private static final String OMEGA_GENERATED = "$OmegaGenerated";
     private static final String SET = "set";
@@ -263,15 +268,20 @@ public class AnnotationProcessor extends AbstractProcessor {
     private boolean generateBuilderClass(TypeEnum type, Element element,
                                          ClassName elementClassName, String builderClassName,
                                          String packageName, ClassName superClass) {
+
+
         TypeSpec intentBuilder = TypeSpec.classBuilder(builderClassName)
                 .addModifiers(Modifier.PUBLIC)
                 .superclass(superClass)
                 .addField(sClassIntent, "intent", Modifier.PRIVATE, Modifier.FINAL)
                 .addMethod(generateClassConstructorMethod(false)
-                        .addStatement("intent = new Intent(context, $T.class)", elementClassName)
+                        .addStatement("intent = new Intent(context, $T.class);", elementClassName)
                         .build())
+                .addMethod(generateClassConstructorMethodFromParcel())
                 .addMethod(generateCreateIntentMethod(elementClassName))
                 .addMethods(generateBuilderMethods(element, ClassName.get(packageName, builderClassName), type))
+                .addMethod(generateDescribeContentsMethod())
+                .addMethod(generateWriteToParcelMethod())
                 .build();
         try {
             JavaFile.builder(packageName, intentBuilder)
@@ -309,6 +319,25 @@ public class AnnotationProcessor extends AbstractProcessor {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    private MethodSpec generateDescribeContentsMethod() {
+        return MethodSpec.methodBuilder("describeContents")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addCode("return 0;")
+                .returns(TypeName.INT)
+                .build();
+    }
+
+    private MethodSpec generateWriteToParcelMethod() {
+        return MethodSpec.methodBuilder("writeToParcel")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(sParcelClass, "dest")
+                .addParameter(TypeName.INT, "flags")
+                .addCode("dest.writeParcelable(intent, flags);")
+                .build();
     }
 
     private MethodSpec generateReturnBuilderMethod(Element element, TypeEnum type) {
@@ -376,6 +405,15 @@ public class AnnotationProcessor extends AbstractProcessor {
         if (withContextField) builder.addStatement("this.$N = $N", "context", "context");
         return builder;
     }
+
+    private MethodSpec generateClassConstructorMethodFromParcel() {
+        return MethodSpec.constructorBuilder()
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(sParcelClass, "parcel")
+                .addCode("intent = parcel.readParcelable(Intent.class.getClassLoader());")
+                .build();
+    }
+
 
     private MethodSpec generateCreateIntentMethod(ClassName className) {
         return MethodSpec.methodBuilder("createIntent")

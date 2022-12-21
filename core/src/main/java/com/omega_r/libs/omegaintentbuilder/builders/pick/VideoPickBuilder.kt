@@ -11,10 +11,16 @@
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.types.VideoTypes
 
-class VideoPickBuilder : BasePickBuilder(VideoTypes.VIDEO.mimeType) {
+class VideoPickBuilder : BasePickBuilder {
+
+    constructor() : super(VideoTypes.VIDEO.mimeType)
+
+    constructor(parcel: Parcel) : super(parcel)
 
     /**
      * Set video mime type
@@ -39,4 +45,22 @@ class VideoPickBuilder : BasePickBuilder(VideoTypes.VIDEO.mimeType) {
         return this
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        super.writeToParcel(parcel, flags)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<VideoPickBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): VideoPickBuilder {
+            return VideoPickBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<VideoPickBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

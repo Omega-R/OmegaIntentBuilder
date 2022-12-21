@@ -11,13 +11,19 @@
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.types.ImageTypes
 
 /**
  * ImagePickBuilder is a helper for creating pick image intent
  */
-class ImagePickBuilder : BasePickBuilder(ImageTypes.IMAGE.mimeType) {
+class ImagePickBuilder : BasePickBuilder {
+
+    constructor() : super(ImageTypes.IMAGE.mimeType)
+
+    constructor(parcel: Parcel) : super(parcel)
 
     /**
      * Set image mime type
@@ -42,4 +48,22 @@ class ImagePickBuilder : BasePickBuilder(ImageTypes.IMAGE.mimeType) {
         return this
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        super.writeToParcel(parcel, flags)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<ImagePickBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): ImagePickBuilder {
+            return ImagePickBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ImagePickBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

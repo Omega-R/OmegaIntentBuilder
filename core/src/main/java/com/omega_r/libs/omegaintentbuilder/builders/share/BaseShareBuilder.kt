@@ -14,6 +14,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.text.Html
 import androidx.annotation.StringRes
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
@@ -21,11 +23,19 @@ import com.omega_r.libs.omegatypes.Text
 import com.omega_r.libs.omegatypes.toText
 
 @Suppress("UNCHECKED_CAST")
-open class BaseShareBuilder<T>() : BaseUriBuilder() {
+abstract class BaseShareBuilder<T> : BaseUriBuilder {
 
     private var toAddressesSet = mutableListOf<Text>()
     private var subject: Text? = null
     private var text: Text? = null
+
+    constructor(): super()
+
+    constructor(parcel: Parcel) : super(parcel) {
+        toAddressesSet = parcel.readSerializable() as MutableList<Text>
+        subject = parcel.readSerializable() as Text?
+        text = parcel.readSerializable() as Text?
+    }
 
     /**
      * Add Collection of email addresses as recipients of this share.
@@ -232,5 +242,12 @@ open class BaseShareBuilder<T>() : BaseUriBuilder() {
     }
 
     private fun Set<Uri>.toArrayList(): ArrayList<Uri> = ArrayList(this.toList())
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        super.writeToParcel(parcel, flags)
+        parcel.writeSerializable(ArrayList(toAddressesSet))
+        parcel.writeSerializable(subject)
+        parcel.writeSerializable(text)
+    }
 
 }

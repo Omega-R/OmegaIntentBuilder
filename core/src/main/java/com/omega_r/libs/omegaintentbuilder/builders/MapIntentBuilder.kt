@@ -15,6 +15,8 @@ import android.app.Fragment
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import com.omega_r.libs.omegaintentbuilder.IntentBuilderLauncher
 import com.omega_r.libs.omegaintentbuilder.OmegaIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.handlers.ContextIntentHandler
@@ -24,6 +26,7 @@ import com.omega_r.libs.omegaintentbuilder.types.MapTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes.*
 import com.omega_r.libs.omegaintentbuilder.types.MapViewTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapViewTypes.*
+import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 
 /**
  * MapIntentBuilder is a helper for open Maps applications
@@ -40,6 +43,19 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
     private var startLongitude: Double? = null
     private var isDrivingModeEnabled: Boolean = false
     private var isPositioningEnabled: Boolean = false
+
+    constructor(parcel: Parcel) : this(*parcel.readSerializable() as Array<out MapTypes>) {
+        latitude = parcel.readValue(Double::class.java.classLoader) as? Double
+        longitude = parcel.readValue(Double::class.java.classLoader) as? Double
+        address = parcel.readString()
+        failtype = parcel.readSerializable() as MapTypes?
+        viewType = parcel.readSerializable() as MapViewTypes?
+        zoom = parcel.readValue(Int::class.java.classLoader) as? Int
+        startLatitude = parcel.readValue(Double::class.java.classLoader) as? Double
+        startLongitude = parcel.readValue(Double::class.java.classLoader) as? Double
+        isDrivingModeEnabled = parcel.readByte() != 0.toByte()
+        isPositioningEnabled = parcel.readByte() != 0.toByte()
+    }
 
     /**
      * Set a latitude.
@@ -399,4 +415,32 @@ class MapIntentBuilder(private vararg var types: MapTypes) : BaseActivityBuilder
         }
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeSerializable(types)
+        parcel.writeValue(latitude)
+        parcel.writeValue(longitude)
+        parcel.writeString(address)
+        parcel.writeSerializable(failtype)
+        parcel.writeSerializable(viewType)
+        parcel.writeValue(zoom)
+        parcel.writeValue(startLatitude)
+        parcel.writeValue(startLongitude)
+        parcel.writeByte(if (isDrivingModeEnabled) 1 else 0)
+        parcel.writeByte(if (isPositioningEnabled) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<MapIntentBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): MapIntentBuilder {
+            return MapIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<MapIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }
