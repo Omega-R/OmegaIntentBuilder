@@ -2,11 +2,9 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.provider.DocumentsContract
-import androidx.annotation.RequiresApi
 
 class SaveIntentBuilder() : BaseActivityBuilder() {
 
@@ -14,20 +12,20 @@ class SaveIntentBuilder() : BaseActivityBuilder() {
         OPENABLE(Intent.CATEGORY_OPENABLE)
     }
 
-    private var type: String? = null
+    private var mimeType: String? = null
     private var category: Category? = null
     private var title: String? = null
     private var initialUri: String? = null
 
     constructor(parcel: Parcel) : this() {
-        type = parcel.readString()
+        mimeType = parcel.readString()
         category = parcel.readString()?.let { Category.valueOf(it) }
         title = parcel.readString()
         initialUri = parcel.readString()
     }
 
-    fun type(type: String): SaveIntentBuilder {
-        this.type = type
+    fun mimeType(mimeType: String): SaveIntentBuilder {
+        this.mimeType = mimeType
         return this
     }
 
@@ -47,7 +45,7 @@ class SaveIntentBuilder() : BaseActivityBuilder() {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeValue(type)
+        parcel.writeValue(mimeType)
         parcel.writeValue(category?.type)
         parcel.writeValue(title)
         parcel.writeValue(initialUri)
@@ -55,7 +53,7 @@ class SaveIntentBuilder() : BaseActivityBuilder() {
 
     override fun createIntent(context: Context) = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
         addCategory(category?.type)
-        type = this@SaveIntentBuilder.type
+        type = mimeType
         putExtra(Intent.EXTRA_TITLE, title)
         putExtra(DocumentsContract.EXTRA_INITIAL_URI, initialUri)
     }
