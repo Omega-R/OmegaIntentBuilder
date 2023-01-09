@@ -53,7 +53,6 @@ class SaveIntentBuilder() : BaseActivityBuilder() {
         parcel.writeValue(initialUri)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun createIntent(context: Context) = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
         addCategory(category?.type)
         type = this@SaveIntentBuilder.type

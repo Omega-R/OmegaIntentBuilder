@@ -188,4 +188,8 @@ object OmegaIntentBuilder {
     @JvmStatic
     fun recordVideo() = VideoRecordBuilder()
 
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun save() = SaveIntentBuilder()
+
 }
