@@ -13,6 +13,8 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.speech.RecognizerIntent
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -30,6 +32,17 @@ class SpeechToTextBuilder() : BaseActivityBuilder() {
     private var secure: Boolean = false
     private var partialResults: Boolean = false
     private var onlyReturnLanguagePreference: String? = null
+
+    constructor(parcel: Parcel) : this() {
+        prompt = parcel.readSerializable() as Text?
+        language = parcel.readString().orEmpty()
+        languageModel = parcel.readSerializable() as LanguageModelTypes
+        maxResult = parcel.readValue(Int::class.java.classLoader) as? Int
+        preferOffline = parcel.readByte() != 0.toByte()
+        secure = parcel.readByte() != 0.toByte()
+        partialResults = parcel.readByte() != 0.toByte()
+        onlyReturnLanguagePreference = parcel.readString()
+    }
 
     /**
      * Optional text prompt to show to the user when asking them to speak.
@@ -198,4 +211,29 @@ class SpeechToTextBuilder() : BaseActivityBuilder() {
         return intent
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeSerializable(prompt)
+        parcel.writeString(language)
+        parcel.writeSerializable(languageModel)
+        parcel.writeValue(maxResult)
+        parcel.writeByte(if (preferOffline) 1 else 0)
+        parcel.writeByte(if (secure) 1 else 0)
+        parcel.writeByte(if (partialResults) 1 else 0)
+        parcel.writeString(onlyReturnLanguagePreference)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<SpeechToTextBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): SpeechToTextBuilder {
+            return SpeechToTextBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<SpeechToTextBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

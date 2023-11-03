@@ -11,10 +11,16 @@
 package com.omega_r.libs.omegaintentbuilder.builders.pick
 
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.types.AudioTypes
 
-class AudioPickBuilder : BasePickBuilder(AudioTypes.AUDIO.mimeType) {
+class AudioPickBuilder : BasePickBuilder {
+
+    constructor() : super(AudioTypes.AUDIO.mimeType)
+
+    constructor(parcel: Parcel) : super(parcel)
 
     /**
      * Set audio mime type
@@ -39,4 +45,18 @@ class AudioPickBuilder : BasePickBuilder(AudioTypes.AUDIO.mimeType) {
         return this
     }
 
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<AudioPickBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): AudioPickBuilder {
+            return AudioPickBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<AudioPickBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

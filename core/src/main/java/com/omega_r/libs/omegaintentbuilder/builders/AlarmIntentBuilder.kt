@@ -2,9 +2,11 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.provider.AlarmClock.*
 
-class AlarmIntentBuilder : BaseActivityBuilder() {
+class AlarmIntentBuilder() : BaseActivityBuilder() {
     private var message: String? = null
     private var hour: Int? = null
     private var minutes: Int? = null
@@ -12,6 +14,16 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
     private var skipUI: Boolean = false
     private var vibrate: Boolean? = null
     private var ringtoneSilent: Boolean = false
+
+    constructor(parcel: Parcel) : this() {
+        message = parcel.readString()
+        hour = parcel.readValue(Int::class.java.classLoader) as? Int
+        minutes = parcel.readValue(Int::class.java.classLoader) as? Int
+        ringtone = parcel.readString()
+        skipUI = parcel.readByte() != 0.toByte()
+        vibrate = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        ringtoneSilent = parcel.readByte() != 0.toByte()
+    }
 
     /**
      * Set custom message for the alarm.
@@ -134,4 +146,28 @@ class AlarmIntentBuilder : BaseActivityBuilder() {
         }
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(message)
+        parcel.writeValue(hour)
+        parcel.writeValue(minutes)
+        parcel.writeString(ringtone)
+        parcel.writeByte(if (skipUI) 1 else 0)
+        parcel.writeValue(vibrate)
+        parcel.writeByte(if (ringtoneSilent) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<AlarmIntentBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): AlarmIntentBuilder {
+            return AlarmIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<AlarmIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

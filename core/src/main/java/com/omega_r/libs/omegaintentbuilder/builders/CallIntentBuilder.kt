@@ -13,6 +13,8 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import com.omega_r.libs.omegaintentbuilder.types.CallTypes
 
 /**
@@ -24,10 +26,8 @@ class CallIntentBuilder(phoneNumber: String) : BaseActivityBuilder() {
 
     private var callType = CallTypes.SYSTEM_CALL
 
-    companion object {
-        private const val PHONE_SCHEME = "tel:";
-        private const val SKYPE_SCHEME = "skype:";
-        val regex = Regex("[^0-9]")
+    constructor(parcel: Parcel) : this(parcel.readString().orEmpty()) {
+        callType = parcel.readSerializable() as CallTypes
     }
 
     fun type(callType: CallTypes): CallIntentBuilder {
@@ -55,4 +55,27 @@ class CallIntentBuilder(phoneNumber: String) : BaseActivityBuilder() {
         }
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(phoneNumber)
+        parcel.writeSerializable(callType)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<CallIntentBuilder> {
+
+        private const val PHONE_SCHEME = "tel:";
+        private const val SKYPE_SCHEME = "skype:";
+        val regex = Regex("[^0-9]")
+
+        override fun createFromParcel(parcel: Parcel): CallIntentBuilder {
+            return CallIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<CallIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

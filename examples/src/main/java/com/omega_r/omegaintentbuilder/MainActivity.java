@@ -197,9 +197,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void openGoogleMap() {
         OmegaIntentBuilder
                 .map(MapTypes.YANDEX_MAP, MapTypes.GOOGLE_MAP)
-                .latitude(56.6327622)
-                .longitude(47.910693)
-                .address("Omega-R")
+                .navigate(55.745719,37.604337,55.76009,37.648801)
+//                .latitude(56.6327622)
+//                .longitude(47.910693)
                 .createIntentHandler(this)
                 .failToast("You don't have Map application")
                 .startActivity();
@@ -312,18 +312,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void onSearchWebClicked() {
-        OmegaIntentBuilder
-                .searchWeb()
-                .query("How much does an elephant weigh")
-                .startActivity(this);
+//        OmegaIntentBuilder
+//                .searchWeb()
+//                .query("How much does an elephant weigh")
+//                .startActivity(this);
     }
 
     private void onCreateTimerClicked() {
-        OmegaIntentBuilder
-                .createTimer()
-                .message("It's your timer")
-                .seconds(5)
-                .startActivity(this);
+//        OmegaIntentBuilder
+//                .createTimer()
+//                .message("It's your timer")
+//                .seconds(5)
+//                .startActivity(this);
     }
 
     private void onShowTimersClicked() {

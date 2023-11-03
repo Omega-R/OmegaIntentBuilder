@@ -23,6 +23,7 @@ import com.omega_r.libs.omegaintentbuilder.builders.share.ShareIntentBuilder
 import com.omega_r.libs.omegaintentbuilder.types.CalendarActionTypes
 import com.omega_r.libs.omegaintentbuilder.types.MapTypes
 import com.omega_r.libs.omegaintentbuilder.types.ShowType
+import com.omega_r.libs.omegatypes.Text
 
 /**
  * OmegaIntentBuilder class for creating supports createdIntent builders.
@@ -57,6 +58,13 @@ object OmegaIntentBuilder {
      */
     @JvmStatic
     fun web(urlAddress: String) = BrowserBuilder(urlAddress)
+
+    /**
+     * @param urlAddress Text
+     * @return BrowserBuilder for creating intent to start web browser
+     */
+    @JvmStatic
+    fun web(urlAddress: Text) = BrowserBuilder(urlAddress)
 
     /**
      * @param uri Uri

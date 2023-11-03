@@ -13,6 +13,8 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.provider.MediaStore
 import java.io.File
 
@@ -22,6 +24,10 @@ import java.io.File
 class PhotoCaptureBuilder() : BaseActivityBuilder() {
 
     private var fileUri: Uri? = null
+
+    constructor(parcel: Parcel) : this() {
+        fileUri = parcel.readParcelable(Uri::class.java.classLoader)
+    }
 
     /**
      * Set fileUri
@@ -51,4 +57,22 @@ class PhotoCaptureBuilder() : BaseActivityBuilder() {
         addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(fileUri, flags)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<PhotoCaptureBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): PhotoCaptureBuilder {
+            return PhotoCaptureBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<PhotoCaptureBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

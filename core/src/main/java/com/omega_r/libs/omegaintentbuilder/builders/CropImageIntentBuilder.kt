@@ -12,13 +12,15 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 import com.omega_r.libs.omegaintentbuilder.utils.ExtensionUtils.Companion.isNullOrLessZero
 
 /**
  * CropImageIntentBuilder builder for creating crop image intent
  */
-class CropImageIntentBuilder : BaseUriBuilder() {
+class CropImageIntentBuilder() : BaseUriBuilder() {
 
     private var outputX: Int? = null
     private var outputY: Int? = null
@@ -26,6 +28,15 @@ class CropImageIntentBuilder : BaseUriBuilder() {
     private var aspectY: Int = 1
     private var scale: Boolean = true
     private var returnData: Boolean = true
+
+    constructor(parcel: Parcel) : this() {
+        outputX = parcel.readValue(Int::class.java.classLoader) as? Int
+        outputY = parcel.readValue(Int::class.java.classLoader) as? Int
+        aspectX = parcel.readInt()
+        aspectY = parcel.readInt()
+        scale = parcel.readByte() != 0.toByte()
+        returnData = parcel.readByte() != 0.toByte()
+    }
 
     /**
      * Set Output image width
@@ -134,7 +145,6 @@ class CropImageIntentBuilder : BaseUriBuilder() {
 
         val intent = Intent("com.android.camera.action.CROP")
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        intent.type = MimeTypes.IMAGE
         outputX?.let { intent.putExtra("outputX", it) }
         outputY?.let { intent.putExtra("outputY", it) }
         intent.putExtra("aspectX", aspectX)
@@ -142,9 +152,32 @@ class CropImageIntentBuilder : BaseUriBuilder() {
         intent.putExtra("scale", scale)
         intent.putExtra("return-data", returnData)
 
-        intent.data = getFirstUri(context)
+        intent.setDataAndType(getFirstUri(context), MimeTypes.IMAGE)
 
         return intent
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeValue(outputX)
+        parcel.writeValue(outputY)
+        parcel.writeInt(aspectX)
+        parcel.writeInt(aspectY)
+        parcel.writeByte(if (scale) 1 else 0)
+        parcel.writeByte(if (returnData) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<CropImageIntentBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): CropImageIntentBuilder {
+            return CropImageIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<CropImageIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

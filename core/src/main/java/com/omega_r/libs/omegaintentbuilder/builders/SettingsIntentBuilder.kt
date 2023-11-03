@@ -15,22 +15,23 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 
 /**
  * SettingsIntentBuilder is a helper for constructing settings intent
  */
-class SettingsIntentBuilder : BaseActivityBuilder() {
-
-    companion object {
-        private const val PACKAGE = "package"
-    }
-
+class SettingsIntentBuilder() : BaseActivityBuilder() {
 
     private var action: String = Settings.ACTION_SETTINGS
     private var packageName: String? = null
-    private val intent = Intent()
+
+    constructor(parcel: Parcel) : this() {
+        action = parcel.readString().orEmpty()
+        packageName = parcel.readString()
+    }
 
     /**
      * Activity Action: Show settings to allow configuration of Wi-Fi.
@@ -688,6 +689,7 @@ class SettingsIntentBuilder : BaseActivityBuilder() {
     }
 
     override fun createIntent(context: Context): Intent {
+        val intent = Intent()
         packageName?.let {
             if (it.isBlank()) {
                 packageName = context.packageName
@@ -700,4 +702,25 @@ class SettingsIntentBuilder : BaseActivityBuilder() {
         return intent
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(action)
+        parcel.writeString(packageName)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<SettingsIntentBuilder> {
+
+        private const val PACKAGE = "package"
+
+        override fun createFromParcel(parcel: Parcel): SettingsIntentBuilder {
+            return SettingsIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<SettingsIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }
