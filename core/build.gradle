@@ -10,7 +10,7 @@ android {
     compileSdkVersion rootProject.ext.sdkVersion
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion rootProject.ext.sdkVersion
         versionCode 1
         versionName "1.0"
@@ -35,8 +35,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.github.Omega-R:OmegaLaunchers:1.0.3'
-    api 'com.github.Omega-R.OmegaTypes:omegatypes:2.0.3'
+    implementation 'com.github.Omega-R.OmegaLaunchers:omegalauncherslib:1.0.6'
+    api 'com.github.Omega-R.OmegaTypes:omegatypes:2.2.0'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition-common:19.0.0'
 
     compileOnly "androidx.appcompat:appcompat:$androidX"
 }

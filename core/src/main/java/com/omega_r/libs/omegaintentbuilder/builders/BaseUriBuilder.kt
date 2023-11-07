@@ -13,6 +13,8 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import com.omega_r.libs.omegaintentbuilder.builders.share.DownloadBuilder
 import com.omega_r.libs.omegaintentbuilder.downloader.Download
 import com.omega_r.libs.omegaintentbuilder.providers.FileProvider
@@ -20,21 +22,28 @@ import com.omega_r.libs.omegatypes.image.Image
 import java.io.File
 import java.io.FileOutputStream
 
-abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder> {
-
-    private val uriSet: MutableSet<Uri> = mutableSetOf()
-    private val fileSet: MutableSet<File> = mutableSetOf()
-    private val bitmapSet: MutableSet<Bitmap> = mutableSetOf()
-
-    private val downloadBuilder by lazy { DownloadBuilder(this) }
-    private var localFilesDir: File? = null
+abstract class BaseUriBuilder(
+    private val uriSet: MutableSet<Uri> = mutableSetOf(),
+    private val fileSet: MutableSet<File> = mutableSetOf(),
+    private val bitmapSet: MutableSet<Bitmap> = mutableSetOf(),
+    private var localFilesDir: File? = null,
+) : BaseActivityBuilder(), Download<BaseUriBuilder> {
 
     companion object {
+
         private const val FILE_DIR = "intent_files" // this value from xml/file_paths.xml
         private const val DEFAULT_IMAGE_FILE_NAME = "File"
         private const val DEFAULT_IMAGE_FILE_TYPE = ".jpg";
     }
 
+    private val downloadBuilder by lazy { DownloadBuilder(this) }
+
+    constructor(parcel: Parcel) : this(
+        parcel.readParcelableArray(MutableSet::class.java.classLoader)?.toMutableSet() as? MutableSet<Uri> ?: mutableSetOf(),
+        parcel.readSerializable() as MutableSet<File>,
+        parcel.readParcelableArray(MutableSet::class.java.classLoader)?.toMutableSet() as? MutableSet<Bitmap> ?: mutableSetOf(),
+        parcel.readSerializable() as File?
+    )
 
     internal fun getLocalFilesDir(context: Context): File {
         if (localFilesDir == null) {
@@ -193,6 +202,13 @@ abstract class BaseUriBuilder() : BaseActivityBuilder(), Download<BaseUriBuilder
         uriSet.addAll(fileSet.map { toUri(context, it) })
         uriSet.addAll(bitmapSet.mapIndexed { index, bitmap -> bitmap.toUri(context, index) })
         return uriSet
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelableArray(uriSet.toTypedArray(), flags)
+        parcel.writeSerializable(HashSet(fileSet))
+        parcel.writeParcelableArray(bitmapSet.toTypedArray(), flags)
+        parcel.writeSerializable(localFilesDir)
     }
 
 }

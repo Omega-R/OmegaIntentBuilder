@@ -12,6 +12,8 @@ package com.omega_r.libs.omegaintentbuilder.builders.share
 
 import android.content.Context
 import android.content.Intent
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 import java.util.*
 
@@ -20,12 +22,21 @@ import java.util.*
  * {Intent#ACTION_SEND_MULTIPLE} sharing intents and starting activities
  * to share content.
  */
-class ShareIntentBuilder internal constructor() : BaseShareBuilder<ShareIntentBuilder>() {
+class ShareIntentBuilder : BaseShareBuilder<ShareIntentBuilder> {
 
     private lateinit var intent: Intent
-    private var ccAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
-    private var bccAddressesSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
+    private var ccAddressesSet = TreeSet(String.CASE_INSENSITIVE_ORDER)
+    private var bccAddressesSet = TreeSet(String.CASE_INSENSITIVE_ORDER)
     private var mimeType: String? = null
+
+    internal constructor(): super()
+
+    private constructor(parcel: Parcel) : super(parcel) {
+        intent = parcel.readParcelable(Intent::class.java.classLoader) ?: Intent()
+        ccAddressesSet = parcel.readSerializable() as TreeSet<String>
+        bccAddressesSet = parcel.readSerializable() as TreeSet<String>
+        mimeType = parcel.readString()
+    }
 
     /**
      * Add a collection of email addresses to be used in the "cc" field of the final Intent.
@@ -127,4 +138,26 @@ class ShareIntentBuilder internal constructor() : BaseShareBuilder<ShareIntentBu
         return intent
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        super.writeToParcel(parcel, flags)
+        parcel.writeParcelable(intent, flags)
+        parcel.writeSerializable(ccAddressesSet)
+        parcel.writeSerializable(bccAddressesSet)
+        parcel.writeString(mimeType)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<ShareIntentBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): ShareIntentBuilder {
+            return ShareIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ShareIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

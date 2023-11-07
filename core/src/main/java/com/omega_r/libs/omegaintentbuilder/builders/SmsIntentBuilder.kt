@@ -15,18 +15,25 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.provider.Telephony
 import androidx.annotation.StringRes
 import com.omega_r.libs.omegatypes.Text
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * SmsIntentBuilder is a helper for constructing sms intent
  */
 class SmsIntentBuilder(addresses: Collection<String>) : BaseActivityBuilder() {
 
-    private var phoneNumberSet: MutableSet<String> = TreeSet(String.CASE_INSENSITIVE_ORDER)
+    private var phoneNumberSet = TreeSet(String.CASE_INSENSITIVE_ORDER)
     private var message: Text? = null
+
+    constructor(parcel: Parcel) : this(addresses = parcel.readSerializable() as Collection<String>) {
+        message = parcel.readSerializable() as Text?
+    }
 
     init {
         addresses.forEach {
@@ -81,4 +88,23 @@ class SmsIntentBuilder(addresses: Collection<String>) : BaseActivityBuilder() {
         return intent
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeSerializable(phoneNumberSet)
+        parcel.writeSerializable(message)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<SmsIntentBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): SmsIntentBuilder {
+            return SmsIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<SmsIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

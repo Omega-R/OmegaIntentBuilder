@@ -10,7 +10,7 @@ android {
     compileSdkVersion rootProject.ext.sdkVersion
     defaultConfig {
         applicationId "com.omega_r.omegaintentbuilder"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion rootProject.ext.sdkVersion
         versionCode 1
         versionName "1.0"
@@ -43,7 +43,7 @@ dependencies {
 
     api project(':core')
     api project(':annotations')
-    kapt project(':processor')
+//    kapt project(':processor')
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

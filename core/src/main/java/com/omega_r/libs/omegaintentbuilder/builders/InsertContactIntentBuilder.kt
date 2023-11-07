@@ -2,12 +2,14 @@ package com.omega_r.libs.omegaintentbuilder.builders
 
 import android.content.Context
 import android.content.Intent
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.provider.ContactsContract
 import android.provider.ContactsContract.Intents.Insert.*
 import com.omega_r.libs.omegaintentbuilder.types.EmailAddressType
 import com.omega_r.libs.omegaintentbuilder.types.PhoneType
 
-class InsertContactIntentBuilder : BaseActivityBuilder() {
+class InsertContactIntentBuilder() : BaseActivityBuilder() {
     private var name: String? = null
     private var fullMode = false
     private var phoneticName: String? = null
@@ -37,6 +39,38 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
     private var postal: String? = null
     private var postalType: String? = null
     private var postalIsPrimary: Boolean? = null
+
+    constructor(parcel: Parcel) : this() {
+        name = parcel.readString()
+        fullMode = parcel.readByte() != 0.toByte()
+        phoneticName = parcel.readString()
+        company = parcel.readString()
+        jobTitle = parcel.readString()
+        notes = parcel.readString()
+        phone = parcel.readString()
+        phoneType = parcel.readSerializable() as PhoneType?
+        customPhoneType = parcel.readString()
+        phoneIsPrimary = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        secondaryPhone = parcel.readString()
+        secondaryPhoneType = parcel.readSerializable() as PhoneType?
+        customSecondaryPhoneType = parcel.readString()
+        tertiaryPhone = parcel.readString()
+        tertiaryPhoneType = parcel.readSerializable() as PhoneType?
+        customTertiaryPhoneType = parcel.readString()
+        email = parcel.readString()
+        emailType = parcel.readSerializable() as EmailAddressType?
+        customEmailType = parcel.readString()
+        emailIsPrimary = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        secondaryEmail = parcel.readString()
+        secondaryEmailType = parcel.readSerializable() as EmailAddressType?
+        customSecondaryEmailType = parcel.readString()
+        tertiaryEmail = parcel.readString()
+        tertiaryEmailType = parcel.readSerializable() as EmailAddressType?
+        customTertiaryEmailType = parcel.readString()
+        postal = parcel.readString()
+        postalType = parcel.readString()
+        postalIsPrimary = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+    }
 
     /**
      * Set the extra field for the contact name.
@@ -518,4 +552,45 @@ class InsertContactIntentBuilder : BaseActivityBuilder() {
         }
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(name)
+        parcel.writeByte(if (fullMode) 1 else 0)
+        parcel.writeString(phoneticName)
+        parcel.writeString(company)
+        parcel.writeString(jobTitle)
+        parcel.writeString(notes)
+        parcel.writeString(phone)
+        parcel.writeSerializable(phoneType)
+        parcel.writeString(customPhoneType)
+        parcel.writeValue(phoneIsPrimary)
+        parcel.writeString(secondaryPhone)
+        parcel.writeString(customSecondaryPhoneType)
+        parcel.writeString(tertiaryPhone)
+        parcel.writeString(customTertiaryPhoneType)
+        parcel.writeString(email)
+        parcel.writeString(customEmailType)
+        parcel.writeValue(emailIsPrimary)
+        parcel.writeString(secondaryEmail)
+        parcel.writeString(customSecondaryEmailType)
+        parcel.writeString(tertiaryEmail)
+        parcel.writeString(customTertiaryEmailType)
+        parcel.writeString(postal)
+        parcel.writeString(postalType)
+        parcel.writeValue(postalIsPrimary)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<InsertContactIntentBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): InsertContactIntentBuilder {
+            return InsertContactIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<InsertContactIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

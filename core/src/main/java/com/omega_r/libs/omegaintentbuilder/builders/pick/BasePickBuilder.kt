@@ -13,6 +13,7 @@ package com.omega_r.libs.omegaintentbuilder.builders.pick
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Parcel
 import androidx.annotation.RequiresApi
 import com.omega_r.libs.omegaintentbuilder.builders.BaseActivityBuilder
 import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
@@ -20,10 +21,14 @@ import com.omega_r.libs.omegaintentbuilder.types.MimeTypes
 /**
  * BasePickBuilder is a helper for creating pick file intent
  */
-open class BasePickBuilder(private val defaultMimeType: String = MimeTypes.ANY) : BaseActivityBuilder() {
+abstract class BasePickBuilder(private val defaultMimeType: String = MimeTypes.ANY) : BaseActivityBuilder() {
 
     private var allowMultiply = false
     private val mimeTypes = mutableSetOf(defaultMimeType)
+
+    constructor(parcel: Parcel) : this(parcel.readString() ?: MimeTypes.ANY) {
+        allowMultiply = parcel.readByte() != 0.toByte()
+    }
 
     /**
      * Extra used to indicate that an intent can allow the user to select and
@@ -76,5 +81,8 @@ open class BasePickBuilder(private val defaultMimeType: String = MimeTypes.ANY) 
         return intent
     }
 
-
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(defaultMimeType)
+        parcel.writeByte(if (allowMultiply) 1 else 0)
+    }
 }

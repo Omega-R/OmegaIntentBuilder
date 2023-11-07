@@ -13,6 +13,8 @@ package com.omega_r.libs.omegaintentbuilder.builders
 import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.os.Parcel
+import android.os.Parcelable.Creator
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
 import androidx.annotation.StringRes
@@ -22,6 +24,7 @@ import com.omega_r.libs.omegaintentbuilder.types.CalendarAvailabilityTypes
 import com.omega_r.libs.omegatypes.Text
 import com.omega_r.libs.omegatypes.toText
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * CalendarIntentBuilder is a helper for starting calendar
@@ -49,6 +52,29 @@ class CalendarIntentBuilder(private val actionType: CalendarActionTypes) : BaseA
     private var guestCanSeeGuests: Boolean? = null
     private var hasAlarm: Boolean? = null
     private var toAddressesSet = mutableListOf<Text>()
+
+    private constructor(parcel: Parcel) : this(parcel.readSerializable() as CalendarActionTypes) {
+        startDate = parcel.readValue(Long::class.java.classLoader) as? Long
+        endDate = parcel.readValue(Long::class.java.classLoader) as? Long
+        title = parcel.readSerializable() as Text?
+        location = parcel.readSerializable() as Text?
+        description = parcel.readSerializable() as Text?
+        eventId = parcel.readValue(Long::class.java.classLoader) as? Long
+        allDay = parcel.readByte() != 0.toByte()
+        organizer = parcel.readSerializable() as Text?
+        eventTimeZone = parcel.readSerializable() as Text?
+        availabilityType = parcel.readSerializable() as CalendarAvailabilityTypes?
+        rRule = parcel.readSerializable() as Text?
+        rDate = parcel.readSerializable() as Text?
+        duration = parcel.readSerializable() as Text?
+        dtStart = parcel.readValue(Long::class.java.classLoader) as? Long
+        dtEnd = parcel.readValue(Long::class.java.classLoader) as? Long
+        guestCanModify = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        guestCanInviteOthers = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        guestCanSeeGuests = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        hasAlarm = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        toAddressesSet = parcel.readSerializable() as MutableList<Text>
+    }
 
     /**
      * Set a start date.
@@ -566,4 +592,43 @@ class CalendarIntentBuilder(private val actionType: CalendarActionTypes) : BaseA
         return intent
     }
 
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeSerializable(actionType)
+        parcel.writeValue(startDate)
+        parcel.writeValue(endDate)
+        parcel.writeSerializable(title)
+        parcel.writeSerializable(location)
+        parcel.writeSerializable(description)
+        parcel.writeValue(eventId)
+        parcel.writeByte(if (allDay) 1 else 0)
+        parcel.writeSerializable(organizer)
+        parcel.writeSerializable(eventTimeZone)
+        parcel.writeSerializable(eventEndTimeZone)
+        parcel.writeSerializable(availabilityType)
+        parcel.writeSerializable(rRule)
+        parcel.writeSerializable(rDate)
+        parcel.writeSerializable(duration)
+        parcel.writeValue(dtStart)
+        parcel.writeValue(dtEnd)
+        parcel.writeValue(guestCanModify)
+        parcel.writeValue(guestCanInviteOthers)
+        parcel.writeValue(guestCanSeeGuests)
+        parcel.writeValue(hasAlarm)
+        parcel.writeSerializable(ArrayList(toAddressesSet))
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Creator<CalendarIntentBuilder> {
+
+        override fun createFromParcel(parcel: Parcel): CalendarIntentBuilder {
+            return CalendarIntentBuilder(parcel)
+        }
+
+        override fun newArray(size: Int): Array<CalendarIntentBuilder?> {
+            return arrayOfNulls(size)
+        }
+    }
 }
