@@ -15,12 +15,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Parcel
-import android.os.Parcelable.Creator
 import android.text.Html
 import androidx.annotation.StringRes
 import com.omega_r.libs.omegaintentbuilder.builders.BaseUriBuilder
 import com.omega_r.libs.omegatypes.Text
 import com.omega_r.libs.omegatypes.toText
+import java.io.Serializable
 
 @Suppress("UNCHECKED_CAST")
 abstract class BaseShareBuilder<T> : BaseUriBuilder {
@@ -144,8 +144,8 @@ abstract class BaseShareBuilder<T> : BaseUriBuilder {
      * @param formatArgs The format arguments that will be used for substitution.
      * @return This BaseShareBuilder for method chaining
      */
-    fun subject(@StringRes subjectRes: Int, vararg formatArgs: Any): T {
-        this.subject = Text.from(subjectRes, *formatArgs)
+    fun subject(@StringRes subjectRes: Int, vararg formatArgs: Serializable): T {
+        this.subject = Text.from(stringRes = subjectRes, formatArgs = formatArgs)
         return this as T
     }
 
@@ -184,8 +184,8 @@ abstract class BaseShareBuilder<T> : BaseUriBuilder {
      * @return This BaseShareBuilder for method chaining
      * @see Intent#EXTRA_TEXT
      */
-    fun text(@StringRes textRes: Int, vararg formatArgs: Any): T {
-        this.text = Text.from(textRes, *formatArgs)
+    fun text(@StringRes textRes: Int, vararg formatArgs: Serializable): T {
+        this.text = Text.from(stringRes = textRes, formatArgs = formatArgs)
         return this as T
     }
 

@@ -50,8 +50,6 @@ public class ShareFilesActivity extends BaseActivity implements View.OnClickList
                 .emailTo("your_email_here@gmail.com")
                 .subject("Great library")
                 .image(ResourceImageKt.from(Image.Companion, R.mipmap.ic_launcher), null, MimeTypes.IMAGE_PNG)
-//                .filesUrls(url1)
-//                .fileUrlWithMimeType(model.getUrl(), MimeTypes.IMAGE_PNG)
                 .download(this, new DownloadCallback() {
                     @Override
                     public void onDownloaded(boolean success, @NotNull IntentHandler contextIntentHandler) {

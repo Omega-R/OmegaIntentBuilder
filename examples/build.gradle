@@ -10,7 +10,7 @@ android {
     compileSdkVersion rootProject.ext.sdkVersion
     defaultConfig {
         applicationId "com.omega_r.omegaintentbuilder"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion rootProject.ext.sdkVersion
         versionCode 1
         versionName "1.0"
